@@ -403,6 +403,10 @@ h3 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.cards.restaurant-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .card,
 .feature-block,
 .price-card {
@@ -747,6 +751,7 @@ details p {
   }
 
   .cards.four,
+  .cards.restaurant-cards,
   .cards,
   .pricing-grid,
   .benefit-grid,
@@ -819,6 +824,7 @@ details p {
   }
 
   .cards.four,
+  .cards.restaurant-cards,
   .cards,
   .pricing-grid,
   .feature-columns,
