@@ -12,7 +12,7 @@ Landing page comercial para TEKAL POS, un software punto de venta para restauran
 ## Personalizacion
 
 - Cambia el telefono de WhatsApp en `index.html`.
-- Reemplaza `https://wa.me/52XXXXXXXXXX` por el numero real.
+- WhatsApp configurado: `https://wa.me/524641163543`.
 - Actualiza el correo `contacto@tekal.com` si usas otra cuenta.
 - Ajusta precios o condiciones comerciales en la seccion `precios`.
 
