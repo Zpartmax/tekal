@@ -69,14 +69,11 @@ svg {
   white-space: nowrap;
 }
 
-.brand-mark {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border: 2px solid var(--accent);
-  border-radius: 8px;
-  color: var(--accent);
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex: 0 0 auto;
 }
 
 .nav {

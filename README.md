@@ -1,6 +1,6 @@
-# TEKAL POS
+# TEKAL
 
-Landing page comercial para TEKAL POS, un software punto de venta para restaurantes, cafeterias, tiendas, boutiques, abarrotes y pequenos negocios.
+Landing page comercial para TEKAL, un software punto de venta para restaurantes, cafeterias, tiendas, boutiques, abarrotes y pequenos negocios.
 
 ## Enfoque
 
