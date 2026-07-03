@@ -205,6 +205,13 @@ h3 {
   margin-top: 34px;
 }
 
+.trust-line {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
 .button {
   display: inline-flex;
   min-height: 48px;
@@ -449,14 +456,12 @@ h3 {
   background: var(--soft);
 }
 
-.benefit-grid,
 .case-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.benefit-grid span,
 .case-grid span {
   display: flex;
   min-height: 60px;
@@ -510,15 +515,65 @@ h3 {
 
 .feature-block li::before,
 .price-card li::before {
-  content: "";
+  content: "✓";
   position: absolute;
-  top: 0.52em;
+  top: 0;
   left: 0;
-  width: 13px;
-  height: 13px;
-  border: 2px solid var(--accent);
-  border-radius: 50%;
-  background: #fff;
+  color: var(--accent);
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.video-card {
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border: 1px solid rgba(92, 45, 145, 0.2);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(92, 45, 145, 0.08), rgba(92, 45, 145, 0.02)),
+    #fff;
+  box-shadow: 0 20px 48px rgba(31, 22, 48, 0.1);
+}
+
+.video-placeholder {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at 50% 25%, rgba(92, 45, 145, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(92, 45, 145, 0.1));
+}
+
+.video-placeholder span {
+  align-self: flex-start;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.video-placeholder strong {
+  color: var(--accent);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.video-placeholder p {
+  margin: 0;
+  color: var(--muted);
 }
 
 .process-section {
@@ -754,7 +809,7 @@ details p {
   .cards.restaurant-cards,
   .cards,
   .pricing-grid,
-  .benefit-grid,
+  .video-grid,
   .case-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -828,7 +883,7 @@ details p {
   .cards,
   .pricing-grid,
   .feature-columns,
-  .benefit-grid,
+  .video-grid,
   .case-grid,
   .timeline,
   .contact {
