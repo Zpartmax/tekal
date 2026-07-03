@@ -12,9 +12,48 @@
       content="punto de venta, sistema POS, software para restaurante, software para tienda, POS sin mensualidades, sistema de ventas, TEKAL POS"
     >
     <title>TEKAL POS | Sistema punto de venta sin mensualidades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <svg class="icon-sprite" aria-hidden="true">
+      <symbol id="icon-table" viewBox="0 0 24 24">
+        <path d="M4 10h16"></path><path d="M5 10l1.5 9"></path><path d="M18.5 10L17 19"></path><path d="M8 5h8a4 4 0 0 1 4 4v1H4V9a4 4 0 0 1 4-4Z"></path>
+      </symbol>
+      <symbol id="icon-store" viewBox="0 0 24 24">
+        <path d="M4 10h16l-1.5-5h-13L4 10Z"></path><path d="M5 10v9h14v-9"></path><path d="M9 19v-5h6v5"></path><path d="M8 10v2"></path><path d="M16 10v2"></path>
+      </symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24">
+        <rect x="7" y="2.5" width="10" height="19" rx="2.2"></rect><path d="M10.5 18.5h3"></path>
+      </symbol>
+      <symbol id="icon-support" viewBox="0 0 24 24">
+        <path d="M5 12a7 7 0 0 1 14 0"></path><path d="M5 12v3a2 2 0 0 0 2 2h1v-7H7a2 2 0 0 0-2 2Z"></path><path d="M19 12v3a2 2 0 0 1-2 2h-1v-7h1a2 2 0 0 1 2 2Z"></path><path d="M14 20h-2a3 3 0 0 1-3-3"></path>
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="M20 6 9 17l-5-5"></path>
+      </symbol>
+      <symbol id="icon-chart" viewBox="0 0 24 24">
+        <path d="M4 19h16"></path><path d="M7 16V9"></path><path d="M12 16V5"></path><path d="M17 16v-7"></path>
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="6"></circle><path d="m16 16 4 4"></path>
+      </symbol>
+      <symbol id="icon-tools" viewBox="0 0 24 24">
+        <path d="M14 7 17 4l3 3-3 3"></path><path d="M16 8 8 16"></path><path d="M6 14l4 4-2 2H4v-4l2-2Z"></path>
+      </symbol>
+      <symbol id="icon-training" viewBox="0 0 24 24">
+        <path d="M4 6h16v10H4Z"></path><path d="M8 20h8"></path><path d="M12 16v4"></path><path d="M8 10h8"></path>
+      </symbol>
+      <symbol id="icon-rocket" viewBox="0 0 24 24">
+        <path d="M13 4c4 1 6 4 7 7l-6 6-7-7 6-6Z"></path><path d="M7 10l-3 1 4 4-1 3 4-2"></path><path d="M15 8h.01"></path>
+      </symbol>
+      <symbol id="icon-arrow" viewBox="0 0 24 24">
+        <path d="m6 9 6 6 6-6"></path>
+      </symbol>
+    </svg>
+
     <header class="site-header">
       <a class="brand" href="#inicio" aria-label="TEKAL POS inicio">
         <span class="brand-mark">T</span>
@@ -29,7 +68,7 @@
         <a href="#contacto">Contacto</a>
       </nav>
       <a class="header-cta" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20TEKAL%20POS">
-        WhatsApp
+        Contactar por WhatsApp
       </a>
     </header>
 
@@ -39,14 +78,14 @@
           <p class="eyebrow">Software punto de venta</p>
           <h1>Sistema punto de venta para vender mas facil, sin mensualidades</h1>
           <p class="lead">
-            TEKAL es un software POS para restaurantes, cafeterias, tiendas y pequenos negocios. Controla ventas,
-            pedidos, caja, inventario, clientes y reportes con una licencia permanente.
+            TEKAL es un software POS para restaurantes, cafeterias, tiendas y pequenos negocios. Controla mesas,
+            pedidos, cocina e inventarios. Instalas una vez y olvidate de las rentas.
           </p>
           <ul class="quick-benefits" aria-label="Beneficios principales">
-            <li>Licencia permanente</li>
-            <li>Sin mensualidades</li>
-            <li>Soporte e instalacion incluidos</li>
-            <li>Ideal para negocios pequenos</li>
+            <li><svg class="mini-icon"><use href="#icon-check"></use></svg>Licencia permanente</li>
+            <li><svg class="mini-icon"><use href="#icon-check"></use></svg>Sin mensualidades</li>
+            <li><svg class="mini-icon"><use href="#icon-check"></use></svg>Soporte e instalacion incluidos</li>
+            <li><svg class="mini-icon"><use href="#icon-check"></use></svg>Ideal para negocios pequenos</li>
           </ul>
           <div class="actions">
             <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20TEKAL%20POS">
@@ -55,10 +94,39 @@
             <a class="button secondary" href="#funciones">Ver funciones</a>
           </div>
         </div>
+
+        <div class="hero-visual" aria-label="Mockup de TEKAL POS en tablet y smartphone">
+          <div class="tablet mock-device">
+            <div class="device-top">
+              <span>TEKAL Mesas</span>
+              <span>Caja abierta</span>
+            </div>
+            <div class="table-map">
+              <span>Mesa 1</span>
+              <span class="active">Mesa 2</span>
+              <span>Mesa 3</span>
+              <span>Barra</span>
+              <span class="active">Terraza</span>
+              <span>Llevar</span>
+            </div>
+            <div class="device-footer">
+              <strong>$2,840</strong>
+              <span>Ventas del turno</span>
+            </div>
+          </div>
+          <div class="phone mock-device">
+            <div class="phone-notch"></div>
+            <h3>Comandera</h3>
+            <div class="order-line"><span>2 Tacos</span><strong>$70</strong></div>
+            <div class="order-line"><span>1 Cafe</span><strong>$45</strong></div>
+            <div class="order-line"><span>1 Agua</span><strong>$25</strong></div>
+            <button type="button">Enviar a cocina</button>
+          </div>
+        </div>
       </section>
 
       <section id="soluciones" class="section">
-        <div class="section-heading">
+        <div class="section-heading centered">
           <p class="eyebrow">Soluciones</p>
           <h2>Soluciones para tu negocio</h2>
           <p>
@@ -67,6 +135,7 @@
         </div>
         <div class="cards four">
           <article class="card">
+            <svg class="card-icon"><use href="#icon-table"></use></svg>
             <h3>POS para restaurante</h3>
             <p>
               Controla mesas, pedidos, comandas, cocina, ventas para llevar, cortes de caja y reportes desde un sistema
@@ -74,6 +143,7 @@
             </p>
           </article>
           <article class="card">
+            <svg class="card-icon"><use href="#icon-store"></use></svg>
             <h3>POS para tienda</h3>
             <p>
               Registra ventas rapidas, administra productos, inventario, clientes, creditos, tickets y reportes para
@@ -81,6 +151,7 @@
             </p>
           </article>
           <article class="card">
+            <svg class="card-icon"><use href="#icon-phone"></use></svg>
             <h3>Comandera movil</h3>
             <p>
               Toma pedidos desde celular o tablet y envialos directamente a cocina o barra para reducir errores y
@@ -88,6 +159,7 @@
             </p>
           </article>
           <article class="card">
+            <svg class="card-icon"><use href="#icon-support"></use></svg>
             <h3>Instalacion y soporte</h3>
             <p>
               Te acompanamos con instalacion remota, configuracion inicial y orientacion para dejar el sistema
@@ -107,20 +179,20 @@
           </p>
         </div>
         <div class="benefit-grid">
-          <span>Pago unico</span>
-          <span>Licencia permanente</span>
-          <span>Sin mensualidades obligatorias</span>
-          <span>Funciona en red local</span>
-          <span>Instalacion guiada</span>
-          <span>Soporte remoto</span>
-          <span>Tickets personalizados</span>
-          <span>Reportes de ventas y cortes de caja</span>
-          <span>Actualizaciones incluidas segun el plan</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Pago unico</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Licencia permanente</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Sin mensualidades obligatorias</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Funciona en red local</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Instalacion guiada</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Soporte remoto</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Tickets personalizados</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Reportes de ventas y cortes de caja</span>
+          <span><svg class="mini-icon"><use href="#icon-check"></use></svg>Actualizaciones incluidas segun el plan</span>
         </div>
       </section>
 
       <section id="funciones" class="section">
-        <div class="section-heading">
+        <div class="section-heading centered">
           <p class="eyebrow">Funciones</p>
           <h2>Funciones principales del sistema</h2>
         </div>
@@ -167,45 +239,41 @@
         </div>
       </section>
 
-      <section id="proceso" class="section split">
-        <div>
+      <section id="proceso" class="section process-section">
+        <div class="section-heading centered">
           <p class="eyebrow">Implementacion</p>
           <h2>De la instalacion a la primera venta</h2>
         </div>
-        <ol class="steps">
+        <ol class="timeline">
           <li>
-            <span>01</span>
-            <div>
-              <h3>Diagnostico</h3>
-              <p>Revisamos el tipo de negocio, flujo de venta, equipos disponibles, impresoras y necesidades principales.</p>
-            </div>
+            <span class="step-number">01</span>
+            <svg class="step-icon"><use href="#icon-search"></use></svg>
+            <h3>Diagnostico</h3>
+            <p>Revisamos el tipo de negocio, flujo de venta, equipos disponibles, impresoras y necesidades principales.</p>
           </li>
           <li>
-            <span>02</span>
-            <div>
-              <h3>Instalacion</h3>
-              <p>Configuramos el sistema, productos, usuarios, tickets, impresoras y funciones necesarias para comenzar.</p>
-            </div>
+            <span class="step-number">02</span>
+            <svg class="step-icon"><use href="#icon-tools"></use></svg>
+            <h3>Instalacion</h3>
+            <p>Configuramos el sistema, productos, usuarios, tickets, impresoras y funciones necesarias para comenzar.</p>
           </li>
           <li>
-            <span>03</span>
-            <div>
-              <h3>Capacitacion</h3>
-              <p>Te explicamos como vender, cobrar, imprimir tickets, consultar reportes y realizar cortes de caja.</p>
-            </div>
+            <span class="step-number">03</span>
+            <svg class="step-icon"><use href="#icon-training"></use></svg>
+            <h3>Capacitacion</h3>
+            <p>Te explicamos como vender, cobrar, imprimir tickets, consultar reportes y realizar cortes de caja.</p>
           </li>
           <li>
-            <span>04</span>
-            <div>
-              <h3>Operacion</h3>
-              <p>Tu negocio queda listo para trabajar con un sistema claro, practico y sin mensualidades.</p>
-            </div>
+            <span class="step-number">04</span>
+            <svg class="step-icon"><use href="#icon-rocket"></use></svg>
+            <h3>Operacion</h3>
+            <p>Tu negocio queda listo para trabajar con un sistema claro, practico y sin mensualidades.</p>
           </li>
         </ol>
       </section>
 
       <section id="precios" class="section">
-        <div class="section-heading">
+        <div class="section-heading centered">
           <p class="eyebrow">Precios</p>
           <h2>Planes segun el tipo de negocio</h2>
           <p>Elige el plan que mejor se adapte a tu operacion. Todos los planes incluyen licencia permanente.</p>
@@ -222,7 +290,7 @@
               <li>Ideal para negocios que quieren comenzar</li>
             </ul>
             <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20el%20Plan%20Basico%20de%20TEKAL%20POS">
-              Consultar basico
+              Consultar Plan Basico
             </a>
           </article>
           <article class="price-card featured">
@@ -238,7 +306,7 @@
               <li>Soporte para puesta en marcha</li>
             </ul>
             <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20el%20Plan%20Profesional%20de%20TEKAL%20POS">
-              Consultar profesional
+              Consultar Plan Profesional
             </a>
           </article>
           <article class="price-card">
@@ -253,7 +321,7 @@
               <li>Ideal para operacion mas completa</li>
             </ul>
             <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20el%20Plan%20Premium%20de%20TEKAL%20POS">
-              Consultar premium
+              Consultar Plan Premium
             </a>
           </article>
         </div>
@@ -264,60 +332,60 @@
       </section>
 
       <section id="casos" class="section use-cases">
-        <div class="section-heading">
+        <div class="section-heading centered">
           <p class="eyebrow">Casos de uso</p>
           <h2>Pensado para negocios reales</h2>
         </div>
         <div class="case-grid">
-          <span>Restaurante con pedidos en mesa y cocina</span>
-          <span>Cafeteria con ventas rapidas</span>
-          <span>Boutique con inventario y clientes</span>
-          <span>Tienda pequena con corte de caja diario</span>
-          <span>Fast food con pedidos para llevar</span>
-          <span>Negocios que quieren dejar de usar libretas o Excel</span>
+          <span>Meseros mas rapidos con comandera movil</span>
+          <span>Cocina recibe pedidos claros y a tiempo</span>
+          <span>Cafeterias con cobro rapido en mostrador</span>
+          <span>Boutiques con inventario y clientes ordenados</span>
+          <span>Fast food con pedidos para llevar sin confusiones</span>
+          <span>Negocios que quieren dejar libretas o Excel</span>
         </div>
       </section>
 
       <section id="preguntas" class="section faq">
-        <div class="section-heading">
+        <div class="section-heading centered">
           <p class="eyebrow">Preguntas</p>
           <h2>Preguntas frecuentes</h2>
         </div>
         <div class="faq-list">
           <details>
-            <summary>El sistema cobra mensualidad?</summary>
+            <summary>El sistema cobra mensualidad?<svg class="summary-icon"><use href="#icon-arrow"></use></svg></summary>
             <p>
               No. La licencia es permanente. Algunos servicios adicionales como soporte extendido, nuevas
               implementaciones o actualizaciones futuras pueden depender del plan contratado.
             </p>
           </details>
           <details>
-            <summary>Necesito internet para usarlo?</summary>
+            <summary>Necesito internet para usarlo?<svg class="summary-icon"><use href="#icon-arrow"></use></svg></summary>
             <p>
               No necesariamente. El sistema puede trabajar en red local dentro del negocio. Algunas funciones como
               soporte remoto, descarga de actualizaciones o validacion de licencia pueden requerir internet.
             </p>
           </details>
           <details>
-            <summary>Incluye instalacion?</summary>
+            <summary>Incluye instalacion?<svg class="summary-icon"><use href="#icon-arrow"></use></svg></summary>
             <p>
               Si. Segun el plan contratado, se incluye instalacion guiada o configuracion remota para dejar el sistema
               listo para operar.
             </p>
           </details>
           <details>
-            <summary>Funciona con impresora de tickets?</summary>
+            <summary>Funciona con impresora de tickets?<svg class="summary-icon"><use href="#icon-arrow"></use></svg></summary>
             <p>Si. Se puede configurar con impresoras compatibles para tickets, comandas de cocina o barra.</p>
           </details>
           <details>
-            <summary>Sirve para restaurante y tienda?</summary>
+            <summary>Sirve para restaurante y tienda?<svg class="summary-icon"><use href="#icon-arrow"></use></svg></summary>
             <p>
               Si. TEKAL cuenta con soluciones para restaurante, cafeteria, fast food, tienda, boutique, abarrotes y
               negocios similares.
             </p>
           </details>
           <details>
-            <summary>Puedo pedir cambios o funciones especiales?</summary>
+            <summary>Puedo pedir cambios o funciones especiales?<svg class="summary-icon"><use href="#icon-arrow"></use></svg></summary>
             <p>
               Si. Las modificaciones a medida se pueden revisar segun el alcance tecnico, tiempo requerido y plan
               contratado.
