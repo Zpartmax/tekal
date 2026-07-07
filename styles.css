@@ -241,6 +241,12 @@ h3 {
   color: var(--accent);
 }
 
+.button.tertiary {
+  border-color: var(--line);
+  background: var(--soft);
+  color: var(--text);
+}
+
 .button.large {
   min-width: 250px;
 }
@@ -468,6 +474,27 @@ h3 {
 
 #release-status {
   min-height: 76px;
+}
+
+.release-checksum-label {
+  margin: 14px 0 6px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.release-checksum {
+  display: block;
+  overflow-x: auto;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--text);
+  font-size: 0.82rem;
+  white-space: nowrap;
 }
 
 .card-icon,
