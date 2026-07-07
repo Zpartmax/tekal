@@ -406,6 +406,12 @@ h3 {
   gap: 18px;
 }
 
+.license-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
 .cards.four {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -416,7 +422,8 @@ h3 {
 
 .card,
 .feature-block,
-.price-card {
+.price-card,
+.license-card {
   background: var(--panel);
   border-radius: 8px;
 }
@@ -428,8 +435,39 @@ h3 {
   box-shadow: 0 16px 38px rgba(31, 22, 48, 0.08);
 }
 
+.license-card {
+  display: flex;
+  min-height: 260px;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid var(--line);
+  box-shadow: 0 16px 38px rgba(31, 22, 48, 0.08);
+}
+
 .card:hover {
   border-color: rgba(92, 45, 145, 0.28);
+}
+
+.license-kicker {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.license-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.license-card .button {
+  margin-top: auto;
+}
+
+#release-status {
+  min-height: 76px;
 }
 
 .card-icon,
@@ -805,14 +843,15 @@ details p {
     right: auto;
   }
 
-  .cards.four,
-  .cards.restaurant-cards,
-  .cards,
-  .pricing-grid,
-  .video-grid,
-  .case-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.cards.four,
+.cards.restaurant-cards,
+.cards,
+.license-grid,
+.pricing-grid,
+.video-grid,
+.case-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 
   .timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -881,6 +920,7 @@ details p {
   .cards.four,
   .cards.restaurant-cards,
   .cards,
+  .license-grid,
   .pricing-grid,
   .feature-columns,
   .video-grid,
