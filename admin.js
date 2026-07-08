@@ -28,6 +28,7 @@ const licenseDetailForm = document.querySelector("#licenseDetailForm");
 const licenseDetailBadge = document.querySelector("#licenseDetailBadge");
 const detailDevices = document.querySelector("#detailDevices");
 const detailPayments = document.querySelector("#detailPayments");
+const navLinks = Array.from(document.querySelectorAll(".sidebar-nav a"));
 
 const sessionKeyName = "tekal_admin_key";
 
@@ -50,6 +51,14 @@ function setAuthenticated(isAuthenticated) {
   if (loginGate) {
     loginGate.hidden = isAuthenticated;
   }
+}
+
+function syncActiveNav() {
+  if (!navLinks.length) return;
+  const hash = window.location.hash || "#dashboard";
+  navLinks.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === hash);
+  });
 }
 
 function setLoginStatus(message, isError = false) {
@@ -464,6 +473,11 @@ function handleLogout() {
 }
 
 loginForm?.addEventListener("submit", handleLogin);
+navLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    window.setTimeout(syncActiveNav, 0);
+  });
+});
 refreshAllButton?.addEventListener("click", async () => {
   try {
     await loadAll();
@@ -525,10 +539,12 @@ deviceSearch?.addEventListener("input", async () => {
     updateAuthStatus(error.message || "No se pudo cargar dispositivos.");
   }
 });
+window.addEventListener("hashchange", syncActiveNav);
 
 setAuthenticated(false);
 resetLicenseDetail();
 updateAuthStatus();
+syncActiveNav();
 
 if (state.adminKey) {
   loginAdminKeyInput.value = state.adminKey;
