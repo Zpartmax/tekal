@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="tekal-license-api" content="https://licencias.tekalpos.com">
+    <title>TEKAL Admin | Licencias y Operacion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img src="LOGO.png" alt="" width="42" height="42">
+          <div>
+            <strong>TEKAL Admin</strong>
+            <span>Licencias y operacion</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#dashboard">Dashboard</a>
+          <a href="#licenses">Licencias</a>
+          <a href="#devices">Dispositivos</a>
+          <a href="#releases">Releases</a>
+          <a href="#payments">Pagos</a>
+        </nav>
+
+        <section class="auth-box">
+          <label for="adminKey">Admin key</label>
+          <input id="adminKey" type="password" placeholder="Pega tu admin key">
+          <div class="auth-actions">
+            <button id="saveKeyButton" class="button primary" type="button">Guardar</button>
+            <button id="clearKeyButton" class="button ghost" type="button">Limpiar</button>
+          </div>
+          <p id="authStatus" class="muted">Sin autenticar.</p>
+        </section>
+      </aside>
+
+      <main class="content">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Panel operativo</p>
+            <h1>Control de licencias, instalaciones y renovaciones</h1>
+          </div>
+          <div class="header-actions">
+            <button id="refreshAllButton" class="button primary" type="button">Actualizar panel</button>
+          </div>
+        </header>
+
+        <section id="dashboard" class="panel-stack">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Resumen</p>
+              <h2>Vista general</h2>
+            </div>
+          </div>
+
+          <div id="summaryCards" class="summary-grid"></div>
+
+          <div class="dual-grid">
+            <section class="panel">
+              <div class="panel-title-row">
+                <h3>Alertas</h3>
+                <span id="alertsCount" class="pill">0</span>
+              </div>
+              <div id="alertsList" class="list-stack empty-state">Sin datos.</div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-title-row">
+                <h3>Versiones instaladas</h3>
+              </div>
+              <div id="versionsList" class="list-stack empty-state">Sin datos.</div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-title-row">
+              <h3>Renovaciones proximas</h3>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Licencia</th>
+                    <th>Actualizaciones hasta</th>
+                    <th>Dias restantes</th>
+                  </tr>
+                </thead>
+                <tbody id="renewalsTable">
+                  <tr><td colspan="4" class="empty-cell">Sin datos.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section id="licenses" class="panel-stack">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Licencias</p>
+              <h2>Licencias registradas</h2>
+            </div>
+            <div class="toolbar">
+              <input id="licenseSearch" type="search" placeholder="Buscar por cliente, licencia, grupo, IP o equipo">
+              <select id="licenseStatusFilter">
+                <option value="">Todos los estados</option>
+                <option value="Active">Active</option>
+                <option value="Trial">Trial</option>
+                <option value="Blocked">Blocked</option>
+                <option value="Expired">Expired</option>
+              </select>
+              <button id="reloadLicensesButton" class="button ghost" type="button">Recargar</button>
+            </div>
+          </div>
+
+          <div class="license-layout">
+            <section class="panel">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Estado</th>
+                      <th>Updates</th>
+                      <th>Version</th>
+                      <th>Dispositivos</th>
+                      <th>Ultima actividad</th>
+                    </tr>
+                  </thead>
+                  <tbody id="licensesTable">
+                    <tr><td colspan="6" class="empty-cell">Sin datos.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <aside class="panel detail-panel">
+              <div class="panel-title-row">
+                <h3>Detalle de licencia</h3>
+                <span id="licenseDetailBadge" class="pill neutral">Selecciona una</span>
+              </div>
+
+              <form id="licenseDetailForm" class="detail-form">
+                <input type="hidden" id="detailId">
+                <label>Cliente<input id="detailCustomerName" type="text"></label>
+                <label>Estado
+                  <select id="detailStatus">
+                    <option value="Active">Active</option>
+                    <option value="Trial">Trial</option>
+                    <option value="Blocked">Blocked</option>
+                    <option value="Expired">Expired</option>
+                  </select>
+                </label>
+                <label>Pago
+                  <select id="detailPaymentStatus">
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Failed">Failed</option>
+                  </select>
+                </label>
+                <label>Max terminals<input id="detailMaxTerminals" type="number" min="1" step="1"></label>
+                <label>Expira<input id="detailExpiresAt" type="date"></label>
+                <label>Updates hasta<input id="detailUpdatesUntil" type="date"></label>
+                <label>Motivo de suspension<textarea id="detailSuspensionReason" rows="2"></textarea></label>
+                <label>Notas<textarea id="detailNotes" rows="5"></textarea></label>
+                <div class="auth-actions">
+                  <button id="saveLicenseButton" class="button primary" type="submit">Guardar cambios</button>
+                </div>
+              </form>
+
+              <div class="detail-subsection">
+                <h4>Dispositivos</h4>
+                <div id="detailDevices" class="mini-list empty-state">Sin datos.</div>
+              </div>
+
+              <div class="detail-subsection">
+                <h4>Pagos</h4>
+                <div id="detailPayments" class="mini-list empty-state">Sin datos.</div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="devices" class="panel-stack">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Dispositivos</p>
+              <h2>Instalaciones activas</h2>
+            </div>
+            <div class="toolbar">
+              <input id="deviceSearch" type="search" placeholder="Buscar por cliente, licencia, machine id, IP o version">
+              <button id="reloadDevicesButton" class="button ghost" type="button">Recargar</button>
+            </div>
+          </div>
+          <section class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Machine ID</th>
+                    <th>Version</th>
+                    <th>IP</th>
+                    <th>Ultima conexion</th>
+                    <th>Dias inactivo</th>
+                  </tr>
+                </thead>
+                <tbody id="devicesTable">
+                  <tr><td colspan="6" class="empty-cell">Sin datos.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section id="releases" class="panel-stack">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Releases</p>
+              <h2>Versiones publicadas</h2>
+            </div>
+            <button id="reloadReleasesButton" class="button ghost" type="button">Recargar</button>
+          </div>
+          <section class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Version</th>
+                    <th>Archivo</th>
+                    <th>Publicada</th>
+                    <th>Checksum</th>
+                    <th>Tipo</th>
+                  </tr>
+                </thead>
+                <tbody id="releasesTable">
+                  <tr><td colspan="5" class="empty-cell">Sin datos.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section id="payments" class="panel-stack">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Pagos</p>
+              <h2>Historial de pagos</h2>
+            </div>
+            <button id="reloadPaymentsButton" class="button ghost" type="button">Recargar</button>
+          </div>
+          <section class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Licencia</th>
+                    <th>Proveedor</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                    <th>Fecha pago</th>
+                    <th>Dias otorgados</th>
+                  </tr>
+                </thead>
+                <tbody id="paymentsTable">
+                  <tr><td colspan="6" class="empty-cell">Sin datos.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
