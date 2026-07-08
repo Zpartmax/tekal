@@ -94,11 +94,6 @@ textarea {
   color: #f7f2ff;
 }
 
-.login-copy-block {
-  display: grid;
-  gap: 16px;
-}
-
 .login-brand {
   display: flex;
   align-items: center;
@@ -109,11 +104,6 @@ textarea {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.96);
   padding: 8px;
-}
-
-.login-copy {
-  color: rgba(247, 242, 255, 0.82);
-  line-height: 1.65;
 }
 
 .login-form {

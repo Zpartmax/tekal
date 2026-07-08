@@ -13,24 +13,18 @@
   <body class="auth-locked">
     <section id="loginGate" class="login-gate">
       <div class="login-card">
-        <div class="login-copy-block">
-          <div class="login-brand">
-            <img src="LOGO.png" alt="" width="60" height="60">
-            <div>
-              <p class="eyebrow">Acceso privado</p>
-              <h1>TEKAL Admin</h1>
-            </div>
+        <div class="login-brand">
+          <img src="LOGO.png" alt="" width="60" height="60">
+          <div>
+            <h1>TEKAL Admin</h1>
           </div>
-          <p class="login-copy">
-            Ingresa la admin key para desbloquear licencias, dispositivos, renovaciones y métricas del servidor.
-          </p>
         </div>
         <form id="loginForm" class="login-form">
           <label for="loginAdminKey">Admin key</label>
           <input id="loginAdminKey" type="password" placeholder="Pega tu admin key" autocomplete="current-password">
           <button id="loginButton" class="button primary" type="submit">Entrar al panel</button>
         </form>
-        <p id="loginStatus" class="muted">Esperando autenticación.</p>
+        <p id="loginStatus" class="muted" hidden></p>
       </div>
     </section>
 

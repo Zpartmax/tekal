@@ -63,6 +63,7 @@ function syncActiveNav() {
 
 function setLoginStatus(message, isError = false) {
   if (!loginStatus) return;
+  loginStatus.hidden = !message;
   loginStatus.textContent = message;
   loginStatus.style.color = isError ? "#fecaca" : "";
 }
@@ -559,5 +560,5 @@ if (state.adminKey) {
       setLoginStatus("La sesion anterior ya no es valida. Inicia sesion otra vez.", true);
     });
 } else {
-  setLoginStatus("Ingresa la admin key para desbloquear el panel.");
+  setLoginStatus("");
 }
