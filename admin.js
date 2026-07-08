@@ -44,12 +44,18 @@ function setAuthenticated(isAuthenticated) {
   document.body.classList.toggle("auth-locked", !isAuthenticated);
   adminShell?.setAttribute("aria-hidden", String(!isAuthenticated));
   loginGate?.setAttribute("aria-hidden", String(isAuthenticated));
+  if (adminShell) {
+    adminShell.hidden = !isAuthenticated;
+  }
+  if (loginGate) {
+    loginGate.hidden = isAuthenticated;
+  }
 }
 
 function setLoginStatus(message, isError = false) {
   if (!loginStatus) return;
   loginStatus.textContent = message;
-  loginStatus.style.color = isError ? "var(--danger)" : "";
+  loginStatus.style.color = isError ? "#fecaca" : "";
 }
 
 function updateAuthStatus(message) {
