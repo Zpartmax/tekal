@@ -33,6 +33,18 @@ body {
   font-family: "IBM Plex Sans", system-ui, sans-serif;
 }
 
+body.auth-locked {
+  overflow: hidden;
+}
+
+body.auth-locked .shell {
+  display: none;
+}
+
+body:not(.auth-locked) .login-gate {
+  display: none;
+}
+
 button,
 input,
 select,
@@ -44,6 +56,51 @@ textarea {
   display: grid;
   grid-template-columns: 290px 1fr;
   min-height: 100vh;
+}
+
+.login-gate {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-card {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 460px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 28px;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.login-brand img {
+  border-radius: 16px;
+  background: #fff;
+  padding: 6px;
+}
+
+.login-copy {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.login-form {
+  display: grid;
+  gap: 12px;
+}
+
+.login-form label {
+  font-weight: 600;
 }
 
 .sidebar {
@@ -108,14 +165,6 @@ textarea {
   border-radius: 18px;
   padding: 18px;
   background: rgba(255, 255, 255, 0.06);
-}
-
-.auth-box label {
-  font-weight: 600;
-}
-
-.auth-box input {
-  width: 100%;
 }
 
 .content {

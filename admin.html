@@ -10,8 +10,29 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="admin.css">
   </head>
-  <body>
-    <div class="shell">
+  <body class="auth-locked">
+    <section id="loginGate" class="login-gate">
+      <div class="login-card">
+        <div class="login-brand">
+          <img src="LOGO.png" alt="" width="52" height="52">
+          <div>
+            <p class="eyebrow">Acceso privado</p>
+            <h1>TEKAL Admin</h1>
+          </div>
+        </div>
+        <p class="login-copy">
+          Inicia sesión con tu admin key para desbloquear el panel de licencias, dispositivos y métricas.
+        </p>
+        <form id="loginForm" class="login-form">
+          <label for="loginAdminKey">Admin key</label>
+          <input id="loginAdminKey" type="password" placeholder="Pega tu admin key" autocomplete="current-password">
+          <button id="loginButton" class="button primary" type="submit">Entrar al panel</button>
+        </form>
+        <p id="loginStatus" class="muted">Esperando autenticación.</p>
+      </div>
+    </section>
+
+    <div class="shell" id="adminShell" aria-hidden="true">
       <aside class="sidebar">
         <div class="brand">
           <img src="LOGO.png" alt="" width="42" height="42">
@@ -30,13 +51,14 @@
         </nav>
 
         <section class="auth-box">
-          <label for="adminKey">Admin key</label>
-          <input id="adminKey" type="password" placeholder="Pega tu admin key">
+          <p class="eyebrow">Sesion</p>
+          <strong>Administrador autenticado</strong>
+          <p class="muted">La llave administrativa se guarda solo en esta sesión del navegador.</p>
           <div class="auth-actions">
-            <button id="saveKeyButton" class="button primary" type="button">Guardar</button>
-            <button id="clearKeyButton" class="button ghost" type="button">Limpiar</button>
+            <button id="refreshAllButton" class="button primary" type="button">Actualizar panel</button>
+            <button id="logoutButton" class="button ghost" type="button">Cerrar sesión</button>
           </div>
-          <p id="authStatus" class="muted">Sin autenticar.</p>
+          <p id="authStatus" class="muted">Sesión no iniciada.</p>
         </section>
       </aside>
 
@@ -46,9 +68,7 @@
             <p class="eyebrow">Panel operativo</p>
             <h1>Control de licencias, instalaciones y renovaciones</h1>
           </div>
-          <div class="header-actions">
-            <button id="refreshAllButton" class="button primary" type="button">Actualizar panel</button>
-          </div>
+          <div class="header-actions"></div>
         </header>
 
         <section id="dashboard" class="panel-stack">

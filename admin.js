@@ -1,10 +1,13 @@
 const apiBaseMeta = document.querySelector('meta[name="tekal-license-api"]');
 const apiBase = (apiBaseMeta?.content || "https://licencias.tekalpos.com").replace(/\/+$/, "");
-const adminKeyInput = document.querySelector("#adminKey");
+const loginGate = document.querySelector("#loginGate");
+const adminShell = document.querySelector("#adminShell");
+const loginForm = document.querySelector("#loginForm");
+const loginAdminKeyInput = document.querySelector("#loginAdminKey");
+const loginStatus = document.querySelector("#loginStatus");
 const authStatus = document.querySelector("#authStatus");
 const refreshAllButton = document.querySelector("#refreshAllButton");
-const saveKeyButton = document.querySelector("#saveKeyButton");
-const clearKeyButton = document.querySelector("#clearKeyButton");
+const logoutButton = document.querySelector("#logoutButton");
 const summaryCards = document.querySelector("#summaryCards");
 const alertsList = document.querySelector("#alertsList");
 const alertsCount = document.querySelector("#alertsCount");
@@ -26,8 +29,10 @@ const licenseDetailBadge = document.querySelector("#licenseDetailBadge");
 const detailDevices = document.querySelector("#detailDevices");
 const detailPayments = document.querySelector("#detailPayments");
 
+const sessionKeyName = "tekal_admin_key";
+
 const state = {
-  adminKey: localStorage.getItem("tekal_admin_key") || "",
+  adminKey: sessionStorage.getItem(sessionKeyName) || "",
   selectedLicenseId: null,
   licenses: [],
   devices: [],
@@ -35,17 +40,23 @@ const state = {
   payments: []
 };
 
-adminKeyInput.value = state.adminKey;
-updateAuthStatus();
+function setAuthenticated(isAuthenticated) {
+  document.body.classList.toggle("auth-locked", !isAuthenticated);
+  adminShell?.setAttribute("aria-hidden", String(!isAuthenticated));
+  loginGate?.setAttribute("aria-hidden", String(isAuthenticated));
+}
+
+function setLoginStatus(message, isError = false) {
+  if (!loginStatus) return;
+  loginStatus.textContent = message;
+  loginStatus.style.color = isError ? "var(--danger)" : "";
+}
 
 function updateAuthStatus(message) {
   if (!authStatus) return;
-  if (!state.adminKey) {
-    authStatus.textContent = "Sin autenticar.";
-    return;
-  }
-
-  authStatus.textContent = message || "Admin key cargada. Lista para consultar.";
+  authStatus.textContent = state.adminKey
+    ? (message || "Sesion autenticada.")
+    : "Sesion no iniciada.";
 }
 
 function normalizeDateInput(value) {
@@ -106,7 +117,7 @@ function statusClass(value) {
 
 async function apiFetch(path, options = {}) {
   if (!state.adminKey) {
-    throw new Error("Primero guarda la admin key.");
+    throw new Error("Primero inicia sesion con la admin key.");
   }
 
   const response = await fetch(`${apiBase}${path}`, {
@@ -289,6 +300,7 @@ function renderPayments(rows) {
 }
 
 function resetLicenseDetail() {
+  state.selectedLicenseId = null;
   licenseDetailBadge.textContent = "Selecciona una";
   licenseDetailBadge.className = "pill neutral";
   licenseDetailForm.reset();
@@ -397,48 +409,133 @@ async function saveLicenseDetail(event) {
   await selectLicense(id);
 }
 
+async function validateAdminKey() {
+  await apiFetch("/api/admin/dashboard");
+}
+
 async function loadAll() {
-  if (!state.adminKey) {
-    updateAuthStatus("Guarda la admin key para consultar el panel.");
+  updateAuthStatus("Consultando datos...");
+  await Promise.all([loadDashboard(), loadLicenses(), loadDevices(), loadReleases(), loadPayments()]);
+  updateAuthStatus("Panel actualizado.");
+}
+
+async function handleLogin(event) {
+  event.preventDefault();
+  const adminKey = loginAdminKeyInput.value.trim();
+  if (!adminKey) {
+    setLoginStatus("Ingresa la admin key.", true);
     return;
   }
 
-  updateAuthStatus("Consultando datos...");
+  state.adminKey = adminKey;
+  sessionStorage.setItem(sessionKeyName, adminKey);
+  setLoginStatus("Validando acceso...");
+  updateAuthStatus("Validando sesion...");
 
   try {
-    await Promise.all([loadDashboard(), loadLicenses(), loadDevices(), loadReleases(), loadPayments()]);
-    updateAuthStatus("Panel actualizado.");
+    await validateAdminKey();
+    setAuthenticated(true);
+    setLoginStatus("Acceso concedido.");
+    await loadAll();
   } catch (error) {
-    updateAuthStatus(error.message || "No se pudo consultar el panel.");
+    sessionStorage.removeItem(sessionKeyName);
+    state.adminKey = "";
+    setAuthenticated(false);
+    resetLicenseDetail();
+    updateAuthStatus("Sesion no iniciada.");
+    setLoginStatus(error.message || "No se pudo validar la admin key.", true);
   }
 }
 
-saveKeyButton.addEventListener("click", () => {
-  state.adminKey = adminKeyInput.value.trim();
-  localStorage.setItem("tekal_admin_key", state.adminKey);
-  resetLicenseDetail();
-  updateAuthStatus();
-  loadAll();
-});
-
-clearKeyButton.addEventListener("click", () => {
+function handleLogout() {
   state.adminKey = "";
-  localStorage.removeItem("tekal_admin_key");
-  adminKeyInput.value = "";
+  sessionStorage.removeItem(sessionKeyName);
+  loginAdminKeyInput.value = "";
   resetLicenseDetail();
-  updateAuthStatus();
+  updateAuthStatus("Sesion cerrada.");
+  setLoginStatus("Sesion cerrada. Ingresa la admin key para continuar.");
+  setAuthenticated(false);
+}
+
+loginForm?.addEventListener("submit", handleLogin);
+refreshAllButton?.addEventListener("click", async () => {
+  try {
+    await loadAll();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo actualizar el panel.");
+  }
+});
+logoutButton?.addEventListener("click", handleLogout);
+reloadLicensesButton?.addEventListener("click", async () => {
+  try {
+    await loadLicenses();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo cargar licencias.");
+  }
+});
+reloadDevicesButton?.addEventListener("click", async () => {
+  try {
+    await loadDevices();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo cargar dispositivos.");
+  }
+});
+reloadReleasesButton?.addEventListener("click", async () => {
+  try {
+    await loadReleases();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo cargar releases.");
+  }
+});
+reloadPaymentsButton?.addEventListener("click", async () => {
+  try {
+    await loadPayments();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo cargar pagos.");
+  }
+});
+licenseDetailForm?.addEventListener("submit", saveLicenseDetail);
+licenseSearch?.addEventListener("input", async () => {
+  if (!state.adminKey) return;
+  try {
+    await loadLicenses();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo cargar licencias.");
+  }
+});
+licenseStatusFilter?.addEventListener("change", async () => {
+  if (!state.adminKey) return;
+  try {
+    await loadLicenses();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo cargar licencias.");
+  }
+});
+deviceSearch?.addEventListener("input", async () => {
+  if (!state.adminKey) return;
+  try {
+    await loadDevices();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo cargar dispositivos.");
+  }
 });
 
-refreshAllButton.addEventListener("click", () => loadAll());
-reloadLicensesButton.addEventListener("click", () => loadLicenses());
-reloadDevicesButton.addEventListener("click", () => loadDevices());
-reloadReleasesButton.addEventListener("click", () => loadReleases());
-reloadPaymentsButton.addEventListener("click", () => loadPayments());
-licenseDetailForm.addEventListener("submit", saveLicenseDetail);
-licenseSearch.addEventListener("input", () => loadLicenses());
-licenseStatusFilter.addEventListener("change", () => loadLicenses());
-deviceSearch.addEventListener("input", () => loadDevices());
+setAuthenticated(false);
+resetLicenseDetail();
+updateAuthStatus();
 
 if (state.adminKey) {
-  loadAll();
+  loginAdminKeyInput.value = state.adminKey;
+  setLoginStatus("Restaurando sesion...");
+  validateAdminKey()
+    .then(async () => {
+      setAuthenticated(true);
+      await loadAll();
+    })
+    .catch(() => {
+      handleLogout();
+      setLoginStatus("La sesion anterior ya no es valida. Inicia sesion otra vez.", true);
+    });
+} else {
+  setLoginStatus("Ingresa la admin key para desbloquear el panel.");
 }
