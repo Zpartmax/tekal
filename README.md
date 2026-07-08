@@ -6,7 +6,7 @@ Landing page publica para TEKAL, con enlaces a descarga, releases y activacion.
 
 - WhatsApp comercial en `index.html`.
 - API de licencias en la meta tag `tekal-license-api`.
-- Descarga publica desde `/downloads/TEKALRestaurant_Setup_2.2.exe`.
+- La descarga publica se resuelve desde la release activa del API.
 - Release publica desde `/api/updates/latest`.
 
 ## Estructura esperada
