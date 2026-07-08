@@ -123,6 +123,7 @@
               <h2>Licencias registradas</h2>
             </div>
             <div class="toolbar">
+              <button id="toggleCreateLicenseButton" class="button primary" type="button">Nueva licencia</button>
               <input id="licenseSearch" type="search" placeholder="Buscar por cliente, licencia, grupo, IP o equipo">
               <select id="licenseStatusFilter">
                 <option value="">Todos los estados</option>
@@ -134,6 +135,52 @@
               <button id="reloadLicensesButton" class="button ghost" type="button">Recargar</button>
             </div>
           </div>
+
+          <section id="createLicensePanel" class="panel create-panel" hidden>
+            <div class="panel-title-row">
+              <div>
+                <p class="eyebrow">Nueva licencia</p>
+                <h3>Crear licencia online</h3>
+              </div>
+              <button id="cancelCreateLicenseButton" class="button ghost" type="button">Cancelar</button>
+            </div>
+
+            <form id="createLicenseForm" class="create-license-form">
+              <label>Cliente<input id="createCustomerName" type="text" placeholder="Nombre del cliente" required></label>
+              <label>License key opcional<input id="createLicenseKey" type="text" placeholder="Se genera automáticamente si lo dejas vacío"></label>
+              <label>Días de updates<input id="createUpdatesDays" type="number" min="1" step="1" value="30" required></label>
+              <label>Máx. terminales<input id="createMaxTerminals" type="number" min="1" step="1" value="1" required></label>
+              <label>Grupo de licencia<input id="createLicenseGroupId" type="text" placeholder="Opcional, para agrupar varias licencias"></label>
+              <label>Deployment
+                <select id="createDeployment">
+                  <option value="0">Normal</option>
+                  <option value="1">Servidor</option>
+                  <option value="2">Cliente</option>
+                </select>
+              </label>
+              <label class="checkbox-field">
+                <input id="createTrial" type="checkbox">
+                <span>Licencia de prueba</span>
+              </label>
+              <label id="createTrialDaysLabel">Días de prueba<input id="createTrialDays" type="number" min="1" step="1" value="30"></label>
+              <label class="checkbox-field">
+                <input id="createAllowMultiCaja" type="checkbox" checked>
+                <span>Permitir multicaja</span>
+              </label>
+              <label class="checkbox-field">
+                <input id="createAllowServerMode" type="checkbox" checked>
+                <span>Permitir modo servidor</span>
+              </label>
+              <label class="checkbox-field">
+                <input id="createAllowClientMode" type="checkbox" checked>
+                <span>Permitir modo cliente</span>
+              </label>
+              <div class="create-actions">
+                <button id="submitCreateLicenseButton" class="button primary" type="submit">Crear licencia</button>
+              </div>
+            </form>
+            <p id="createLicenseStatus" class="muted" hidden></p>
+          </section>
 
           <div class="license-layout">
             <section class="panel">

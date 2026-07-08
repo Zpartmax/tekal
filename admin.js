@@ -20,6 +20,13 @@ const paymentsTable = document.querySelector("#paymentsTable");
 const licenseSearch = document.querySelector("#licenseSearch");
 const licenseStatusFilter = document.querySelector("#licenseStatusFilter");
 const reloadLicensesButton = document.querySelector("#reloadLicensesButton");
+const toggleCreateLicenseButton = document.querySelector("#toggleCreateLicenseButton");
+const cancelCreateLicenseButton = document.querySelector("#cancelCreateLicenseButton");
+const createLicensePanel = document.querySelector("#createLicensePanel");
+const createLicenseForm = document.querySelector("#createLicenseForm");
+const createLicenseStatus = document.querySelector("#createLicenseStatus");
+const createTrialCheckbox = document.querySelector("#createTrial");
+const createTrialDaysLabel = document.querySelector("#createTrialDaysLabel");
 const deviceSearch = document.querySelector("#deviceSearch");
 const reloadDevicesButton = document.querySelector("#reloadDevicesButton");
 const reloadReleasesButton = document.querySelector("#reloadReleasesButton");
@@ -73,6 +80,13 @@ function updateAuthStatus(message) {
   authStatus.textContent = state.adminKey
     ? (message || "Sesion autenticada.")
     : "Sesion no iniciada.";
+}
+
+function setCreateLicenseStatus(message, isError = false) {
+  if (!createLicenseStatus) return;
+  createLicenseStatus.hidden = !message;
+  createLicenseStatus.textContent = message;
+  createLicenseStatus.style.color = isError ? "var(--danger)" : "";
 }
 
 function normalizeDateInput(value) {
@@ -325,6 +339,36 @@ function resetLicenseDetail() {
   detailPayments.innerHTML = `<div class="empty-state">Sin datos.</div>`;
 }
 
+function setCreateLicensePanelVisible(visible) {
+  if (!createLicensePanel) return;
+  createLicensePanel.hidden = !visible;
+  if (toggleCreateLicenseButton) {
+    toggleCreateLicenseButton.textContent = visible ? "Ocultar formulario" : "Nueva licencia";
+  }
+  if (!visible) {
+    setCreateLicenseStatus("");
+  }
+}
+
+function syncTrialFields() {
+  if (!createTrialCheckbox || !createTrialDaysLabel) return;
+  createTrialDaysLabel.hidden = !createTrialCheckbox.checked;
+}
+
+function resetCreateLicenseForm() {
+  if (!createLicenseForm) return;
+  createLicenseForm.reset();
+  document.querySelector("#createUpdatesDays").value = "30";
+  document.querySelector("#createMaxTerminals").value = "1";
+  document.querySelector("#createDeployment").value = "0";
+  document.querySelector("#createTrialDays").value = "30";
+  document.querySelector("#createAllowMultiCaja").checked = true;
+  document.querySelector("#createAllowServerMode").checked = true;
+  document.querySelector("#createAllowClientMode").checked = true;
+  syncTrialFields();
+  setCreateLicenseStatus("");
+}
+
 function fillLicenseDetail(detail) {
   document.querySelector("#detailId").value = detail.id;
   document.querySelector("#detailCustomerName").value = detail.customerName || "";
@@ -425,6 +469,60 @@ async function saveLicenseDetail(event) {
   await selectLicense(id);
 }
 
+async function createLicense(event) {
+  event.preventDefault();
+
+  const payload = {
+    customerName: document.querySelector("#createCustomerName").value.trim(),
+    trial: document.querySelector("#createTrial").checked,
+    trialDays: Number(document.querySelector("#createTrialDays").value || 30),
+    updatesDays: Number(document.querySelector("#createUpdatesDays").value || 30),
+    allowMultiCaja: document.querySelector("#createAllowMultiCaja").checked,
+    allowServerMode: document.querySelector("#createAllowServerMode").checked,
+    allowClientMode: document.querySelector("#createAllowClientMode").checked,
+    deployment: Number(document.querySelector("#createDeployment").value || 0),
+    maxTerminals: Number(document.querySelector("#createMaxTerminals").value || 1),
+    licenseGroupId: document.querySelector("#createLicenseGroupId").value.trim() || null,
+    licenseKey: document.querySelector("#createLicenseKey").value.trim() || null
+  };
+
+  if (!payload.customerName) {
+    setCreateLicenseStatus("Escribe el nombre del cliente.", true);
+    return;
+  }
+
+  if (payload.updatesDays < 1) {
+    setCreateLicenseStatus("Los dias de updates deben ser mayores a cero.", true);
+    return;
+  }
+
+  if (payload.maxTerminals < 1) {
+    setCreateLicenseStatus("Debe existir al menos una terminal.", true);
+    return;
+  }
+
+  if (payload.trial && payload.trialDays < 1) {
+    setCreateLicenseStatus("Los dias de prueba deben ser mayores a cero.", true);
+    return;
+  }
+
+  setCreateLicenseStatus("Creando licencia...");
+
+  const result = await apiFetch("/api/admin/licenses", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+
+  updateAuthStatus(`Licencia creada para ${result.customerName}.`);
+  await Promise.all([loadDashboard(), loadLicenses()]);
+  if (result?.id) {
+    await selectLicense(result.id);
+  }
+  resetCreateLicenseForm();
+  setCreateLicensePanelVisible(true);
+  setCreateLicenseStatus(`Licencia creada: ${result.licenseKey}`);
+}
+
 async function validateAdminKey() {
   await apiFetch("/api/admin/dashboard");
 }
@@ -468,6 +566,8 @@ function handleLogout() {
   sessionStorage.removeItem(sessionKeyName);
   loginAdminKeyInput.value = "";
   resetLicenseDetail();
+  resetCreateLicenseForm();
+  setCreateLicensePanelVisible(false);
   updateAuthStatus("Sesion cerrada.");
   setLoginStatus("Sesion cerrada. Ingresa la admin key para continuar.");
   setAuthenticated(false);
@@ -487,6 +587,17 @@ refreshAllButton?.addEventListener("click", async () => {
   }
 });
 logoutButton?.addEventListener("click", handleLogout);
+toggleCreateLicenseButton?.addEventListener("click", () => {
+  const willShow = createLicensePanel?.hidden ?? true;
+  if (willShow) {
+    resetCreateLicenseForm();
+  }
+  setCreateLicensePanelVisible(willShow);
+});
+cancelCreateLicenseButton?.addEventListener("click", () => {
+  resetCreateLicenseForm();
+  setCreateLicensePanelVisible(false);
+});
 reloadLicensesButton?.addEventListener("click", async () => {
   try {
     await loadLicenses();
@@ -515,6 +626,14 @@ reloadPaymentsButton?.addEventListener("click", async () => {
     updateAuthStatus(error.message || "No se pudo cargar pagos.");
   }
 });
+createLicenseForm?.addEventListener("submit", async event => {
+  try {
+    await createLicense(event);
+  } catch (error) {
+    setCreateLicenseStatus(error.message || "No se pudo crear la licencia.", true);
+  }
+});
+createTrialCheckbox?.addEventListener("change", syncTrialFields);
 licenseDetailForm?.addEventListener("submit", saveLicenseDetail);
 licenseSearch?.addEventListener("input", async () => {
   if (!state.adminKey) return;
@@ -544,6 +663,8 @@ window.addEventListener("hashchange", syncActiveNav);
 
 setAuthenticated(false);
 resetLicenseDetail();
+resetCreateLicenseForm();
+setCreateLicensePanelVisible(false);
 updateAuthStatus();
 syncActiveNav();
 
