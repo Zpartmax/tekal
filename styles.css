@@ -477,7 +477,7 @@ h3 {
 
 .feature-shot-mobile {
   max-width: 240px;
-  transform: rotate(-1.5deg);
+  transform: none;
 }
 
 .feature-shot-desktop {
