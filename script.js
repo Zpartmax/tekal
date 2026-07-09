@@ -3,18 +3,12 @@ const apiBaseMeta = document.querySelector('meta[name="tekal-license-api"]');
 const apiBase = (apiBaseMeta?.content || "https://licencias.tekalpos.com").replace(/\/+$/, "");
 const downloadLink = document.querySelector("[data-download-link]");
 const androidLink = document.querySelector("[data-android-link]");
-const releaseLink = document.querySelector("[data-release-link]");
-const checksumNode = document.querySelector("#release-checksum");
-const copyChecksumButton = document.querySelector("[data-copy-checksum]");
+const releaseDownloadLink = document.querySelector("[data-release-download-link]");
 const releaseStatus = document.querySelector("#release-status");
 const latestUrl = `${apiBase}/api/updates/latest`;
 
 if (year) {
   year.textContent = new Date().getFullYear();
-}
-
-if (releaseLink) {
-  releaseLink.href = latestUrl;
 }
 
 if (androidLink) {
@@ -38,13 +32,9 @@ function setFallbackReleaseState() {
   if (downloadLink) {
     downloadLink.href = `${apiBase}/downloads/TEKALRestaurant_Setup_2.5.exe`;
   }
-
-  if (checksumNode) {
-    checksumNode.textContent = "Checksum no disponible.";
-  }
-
-  if (copyChecksumButton) {
-    copyChecksumButton.disabled = true;
+  
+  if (releaseDownloadLink) {
+    releaseDownloadLink.href = `${apiBase}/downloads/TEKALRestaurant_Setup_2.5.exe`;
   }
 }
 
@@ -64,7 +54,6 @@ async function loadLatestRelease() {
       throw new Error("Respuesta invalida");
     }
 
-    const sha256 = release.sha256 || release.Sha256 || "";
     const downloadUrl = resolveApiUrl(release.downloadUrl || release.DownloadUrl || "");
     const publishedAt = release.publishedAt ? new Date(release.publishedAt) : null;
     const publishedText = publishedAt && !Number.isNaN(publishedAt.getTime())
@@ -79,27 +68,8 @@ async function loadLatestRelease() {
       downloadLink.href = downloadUrl;
     }
 
-    if (checksumNode) {
-      checksumNode.textContent = sha256 || "Checksum no disponible.";
-    }
-
-    if (copyChecksumButton) {
-      copyChecksumButton.disabled = !sha256;
-      copyChecksumButton.addEventListener("click", async () => {
-        if (!sha256) return;
-
-        const originalText = copyChecksumButton.textContent;
-        try {
-          await navigator.clipboard.writeText(sha256);
-          copyChecksumButton.textContent = "Copiado";
-        } catch {
-          copyChecksumButton.textContent = "No se pudo copiar";
-        }
-
-        setTimeout(() => {
-          copyChecksumButton.textContent = originalText;
-        }, 1200);
-      });
+    if (releaseDownloadLink && downloadUrl) {
+      releaseDownloadLink.href = downloadUrl;
     }
   } catch {
     setFallbackReleaseState();

@@ -743,26 +743,6 @@ h3 {
   min-height: 290px;
 }
 
-.release-checksum-label {
-  margin: 14px 0 6px;
-  color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.release-checksum {
-  display: block;
-  overflow-x: auto;
-  margin: 0;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px;
-  background: rgba(92, 45, 145, 0.05);
-  color: var(--text);
-  white-space: nowrap;
-}
-
 .stack-actions {
   margin-top: 16px;
 }
