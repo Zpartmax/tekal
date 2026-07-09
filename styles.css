@@ -299,6 +299,12 @@ h3 {
   font-size: 0.88rem;
 }
 
+.product-shot-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
 .product-shot-desktop,
 .product-shot-mobile,
 .feature-shot,
@@ -329,11 +335,11 @@ h3 {
 .product-shot-mobile {
   position: absolute;
   right: 10px;
-  bottom: 18px;
+  bottom: -12px;
   width: 168px;
   padding: 9px;
   border-radius: 28px;
-  transform: rotate(3deg);
+  transform: none;
   box-shadow: 0 28px 50px rgba(28, 14, 49, 0.24);
   z-index: 2;
 }
@@ -345,6 +351,14 @@ h3 {
 .product-shot-mobile figcaption {
   margin-top: 10px;
   font-size: 0.8rem;
+}
+
+.product-shot-label-mobile {
+  position: absolute;
+  right: 2px;
+  bottom: -66px;
+  width: 186px;
+  text-align: center;
 }
 
 .section {
@@ -849,8 +863,15 @@ h3 {
 
   .product-shot-mobile {
     right: 0;
-    bottom: 6px;
+    bottom: -8px;
     width: 138px;
+  }
+
+  .product-shot-label-mobile {
+    right: -8px;
+    bottom: -58px;
+    width: 154px;
+    font-size: 0.76rem;
   }
 
   .price-card,
