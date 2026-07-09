@@ -271,12 +271,12 @@ h3 {
 }
 
 .hero-visual {
-  min-height: 540px;
+  min-height: 470px;
 }
 
 .device-stage {
   position: relative;
-  min-height: 540px;
+  min-height: 470px;
 }
 
 .product-shot,
@@ -311,31 +311,35 @@ h3 {
 
 .product-shot-desktop {
   position: absolute;
-  top: 10px;
-  right: 0;
-  left: 0;
-  padding: 24px;
+  top: 26px;
+  right: 34px;
+  left: 34px;
+  max-width: 560px;
+  margin-left: auto;
+  padding: 14px;
   border-radius: 32px;
-  transform: perspective(1800px) rotateY(-10deg) rotateX(2deg);
-  box-shadow: var(--shadow);
+  transform: perspective(1800px) rotateY(-9deg) rotateX(2deg);
+  box-shadow: 0 34px 60px rgba(33, 17, 58, 0.2);
 }
 
 .product-shot-desktop img {
-  border-radius: 18px;
+  border-radius: 20px;
 }
 
 .product-shot-mobile {
   position: absolute;
-  right: 18px;
-  bottom: 0;
-  width: 230px;
-  padding: 12px;
-  border-radius: 30px;
-  transform: rotate(2deg);
+  right: 10px;
+  bottom: 18px;
+  width: 168px;
+  padding: 9px;
+  border-radius: 28px;
+  transform: rotate(3deg);
+  box-shadow: 0 28px 50px rgba(28, 14, 49, 0.24);
+  z-index: 2;
 }
 
 .product-shot-mobile img {
-  border-radius: 22px;
+  border-radius: 18px;
 }
 
 .product-shot-mobile figcaption {
@@ -448,31 +452,33 @@ h3 {
 
 .feature-shot {
   width: 100%;
-  padding: 16px;
-  border-radius: 28px;
+  padding: 12px;
+  border-radius: 24px;
+  box-shadow: 0 24px 44px rgba(34, 18, 58, 0.14);
 }
 
 .feature-shot img {
-  border-radius: 18px;
+  border-radius: 16px;
 }
 
 .feature-shot-mobile {
-  max-width: 330px;
+  max-width: 240px;
+  transform: rotate(-1.5deg);
 }
 
 .feature-shot-desktop {
-  max-width: 520px;
+  max-width: 420px;
 }
 
 .feature-shot.compact {
-  max-width: 420px;
+  max-width: 320px;
 }
 
 .kitchen-proof {
   display: grid;
   gap: 16px;
   width: 100%;
-  max-width: 520px;
+  max-width: 420px;
 }
 
 .kitchen-note {
@@ -784,7 +790,7 @@ h3 {
   }
 
   .hero-visual {
-    min-height: 580px;
+    min-height: 500px;
   }
 
   .contact-actions {
@@ -829,17 +835,22 @@ h3 {
 
   .hero-visual,
   .device-stage {
-    min-height: 520px;
+    min-height: 430px;
   }
 
   .product-shot-desktop {
-    padding: 14px;
+    top: 8px;
+    right: 28px;
+    left: 0;
+    max-width: 100%;
+    padding: 10px;
     transform: none;
   }
 
   .product-shot-mobile {
-    right: 10px;
-    width: 190px;
+    right: 0;
+    bottom: 6px;
+    width: 138px;
   }
 
   .price-card,
