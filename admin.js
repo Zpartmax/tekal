@@ -255,6 +255,7 @@ function renderLicenses(rows) {
       <td>
         <strong>${escapeHtml(row.customerName)}</strong>
         <div class="meta-line">${escapeHtml(row.licenseKey)}</div>
+        <div class="meta-line"><span class="source-chip ${sourceClass(row.source)}">${escapeHtml(row.source || "Online")}</span></div>
       </td>
       <td><span class="status-chip ${statusClass(row.status)}">${escapeHtml(row.status)}</span></td>
       <td>${row.daysToUpdatesExpire ?? "N/D"} dias</td>
@@ -382,7 +383,7 @@ function fillLicenseDetail(detail) {
   document.querySelector("#detailUpdatesUntil").value = normalizeDateInput(detail.updatesUntil);
   document.querySelector("#detailSuspensionReason").value = detail.suspensionReason || "";
   document.querySelector("#detailNotes").value = detail.notes || "";
-  licenseDetailBadge.textContent = detail.licenseKey;
+  licenseDetailBadge.textContent = `${detail.licenseKey} · ${detail.source || "Online"}`;
   licenseDetailBadge.className = `pill ${statusClass(detail.status)}`;
 
   detailDevices.innerHTML = detail.devices?.length
@@ -404,6 +405,10 @@ function fillLicenseDetail(detail) {
       </article>
     `).join("")
     : `<div class="empty-state">Sin pagos registrados.</div>`;
+}
+
+function sourceClass(source) {
+  return String(source || "online").toLowerCase() === "legacy" ? "legacy" : "online";
 }
 
 async function loadDashboard() {

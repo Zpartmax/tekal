@@ -659,6 +659,26 @@ code {
   color: #6d28d9;
 }
 
+.source-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.source-chip.online {
+  background: rgba(92, 45, 145, 0.12);
+  color: var(--accent-strong);
+}
+
+.source-chip.legacy {
+  background: rgba(161, 98, 7, 0.14);
+  color: #854d0e;
+}
+
 @media (max-width: 1220px) {
   .summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
