@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Descargas y soporte de TEKAL para clientes existentes: instalador oficial, APK Android, release actual y activacion."
+    >
+    <meta name="tekal-license-api" content="https://licencias.tekalpos.com">
+    <title>TEKAL | Soporte y descargas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="downloads-page">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="TEKAL inicio">
+        <img class="brand-logo" src="LOGO.png" alt="" width="40" height="40">
+        <span>TEKAL</span>
+      </a>
+
+      <nav class="nav" aria-label="Principal">
+        <a href="index.html">Inicio comercial</a>
+        <a href="#descargas">Descargas</a>
+        <a href="#activacion">Activacion</a>
+        <a href="#ayuda">Ayuda rapida</a>
+      </nav>
+
+      <a class="header-cta" href="https://wa.me/524641163543?text=Hola,%20necesito%20soporte%20de%20TEKAL">
+        Pedir soporte
+      </a>
+    </header>
+
+    <main>
+      <section class="hero support-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Clientes existentes</p>
+          <h1>Instaladores, actualizaciones y soporte en un espacio separado del sitio comercial</h1>
+          <p class="lead">
+            Esta seccion concentra los recursos operativos para clientes TEKAL: descarga oficial del
+            instalador, APK de comandera movil, release vigente y acceso rapido para activacion o renovacion.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#descargas">Ver descargas</a>
+            <a class="button secondary" href="https://wa.me/524641163543?text=Hola,%20necesito%20activar%20o%20renovar%20mi%20licencia%20TEKAL">
+              Activar o renovar licencia
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="descargas" class="section">
+        <div class="section-heading centered">
+          <p class="eyebrow">Descargas oficiales</p>
+          <h2>Todo lo necesario para instalar o reinstalar tu ecosistema TEKAL</h2>
+        </div>
+
+        <div class="download-grid">
+          <article class="support-card">
+            <p class="support-kicker">Windows</p>
+            <h3>Instalador oficial</h3>
+            <p>Descarga la version publicada para instalar TEKAL en una nueva PC o reinstalar el sistema.</p>
+            <a class="button primary" href="#" data-download-link>
+              Descargar instalador
+            </a>
+          </article>
+
+          <article class="support-card">
+            <p class="support-kicker">Android</p>
+            <h3>APK de comandera movil</h3>
+            <p>Instala la app Android para tomar pedidos desde celular o tablet y enviarlos directo a cocina.</p>
+            <a class="button secondary" href="#" data-android-link>
+              Descargar APK
+            </a>
+          </article>
+
+          <article class="support-card">
+            <p class="support-kicker">Release actual</p>
+            <h3>Version publicada</h3>
+            <p id="release-status">Consultando release publicada...</p>
+            <p class="release-checksum-label">Checksum SHA-256</p>
+            <code id="release-checksum" class="release-checksum">Consultando checksum...</code>
+            <div class="stack-actions">
+              <button type="button" class="button ghost" data-copy-checksum>Copiar checksum</button>
+              <a class="button secondary" href="#" data-release-link target="_blank" rel="noreferrer">
+                Ver release
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="activacion" class="section section-soft">
+        <div class="section-heading centered">
+          <p class="eyebrow">Activacion y renovacion</p>
+          <h2>Ruta rapida para clientes que ya operan con TEKAL</h2>
+        </div>
+
+        <div class="route-grid">
+          <article class="route-card">
+            <strong>Activacion inicial</strong>
+            <p>Si es tu primera instalacion, te apoyamos con la activacion correcta segun tu licencia.</p>
+          </article>
+          <article class="route-card">
+            <strong>Renovacion de updates</strong>
+            <p>Si tu periodo de actualizaciones vencio, te guiamos para renovarlo y descargar la version vigente.</p>
+          </article>
+          <article class="route-card">
+            <strong>Reinstalacion o cambio de equipo</strong>
+            <p>Te orientamos para reinstalar, mover licencia o validar el mejor camino segun tu caso.</p>
+          </article>
+        </div>
+
+        <div class="contact-inline">
+          <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20necesito%20activar%20mi%20licencia%20TEKAL">
+            Solicitar activacion
+          </a>
+          <a class="button secondary" href="https://wa.me/524641163543?text=Hola,%20quiero%20renovar%20actualizaciones%20de%20TEKAL">
+            Renovar actualizaciones
+          </a>
+        </div>
+      </section>
+
+      <section id="ayuda" class="section">
+        <div class="section-heading centered">
+          <p class="eyebrow">Ayuda rapida</p>
+          <h2>Preguntas frecuentes para soporte</h2>
+        </div>
+
+        <div class="faq-list">
+          <details>
+            <summary>Que debo descargar primero?<span>+</span></summary>
+            <p>En PC usa el instalador oficial. En celulares o tablets Android usa el APK de comandera movil.</p>
+          </details>
+          <details>
+            <summary>Cuando necesito el checksum?<span>+</span></summary>
+            <p>Cuando quieres verificar integridad del archivo descargado antes de instalarlo en un equipo.</p>
+          </details>
+          <details>
+            <summary>Que hago si cambie de computadora?<span>+</span></summary>
+            <p>Escribenos para revisar tu licencia y orientarte con reinstalacion, migracion o reactivacion.</p>
+          </details>
+          <details>
+            <summary>Puedo descargar sin hablar con soporte?<span>+</span></summary>
+            <p>Si, pero si tu caso implica renovacion o cambio de equipo es mejor validarlo primero para evitar bloqueos.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>&copy; <span id="year">2026</span> TEKAL. Todos los derechos reservados.</span>
+      <nav aria-label="Footer">
+        <a href="index.html">Inicio comercial</a>
+        <a href="#descargas">Descargas</a>
+        <a href="#activacion">Activacion</a>
+        <a href="https://wa.me/524641163543?text=Hola,%20necesito%20soporte%20de%20TEKAL">WhatsApp</a>
+      </nav>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
