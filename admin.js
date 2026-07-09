@@ -175,6 +175,9 @@ function renderSummary(summary) {
   if (!summaryCards) return;
   const cards = [
     ["Licencias totales", summary.totalLicenses, `${summary.activeLicenses} activas`],
+    ["Instalaciones totales", summary.totalInstallations, `${summary.newInstallations7d} nuevas en 7 dias`],
+    ["Instalaciones activas", summary.activeInstallations30d, "actividad en 30 dias"],
+    ["Sin activar activas", summary.activeUnlicensedInstallations30d, "actividad sin licencia en 30 dias"],
     ["Por vencer", summary.expiringLicenses7d, "siguientes 7 dias"],
     ["Updates por vencer", summary.updatesExpiring7d, "siguientes 7 dias"],
     ["Dispositivos activos", summary.connectedDevices24h, "ultimas 24 horas"],

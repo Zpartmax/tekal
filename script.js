@@ -2,6 +2,7 @@ const year = document.querySelector("#year");
 const apiBaseMeta = document.querySelector('meta[name="tekal-license-api"]');
 const apiBase = (apiBaseMeta?.content || "https://licencias.tekalpos.com").replace(/\/+$/, "");
 const downloadLink = document.querySelector("[data-download-link]");
+const androidLink = document.querySelector("[data-android-link]");
 const releaseLink = document.querySelector("[data-release-link]");
 const checksumNode = document.querySelector("#release-checksum");
 const copyChecksumButton = document.querySelector("[data-copy-checksum]");
@@ -14,6 +15,10 @@ if (year) {
 
 if (releaseLink) {
   releaseLink.href = latestUrl;
+}
+
+if (androidLink) {
+  androidLink.href = `${apiBase}/downloads/TEKALRestaurante_Android.apk`;
 }
 
 function resolveApiUrl(path) {
