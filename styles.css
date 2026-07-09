@@ -46,6 +46,7 @@ a {
 
 img {
   display: block;
+  max-width: 100%;
 }
 
 button,
@@ -75,8 +76,7 @@ strong {
   gap: 24px;
   padding: 16px clamp(20px, 5vw, 72px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.55);
-  background: rgba(251, 249, 255, 0.8);
-  backdrop-filter: blur(18px);
+  background: rgba(251, 249, 255, 0.96);
 }
 
 .brand {
@@ -250,7 +250,6 @@ h3 {
   border: 1px solid var(--line);
   background: var(--surface);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(16px);
 }
 
 .hero-metrics article {
@@ -363,6 +362,8 @@ h3 {
 
 .section {
   padding: clamp(60px, 8vw, 104px) clamp(20px, 5vw, 72px);
+  content-visibility: auto;
+  contain-intrinsic-size: 780px;
 }
 
 .section-soft {
@@ -666,6 +667,8 @@ h3 {
     radial-gradient(circle at top right, rgba(255, 255, 255, 0.16), transparent 28%),
     linear-gradient(135deg, #341d53 0%, var(--accent) 100%);
   color: #fff;
+  content-visibility: auto;
+  contain-intrinsic-size: 420px;
 }
 
 .contact-copy h2,
@@ -767,6 +770,22 @@ h3 {
 .contact-inline {
   justify-content: center;
   margin-top: 24px;
+}
+
+@supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+  .site-header {
+    background: rgba(251, 249, 255, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .product-shot-desktop,
+  .product-shot-mobile,
+  .feature-shot,
+  .kitchen-note {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
 @media (max-width: 1120px) {
