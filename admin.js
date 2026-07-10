@@ -254,6 +254,7 @@ function renderLicenses(rows) {
     <tr data-license-id="${row.id}" class="${state.selectedLicenseId === row.id ? "selected" : ""}">
       <td>
         <strong>${escapeHtml(row.customerName)}</strong>
+        <div class="meta-line">${escapeHtml(row.customerEmail || "Sin correo")}</div>
         <div class="meta-line">${escapeHtml(row.licenseKey)}</div>
         <div class="meta-line"><span class="source-chip ${sourceClass(row.source)}">${escapeHtml(row.source || "Online")}</span></div>
       </td>
@@ -339,6 +340,10 @@ function resetLicenseDetail() {
   licenseDetailBadge.className = "pill neutral";
   licenseDetailForm.reset();
   document.querySelector("#detailId").value = "";
+  const detailPortalUrl = document.querySelector("#detailPortalUrl");
+  if (detailPortalUrl) {
+    detailPortalUrl.value = "";
+  }
   detailDevices.innerHTML = `<div class="empty-state">Sin datos.</div>`;
   detailPayments.innerHTML = `<div class="empty-state">Sin datos.</div>`;
 }
@@ -376,11 +381,13 @@ function resetCreateLicenseForm() {
 function fillLicenseDetail(detail) {
   document.querySelector("#detailId").value = detail.id;
   document.querySelector("#detailCustomerName").value = detail.customerName || "";
+  document.querySelector("#detailCustomerEmail").value = detail.customerEmail || "";
   document.querySelector("#detailStatus").value = detail.status || "Active";
   document.querySelector("#detailPaymentStatus").value = detail.paymentStatus || "Pending";
   document.querySelector("#detailMaxTerminals").value = detail.maxTerminals || 1;
   document.querySelector("#detailExpiresAt").value = normalizeDateInput(detail.expiresAt);
   document.querySelector("#detailUpdatesUntil").value = normalizeDateInput(detail.updatesUntil);
+  document.querySelector("#detailPortalUrl").value = detail.portalUrl || "";
   document.querySelector("#detailSuspensionReason").value = detail.suspensionReason || "";
   document.querySelector("#detailNotes").value = detail.notes || "";
   licenseDetailBadge.textContent = `${detail.licenseKey} · ${detail.source || "Online"}`;
@@ -458,6 +465,7 @@ async function saveLicenseDetail(event) {
 
   const payload = {
     customerName: document.querySelector("#detailCustomerName").value.trim(),
+    customerEmail: document.querySelector("#detailCustomerEmail").value.trim(),
     status: document.querySelector("#detailStatus").value,
     paymentStatus: document.querySelector("#detailPaymentStatus").value,
     maxTerminals: Number(document.querySelector("#detailMaxTerminals").value || 1),
@@ -482,6 +490,7 @@ async function createLicense(event) {
 
   const payload = {
     customerName: document.querySelector("#createCustomerName").value.trim(),
+    customerEmail: document.querySelector("#createCustomerEmail").value.trim(),
     trial: document.querySelector("#createTrial").checked,
     trialDays: Number(document.querySelector("#createTrialDays").value || 30),
     updatesDays: Number(document.querySelector("#createUpdatesDays").value || 30),
@@ -496,6 +505,11 @@ async function createLicense(event) {
 
   if (!payload.customerName) {
     setCreateLicenseStatus("Escribe el nombre del cliente.", true);
+    return;
+  }
+
+  if (!payload.customerEmail) {
+    setCreateLicenseStatus("Escribe el correo del cliente.", true);
     return;
   }
 
@@ -528,7 +542,7 @@ async function createLicense(event) {
   }
   resetCreateLicenseForm();
   setCreateLicensePanelVisible(true);
-  setCreateLicenseStatus(`Licencia creada: ${result.licenseKey}`);
+  setCreateLicenseStatus(`Licencia creada: ${result.licenseKey}${result.portalUrl ? ` | Portal: ${result.portalUrl}` : ""}`);
 }
 
 async function validateAdminKey() {

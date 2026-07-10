@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="tekal-license-api" content="https://licencias.tekalpos.com">
+    <title>TEKAL | Portal cliente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="portal-page">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="TEKAL inicio">
+        <img class="brand-logo" src="LOGO.png" alt="" width="40" height="40">
+        <span>TEKAL</span>
+      </a>
+
+      <nav class="nav" aria-label="Principal">
+        <a href="#resumen">Resumen</a>
+        <a href="#descargas">Descargas</a>
+        <a href="#licencia">Licencia</a>
+        <a href="#soporte">Soporte</a>
+      </nav>
+
+      <a class="header-cta" href="https://wa.me/524641163543?text=Hola,%20necesito%20soporte%20de%20TEKAL">
+        Pedir soporte
+      </a>
+    </header>
+
+    <main>
+      <section id="portalLoginGate" class="hero portal-login">
+        <div class="portal-login-card">
+          <p class="eyebrow">Portal cliente</p>
+          <h1>Accede a tu licencia, descargas y soporte</h1>
+          <p class="lead">Ingresa tu licencia y correo para abrir tu portal privado de TEKAL.</p>
+          <form id="portalLoginForm" class="portal-form">
+            <label>Licencia<input id="portalLicenseKey" type="text" placeholder="TEKAL-XXXX-XXXX-XXXX..." autocomplete="off"></label>
+            <label>Correo<input id="portalCustomerEmail" type="email" placeholder="correo@cliente.com" autocomplete="email"></label>
+            <button class="button primary" type="submit">Entrar al portal</button>
+          </form>
+          <p id="portalLoginStatus" class="portal-status" hidden></p>
+        </div>
+      </section>
+
+      <section id="portalShell" hidden>
+        <section id="resumen" class="hero support-hero portal-hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Portal Cliente TEKAL</p>
+            <h1 id="portalCustomerName">Cliente TEKAL</h1>
+            <p id="portalIntro" class="lead">Consulta aquí tu licencia, descargas oficiales y estado de actualizaciones.</p>
+            <div class="hero-actions">
+              <a id="portalDownloadButton" class="button primary" href="#">Descargar instalador</a>
+              <a id="portalAndroidButton" class="button secondary" href="#">Descargar APK Android</a>
+              <a id="portalSupportButton" class="button ghost" href="#">Contactar soporte</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div id="portalSummary" class="hero-metrics"></div>
+        </section>
+
+        <section id="descargas" class="section">
+          <div class="section-heading centered">
+            <p class="eyebrow">Descargas</p>
+            <h2>Recursos oficiales para tu instalación</h2>
+          </div>
+
+          <div class="download-grid">
+            <article class="support-card">
+              <p class="support-kicker">Windows</p>
+              <h3>Instalador oficial</h3>
+              <p id="portalReleaseText">Consulta la versión más reciente disponible para tu licencia.</p>
+              <a id="portalReleaseLink" class="button primary" href="#">Descargar instalador</a>
+            </article>
+
+            <article class="support-card">
+              <p class="support-kicker">Android</p>
+              <h3>Comandera móvil</h3>
+              <p>Descarga la APK oficial para tomar pedidos desde celular o tablet.</p>
+              <a id="portalAndroidLink" class="button secondary" href="#">Descargar APK</a>
+            </article>
+
+            <article class="support-card">
+              <p class="support-kicker">Soporte</p>
+              <h3>Ayuda rápida</h3>
+              <p id="portalSupportText">Si cambiaste de equipo, necesitas renovar o reinstalar, contáctanos desde tu canal oficial.</p>
+              <a id="portalWhatsAppLink" class="button ghost" href="#">Abrir WhatsApp</a>
+            </article>
+          </div>
+        </section>
+
+        <section id="licencia" class="section section-soft">
+          <div class="section-heading centered">
+            <p class="eyebrow">Licencia</p>
+            <h2>Información actual de tu licencia</h2>
+          </div>
+
+          <div class="route-grid" id="portalLicenseGrid"></div>
+        </section>
+
+        <section class="section">
+          <div class="dual-grid portal-grid">
+            <section class="panel-like">
+              <div class="section-heading">
+                <p class="eyebrow">Dispositivos</p>
+                <h2>Equipos registrados</h2>
+              </div>
+              <div id="portalDevices" class="portal-list"></div>
+            </section>
+
+            <section class="panel-like">
+              <div class="section-heading">
+                <p class="eyebrow">Historial</p>
+                <h2>Pagos y renovaciones</h2>
+              </div>
+              <div id="portalPayments" class="portal-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="soporte" class="contact">
+          <div class="contact-copy">
+            <p class="eyebrow">Soporte técnico</p>
+            <h2>Canales oficiales para activación, reinstalación y renovaciones</h2>
+            <p id="portalSupportMeta">Usa estos canales si necesitas mover tu licencia, renovar actualizaciones o validar tu instalación.</p>
+            <div class="contact-points">
+              <span id="portalSupportEmail">Correo</span>
+              <span id="portalSupportPhone">Teléfono</span>
+            </div>
+          </div>
+
+          <div class="contact-actions">
+            <a id="portalSupportWhatsAppCta" class="button primary large" href="#">Soporte por WhatsApp</a>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>&copy; <span id="year">2026</span> TEKAL. Todos los derechos reservados.</span>
+      <nav aria-label="Footer">
+        <a href="index.html">Inicio</a>
+        <a href="descargas.html">Descargas</a>
+        <a href="https://wa.me/524641163543?text=Hola,%20necesito%20soporte%20de%20TEKAL">WhatsApp</a>
+      </nav>
+    </footer>
+
+    <script src="portal.js"></script>
+  </body>
+</html>

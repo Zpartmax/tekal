@@ -147,6 +147,7 @@
 
             <form id="createLicenseForm" class="create-license-form">
               <label>Cliente<input id="createCustomerName" type="text" placeholder="Nombre del cliente" required></label>
+              <label>Correo<input id="createCustomerEmail" type="email" placeholder="correo@cliente.com" required></label>
               <label>License key opcional<input id="createLicenseKey" type="text" placeholder="Se genera automáticamente si lo dejas vacío"></label>
               <label>Días de updates<input id="createUpdatesDays" type="number" min="1" step="1" value="30" required></label>
               <label>Máx. terminales<input id="createMaxTerminals" type="number" min="1" step="1" value="1" required></label>
@@ -212,6 +213,7 @@
               <form id="licenseDetailForm" class="detail-form">
                 <input type="hidden" id="detailId">
                 <label>Cliente<input id="detailCustomerName" type="text"></label>
+                <label>Correo<input id="detailCustomerEmail" type="email"></label>
                 <label>Estado
                   <select id="detailStatus">
                     <option value="Active">Active</option>
@@ -230,6 +232,7 @@
                 <label>Max terminals<input id="detailMaxTerminals" type="number" min="1" step="1"></label>
                 <label>Expira<input id="detailExpiresAt" type="date"></label>
                 <label>Updates hasta<input id="detailUpdatesUntil" type="date"></label>
+                <label>Portal cliente<input id="detailPortalUrl" type="text" readonly></label>
                 <label>Motivo de suspension<textarea id="detailSuspensionReason" rows="2"></textarea></label>
                 <label>Notas<textarea id="detailNotes" rows="5"></textarea></label>
                 <div class="auth-actions">
