@@ -59,6 +59,7 @@ function escapeHtml(value) {
 }
 
 function setAuthenticated(isAuthenticated) {
+  document.body.classList.toggle("portal-auth-locked", !isAuthenticated);
   if (loginGate) loginGate.hidden = isAuthenticated;
   if (portalShell) portalShell.hidden = !isAuthenticated;
 }
@@ -128,8 +129,10 @@ function renderPortal(data) {
   updateUrlToken(data.portalToken);
   renderMatches([]);
 
+  const isTrial = String(data.status || "").toLowerCase() === "trial";
+
   document.querySelector("#portalCustomerName").textContent = data.customerName || "Cliente TEKAL";
-  document.querySelector("#portalIntro").textContent = `Licencia ${data.licenseKey} · estado ${data.status}. Los días restantes corresponden al periodo de actualizaciones.`;
+  document.querySelector("#portalIntro").textContent = `Licencia ${data.licenseKey} · estado ${data.status}. Los días restantes corresponden únicamente al periodo de actualizaciones.`;
 
   const latestRelease = data.latestRelease;
   const releaseLink = latestRelease?.downloadUrl ? `${apiBase}${latestRelease.downloadUrl}` : "#";
@@ -171,7 +174,7 @@ function renderPortal(data) {
     ["Correo", data.customerEmail || "Sin correo"],
     ["Estado", data.status],
     ["Fuente", data.source],
-    ["Fecha de compra", formatDate(data.createdAt)],
+    [isTrial ? "Inicio de prueba" : "Fecha de adquisición", formatDate(data.createdAt)],
     ["Vigencia de updates", formatDate(data.updatesUntil)]
   ];
 

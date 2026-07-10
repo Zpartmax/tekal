@@ -888,6 +888,15 @@ h3 {
   position: sticky;
 }
 
+.portal-auth-locked .site-header,
+.portal-auth-locked .footer {
+  display: none;
+}
+
+.portal-auth-locked main {
+  min-height: 100vh;
+}
+
 .portal-login {
   min-height: calc(100vh - 90px);
   display: grid;
