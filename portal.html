@@ -34,13 +34,13 @@
         <div class="portal-login-card">
           <p class="eyebrow">Portal cliente</p>
           <h1>Accede a tu licencia, descargas y soporte</h1>
-          <p class="lead">Ingresa tu licencia y correo para abrir tu portal privado de TEKAL.</p>
+          <p class="lead">Ingresa tu correo para abrir tu portal privado de TEKAL.</p>
           <form id="portalLoginForm" class="portal-form">
-            <label>Licencia<input id="portalLicenseKey" type="text" placeholder="TEKAL-XXXX-XXXX-XXXX..." autocomplete="off"></label>
             <label>Correo<input id="portalCustomerEmail" type="email" placeholder="correo@cliente.com" autocomplete="email"></label>
             <button class="button primary" type="submit">Entrar al portal</button>
           </form>
           <p id="portalLoginStatus" class="portal-status" hidden></p>
+          <div id="portalMatches" class="portal-list" hidden></div>
         </div>
       </section>
 
@@ -49,7 +49,7 @@
           <div class="hero-copy">
             <p class="eyebrow">Portal Cliente TEKAL</p>
             <h1 id="portalCustomerName">Cliente TEKAL</h1>
-            <p id="portalIntro" class="lead">Consulta aquí tu licencia, descargas oficiales y estado de actualizaciones.</p>
+            <p id="portalIntro" class="lead">Consulta aquí tu licencia, descargas oficiales y el estado de tus actualizaciones.</p>
             <div class="hero-actions">
               <a id="portalDownloadButton" class="button primary" href="#">Descargar instalador</a>
               <a id="portalAndroidButton" class="button secondary" href="#">Descargar APK Android</a>

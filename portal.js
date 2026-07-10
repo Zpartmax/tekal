@@ -5,6 +5,7 @@ const loginGate = document.querySelector("#portalLoginGate");
 const portalShell = document.querySelector("#portalShell");
 const loginForm = document.querySelector("#portalLoginForm");
 const loginStatus = document.querySelector("#portalLoginStatus");
+const portalMatches = document.querySelector("#portalMatches");
 
 const state = {
   token: new URLSearchParams(window.location.search).get("token") || ""
@@ -32,7 +33,13 @@ function formatDateTime(value) {
   if (!value) return "N/D";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "N/D";
-  return date.toLocaleString("es-MX", { year: "numeric", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+  return date.toLocaleString("es-MX", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 }
 
 function formatMoney(value, currency = "USD") {
@@ -73,9 +80,56 @@ async function apiFetch(path, options = {}) {
   return response.json();
 }
 
+function updateUrlToken(token) {
+  if (!token) return;
+  state.token = token;
+  const url = new URL(window.location.href);
+  url.searchParams.set("token", token);
+  window.history.replaceState({}, "", url);
+}
+
+function renderMatches(matches) {
+  if (!portalMatches) return;
+
+  if (!matches.length) {
+    portalMatches.hidden = true;
+    portalMatches.innerHTML = "";
+    return;
+  }
+
+  portalMatches.hidden = false;
+  portalMatches.innerHTML = matches.map(item => `
+    <article class="portal-list-item">
+      <strong>${escapeHtml(item.customerName || "Cliente TEKAL")}</strong>
+      <span>${escapeHtml(item.licenseKey)} · ${escapeHtml(item.status)}</span>
+      <div class="metric-meta">
+        Updates hasta ${formatDate(item.updatesUntil)} ·
+        ${item.daysToUpdatesExpire ?? "N/D"} días restantes de actualizaciones ·
+        Versión ${escapeHtml(item.lastVersion || "N/D")}
+      </div>
+      <div class="stack-actions">
+        <button class="button secondary" type="button" data-portal-token="${escapeHtml(item.portalToken)}">Abrir portal</button>
+      </div>
+    </article>
+  `).join("");
+
+  portalMatches.querySelectorAll("[data-portal-token]").forEach(button => {
+    button.addEventListener("click", async () => {
+      const token = button.getAttribute("data-portal-token");
+      if (!token) return;
+      setLoginStatus("Abriendo portal...");
+      await loadPortalByToken(token);
+      setLoginStatus("");
+    });
+  });
+}
+
 function renderPortal(data) {
+  updateUrlToken(data.portalToken);
+  renderMatches([]);
+
   document.querySelector("#portalCustomerName").textContent = data.customerName || "Cliente TEKAL";
-  document.querySelector("#portalIntro").textContent = `Licencia ${data.licenseKey} · estado ${data.status}.`;
+  document.querySelector("#portalIntro").textContent = `Licencia ${data.licenseKey} · estado ${data.status}. Los días restantes corresponden al periodo de actualizaciones.`;
 
   const latestRelease = data.latestRelease;
   const releaseLink = latestRelease?.downloadUrl ? `${apiBase}${latestRelease.downloadUrl}` : "#";
@@ -100,7 +154,7 @@ function renderPortal(data) {
     ["Correo", data.customerEmail || "Sin correo"],
     ["Licencia", data.licenseKey],
     ["Updates hasta", formatDate(data.updatesUntil)],
-    ["Días restantes", data.daysToUpdatesExpire ?? "N/D"],
+    ["Días restantes de updates", data.daysToUpdatesExpire ?? "N/D"],
     ["Equipos activos", `${data.deviceCount}/${data.maxTerminals}`],
     ["Última versión", data.lastVersion || "N/D"]
   ];
@@ -157,40 +211,45 @@ async function loadPortalByToken(token) {
 
 async function handleLogin(event) {
   event.preventDefault();
-  const licenseKey = document.querySelector("#portalLicenseKey").value.trim();
   const customerEmail = document.querySelector("#portalCustomerEmail").value.trim();
 
-  if (!licenseKey || !customerEmail) {
-    setLoginStatus("Ingresa tu licencia y tu correo.", true);
+  if (!customerEmail) {
+    setLoginStatus("Ingresa tu correo.", true);
     return;
   }
 
-  setLoginStatus("Validando acceso...");
+  setLoginStatus("Buscando portales...");
   const data = await apiFetch("/api/portal/login", {
     method: "POST",
-    body: JSON.stringify({ licenseKey, customerEmail })
+    body: JSON.stringify({ customerEmail })
   });
 
-  state.token = data.portalToken || state.token;
-  if (state.token) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("token", state.token);
-    window.history.replaceState({}, "", url);
+  const matches = data.matches || [];
+  if (!matches.length) {
+    throw new Error("No se encontraron portales con ese correo.");
   }
 
-  renderPortal(data);
-  setAuthenticated(true);
+  if (matches.length === 1 && matches[0]?.portalToken) {
+    await loadPortalByToken(matches[0].portalToken);
+    setLoginStatus("");
+    return;
+  }
+
+  renderMatches(matches);
+  setLoginStatus("Encontramos varias licencias con ese correo. Elige cuál quieres abrir.");
 }
 
 loginForm?.addEventListener("submit", async event => {
   try {
     await handleLogin(event);
   } catch (error) {
+    renderMatches([]);
     setLoginStatus(error.message || "No se pudo abrir el portal.", true);
   }
 });
 
 setAuthenticated(false);
+renderMatches([]);
 
 if (state.token) {
   setLoginStatus("Cargando portal...");
@@ -198,6 +257,7 @@ if (state.token) {
     .then(() => setLoginStatus(""))
     .catch(error => {
       setAuthenticated(false);
+      renderMatches([]);
       setLoginStatus(error.message || "No se pudo abrir el portal con ese enlace.", true);
     });
 }
