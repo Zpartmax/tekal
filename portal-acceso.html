@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="tekal-license-api" content="https://licencias.tekalpos.com">
+    <title>TEKAL | Acceso al portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="portal-page portal-access-page">
+    <main>
+      <section id="portalLoginGate" class="hero portal-login">
+        <div class="portal-login-card">
+          <p class="eyebrow">Portal cliente</p>
+          <h1>Accede a tu portal TEKAL</h1>
+          <p class="lead">Ingresa tu correo para localizar tus licencias y abrir tu portal privado.</p>
+          <form id="portalLoginForm" class="portal-form">
+            <label>Correo<input id="portalCustomerEmail" type="email" placeholder="correo@cliente.com" autocomplete="email"></label>
+            <button class="button primary" type="submit">Entrar al portal</button>
+          </form>
+          <p id="portalLoginStatus" class="portal-status" hidden></p>
+          <div id="portalMatches" class="portal-list" hidden></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="portal.js"></script>
+  </body>
+</html>

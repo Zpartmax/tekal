@@ -1,4 +1,3 @@
-const yearNode = document.querySelector("#year");
 const apiBaseMeta = document.querySelector('meta[name="tekal-license-api"]');
 const apiBase = (apiBaseMeta?.content || "https://licencias.tekalpos.com").replace(/\/+$/, "");
 const loginGate = document.querySelector("#portalLoginGate");
@@ -6,14 +5,11 @@ const portalShell = document.querySelector("#portalShell");
 const loginForm = document.querySelector("#portalLoginForm");
 const loginStatus = document.querySelector("#portalLoginStatus");
 const portalMatches = document.querySelector("#portalMatches");
-
+const standaloneState = document.querySelector("#portalStandaloneState");
+const standaloneMessage = document.querySelector("#portalStandaloneMessage");
 const state = {
   token: new URLSearchParams(window.location.search).get("token") || ""
 };
-
-if (yearNode) {
-  yearNode.textContent = String(new Date().getFullYear());
-}
 
 function setLoginStatus(message, isError = false) {
   if (!loginStatus) return;
@@ -58,10 +54,32 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
-function setAuthenticated(isAuthenticated) {
-  document.body.classList.toggle("portal-auth-locked", !isAuthenticated);
-  if (loginGate) loginGate.hidden = isAuthenticated;
-  if (portalShell) portalShell.hidden = !isAuthenticated;
+function isAccessPage() {
+  return Boolean(loginGate);
+}
+
+function isPortalPage() {
+  return Boolean(portalShell);
+}
+
+function getPortalUrl(token) {
+  return `portal.html?token=${encodeURIComponent(token)}`;
+}
+
+function updateUrlToken(token) {
+  if (!token) return;
+  state.token = token;
+  const url = new URL(window.location.href);
+  url.searchParams.set("token", token);
+  window.history.replaceState({}, "", url);
+}
+
+function showStandaloneState(message) {
+  if (portalShell) portalShell.hidden = true;
+  if (standaloneState) standaloneState.hidden = false;
+  if (standaloneMessage && message) {
+    standaloneMessage.textContent = message;
+  }
 }
 
 async function apiFetch(path, options = {}) {
@@ -74,19 +92,20 @@ async function apiFetch(path, options = {}) {
   });
 
   if (!response.ok) {
-    const text = await response.text();
-    throw new Error(text || `HTTP ${response.status}`);
+    let message = `HTTP ${response.status}`;
+
+    try {
+      const payload = await response.json();
+      message = payload?.message || message;
+    } catch {
+      const text = await response.text();
+      message = text || message;
+    }
+
+    throw new Error(message);
   }
 
   return response.json();
-}
-
-function updateUrlToken(token) {
-  if (!token) return;
-  state.token = token;
-  const url = new URL(window.location.href);
-  url.searchParams.set("token", token);
-  window.history.replaceState({}, "", url);
 }
 
 function renderMatches(matches) {
@@ -105,116 +124,140 @@ function renderMatches(matches) {
       <span>${escapeHtml(item.licenseKey)} · ${escapeHtml(item.status)}</span>
       <div class="metric-meta">
         Updates hasta ${formatDate(item.updatesUntil)} ·
-        ${item.daysToUpdatesExpire ?? "N/D"} días restantes de actualizaciones ·
-        Versión ${escapeHtml(item.lastVersion || "N/D")}
+        ${item.daysToUpdatesExpire ?? "N/D"} dias restantes de actualizaciones ·
+        Version ${escapeHtml(item.lastVersion || "N/D")}
       </div>
       <div class="stack-actions">
-        <button class="button secondary" type="button" data-portal-token="${escapeHtml(item.portalToken)}">Abrir portal</button>
+        <a class="button secondary" href="${getPortalUrl(item.portalToken)}">Abrir portal</a>
       </div>
     </article>
   `).join("");
+}
 
-  portalMatches.querySelectorAll("[data-portal-token]").forEach(button => {
-    button.addEventListener("click", async () => {
-      const token = button.getAttribute("data-portal-token");
-      if (!token) return;
-      setLoginStatus("Abriendo portal...");
-      await loadPortalByToken(token);
-      setLoginStatus("");
-    });
-  });
+function setLink(selector, href) {
+  const node = document.querySelector(selector);
+  if (!node) return;
+  node.href = href || "#";
+}
+
+function setText(selector, value) {
+  const node = document.querySelector(selector);
+  if (!node) return;
+  node.textContent = value;
 }
 
 function renderPortal(data) {
   updateUrlToken(data.portalToken);
-  renderMatches([]);
 
   const isTrial = String(data.status || "").toLowerCase() === "trial";
-
-  document.querySelector("#portalCustomerName").textContent = data.customerName || "Cliente TEKAL";
-  document.querySelector("#portalIntro").textContent = `Licencia ${data.licenseKey} · estado ${data.status}. Los días restantes corresponden únicamente al periodo de actualizaciones.`;
-
-  const latestRelease = data.latestRelease;
-  const releaseLink = latestRelease?.downloadUrl ? `${apiBase}${latestRelease.downloadUrl}` : "#";
+  const releaseLink = data.latestRelease?.downloadUrl ? `${apiBase}${data.latestRelease.downloadUrl}` : "#";
   const androidLink = data.androidDownloadUrl ? `${apiBase}${data.androidDownloadUrl}` : "#";
 
-  document.querySelector("#portalDownloadButton").href = releaseLink;
-  document.querySelector("#portalAndroidButton").href = androidLink;
-  document.querySelector("#portalSupportButton").href = data.supportWhatsAppUrl || "#";
-  document.querySelector("#portalReleaseLink").href = releaseLink;
-  document.querySelector("#portalAndroidLink").href = androidLink;
-  document.querySelector("#portalWhatsAppLink").href = data.supportWhatsAppUrl || "#";
-  document.querySelector("#portalSupportWhatsAppCta").href = data.supportWhatsAppUrl || "#";
-  document.querySelector("#portalSupportEmail").textContent = data.supportEmail || "N/D";
-  document.querySelector("#portalSupportPhone").textContent = data.supportPhone || "N/D";
-  document.querySelector("#portalSupportMeta").textContent = `Correo: ${data.supportEmail || "N/D"} · Teléfono/WhatsApp: ${data.supportPhone || "N/D"}`;
+  setText("#portalCustomerName", data.customerName || "Cliente TEKAL");
+  setText(
+    "#portalIntro",
+    `Licencia ${data.licenseKey} · estado ${data.status}. Los dias restantes corresponden unicamente al periodo de actualizaciones.`
+  );
 
-  document.querySelector("#portalReleaseText").textContent = latestRelease
-    ? `Versión ${latestRelease.version} publicada el ${formatDate(latestRelease.publishedAt)}.`
-    : "No hay una release publicada en este momento.";
+  setLink("#portalDownloadButton", releaseLink);
+  setLink("#portalAndroidButton", androidLink);
+  setLink("#portalSupportButton", data.supportWhatsAppUrl || "#");
+  setLink("#portalReleaseLink", releaseLink);
+  setLink("#portalAndroidLink", androidLink);
+  setLink("#portalWhatsAppLink", data.supportWhatsAppUrl || "#");
+  setLink("#portalSupportWhatsAppCta", data.supportWhatsAppUrl || "#");
+
+  setText("#portalSupportEmail", data.supportEmail || "N/D");
+  setText("#portalSupportPhone", data.supportPhone || "N/D");
+  setText(
+    "#portalSupportMeta",
+    `Correo: ${data.supportEmail || "N/D"} · Telefono/WhatsApp: ${data.supportPhone || "N/D"}`
+  );
+
+  setText(
+    "#portalReleaseText",
+    data.latestRelease
+      ? `Version ${data.latestRelease.version} publicada el ${formatDate(data.latestRelease.publishedAt)}.`
+      : "No hay una release publicada en este momento."
+  );
 
   const summary = [
     ["Correo", data.customerEmail || "Sin correo"],
     ["Licencia", data.licenseKey],
     ["Updates hasta", formatDate(data.updatesUntil)],
-    ["Días restantes de updates", data.daysToUpdatesExpire ?? "N/D"],
+    ["Dias restantes de updates", data.daysToUpdatesExpire ?? "N/D"],
     ["Equipos activos", `${data.deviceCount}/${data.maxTerminals}`],
-    ["Última versión", data.lastVersion || "N/D"]
+    ["Ultima version", data.lastVersion || "N/D"]
   ];
 
-  document.querySelector("#portalSummary").innerHTML = summary.map(([label, value]) => `
-    <article>
-      <strong>${escapeHtml(value)}</strong>
-      <span>${escapeHtml(label)}</span>
-    </article>
-  `).join("");
+  const summaryNode = document.querySelector("#portalSummary");
+  if (summaryNode) {
+    summaryNode.innerHTML = summary.map(([label, value]) => `
+      <article>
+        <strong>${escapeHtml(value)}</strong>
+        <span>${escapeHtml(label)}</span>
+      </article>
+    `).join("");
+  }
 
   const licenseGrid = [
     ["Cliente", data.customerName],
     ["Correo", data.customerEmail || "Sin correo"],
     ["Estado", data.status],
     ["Fuente", data.source],
-    [isTrial ? "Inicio de prueba" : "Fecha de adquisición", formatDate(data.createdAt)],
+    [isTrial ? "Inicio de prueba" : "Fecha de adquisicion", formatDate(data.createdAt)],
     ["Vigencia de updates", formatDate(data.updatesUntil)]
   ];
 
-  document.querySelector("#portalLicenseGrid").innerHTML = licenseGrid.map(([label, value]) => `
-    <article class="route-card">
-      <strong>${escapeHtml(label)}</strong>
-      <p>${escapeHtml(value)}</p>
-    </article>
-  `).join("");
-
-  document.querySelector("#portalDevices").innerHTML = (data.devices || []).length
-    ? data.devices.map(device => `
-      <article class="portal-list-item">
-        <strong>${escapeHtml(device.deviceName || "Equipo")}</strong>
-        <span>${escapeHtml(device.machineId)}</span>
-        <div class="metric-meta">Versión ${escapeHtml(device.lastVersion || "N/D")} · IP ${escapeHtml(device.lastIp || "N/D")} · ${formatDateTime(device.lastSeenAt)}</div>
+  const licenseGridNode = document.querySelector("#portalLicenseGrid");
+  if (licenseGridNode) {
+    licenseGridNode.innerHTML = licenseGrid.map(([label, value]) => `
+      <article class="route-card">
+        <strong>${escapeHtml(label)}</strong>
+        <p>${escapeHtml(value)}</p>
       </article>
-    `).join("")
-    : `<div class="empty-state">Sin dispositivos registrados.</div>`;
+    `).join("");
+  }
 
-  document.querySelector("#portalPayments").innerHTML = (data.payments || []).length
-    ? data.payments.map(payment => `
-      <article class="portal-list-item">
-        <strong>${formatMoney(payment.amount, payment.currency)}</strong>
-        <span>${escapeHtml(payment.provider)} · ${escapeHtml(payment.status)}</span>
-        <div class="metric-meta">${formatDateTime(payment.paidAt || payment.createdAt)} · ${payment.updateDaysGranted} días de updates</div>
-      </article>
-    `).join("")
-    : `<div class="empty-state">Sin pagos registrados.</div>`;
+  const devicesNode = document.querySelector("#portalDevices");
+  if (devicesNode) {
+    devicesNode.innerHTML = (data.devices || []).length
+      ? data.devices.map(device => `
+        <article class="portal-list-item">
+          <strong>${escapeHtml(device.deviceName || "Equipo")}</strong>
+          <span>${escapeHtml(device.machineId)}</span>
+          <div class="metric-meta">Version ${escapeHtml(device.lastVersion || "N/D")} · IP ${escapeHtml(device.lastIp || "N/D")} · ${formatDateTime(device.lastSeenAt)}</div>
+        </article>
+      `).join("")
+      : `<div class="empty-state">Sin dispositivos registrados.</div>`;
+  }
+
+  const paymentsNode = document.querySelector("#portalPayments");
+  if (paymentsNode) {
+    paymentsNode.innerHTML = (data.payments || []).length
+      ? data.payments.map(payment => `
+        <article class="portal-list-item">
+          <strong>${formatMoney(payment.amount, payment.currency)}</strong>
+          <span>${escapeHtml(payment.provider)} · ${escapeHtml(payment.status)}</span>
+          <div class="metric-meta">${formatDateTime(payment.paidAt || payment.createdAt)} · ${payment.updateDaysGranted} dias de updates</div>
+        </article>
+      `).join("")
+      : `<div class="empty-state">Sin pagos registrados.</div>`;
+  }
 }
 
 async function loadPortalByToken(token) {
   const data = await apiFetch(`/api/portal/session/${encodeURIComponent(token)}`);
   renderPortal(data);
-  setAuthenticated(true);
+  if (portalShell) portalShell.hidden = false;
+  if (standaloneState) standaloneState.hidden = true;
 }
 
 async function handleLogin(event) {
   event.preventDefault();
-  const customerEmail = document.querySelector("#portalCustomerEmail").value.trim();
+
+  const emailNode = document.querySelector("#portalCustomerEmail");
+  const customerEmail = emailNode?.value.trim() || "";
 
   if (!customerEmail) {
     setLoginStatus("Ingresa tu correo.", true);
@@ -222,6 +265,8 @@ async function handleLogin(event) {
   }
 
   setLoginStatus("Buscando portales...");
+  renderMatches([]);
+
   const data = await apiFetch("/api/portal/login", {
     method: "POST",
     body: JSON.stringify({ customerEmail })
@@ -233,13 +278,12 @@ async function handleLogin(event) {
   }
 
   if (matches.length === 1 && matches[0]?.portalToken) {
-    await loadPortalByToken(matches[0].portalToken);
-    setLoginStatus("");
+    window.location.href = getPortalUrl(matches[0].portalToken);
     return;
   }
 
   renderMatches(matches);
-  setLoginStatus("Encontramos varias licencias con ese correo. Elige cuál quieres abrir.");
+  setLoginStatus("Encontramos varias licencias con ese correo. Elige cual quieres abrir.");
 }
 
 loginForm?.addEventListener("submit", async event => {
@@ -251,16 +295,16 @@ loginForm?.addEventListener("submit", async event => {
   }
 });
 
-setAuthenticated(false);
-renderMatches([]);
-
-if (state.token) {
-  setLoginStatus("Cargando portal...");
-  loadPortalByToken(state.token)
-    .then(() => setLoginStatus(""))
-    .catch(error => {
-      setAuthenticated(false);
-      renderMatches([]);
-      setLoginStatus(error.message || "No se pudo abrir el portal con ese enlace.", true);
+if (isPortalPage()) {
+  if (!state.token) {
+    window.location.replace("portal-acceso.html");
+  } else {
+    loadPortalByToken(state.token).catch(error => {
+      showStandaloneState(error.message || "No se pudo abrir el portal con ese enlace.");
     });
+  }
+}
+
+if (isAccessPage()) {
+  renderMatches([]);
 }
