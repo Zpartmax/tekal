@@ -156,7 +156,7 @@ function renderPortal(data) {
   setText("#portalCustomerName", data.customerName || "Cliente TEKAL");
   setText(
     "#portalIntro",
-    `Licencia ${data.licenseKey} · estado ${data.status}. Los dias restantes corresponden unicamente al periodo de actualizaciones.`
+    `Licencia permanente ${data.licenseKey}. Los dias restantes corresponden unicamente al periodo de actualizaciones.`
   );
 
   setLink("#portalDownloadButton", releaseLink);
@@ -203,7 +203,7 @@ function renderPortal(data) {
   const licenseGrid = [
     ["Cliente", data.customerName],
     ["Correo", data.customerEmail || "Sin correo"],
-    ["Estado", data.status],
+    ["Licencia", isTrial ? "Prueba" : "Permanente"],
     ["Fuente", data.source],
     [isTrial ? "Inicio de prueba" : "Fecha de adquisicion", formatDate(data.createdAt)],
     ["Vigencia de updates", formatDate(data.updatesUntil)]
