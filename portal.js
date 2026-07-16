@@ -163,7 +163,9 @@ function renderPortal(data) {
   setLink("#portalAndroidButton", androidLink);
   setLink("#portalSupportButton", data.supportWhatsAppUrl || "#");
   setLink("#portalReleaseLink", releaseLink);
+  setLink("#portalInstallStepsDownload", releaseLink);
   setLink("#portalAndroidLink", androidLink);
+  setLink("#portalInstallStepsAndroid", androidLink);
   setLink("#portalWhatsAppLink", data.supportWhatsAppUrl || "#");
   setLink("#portalSupportWhatsAppCta", data.supportWhatsAppUrl || "#");
 

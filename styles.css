@@ -948,6 +948,51 @@ h3 {
   padding-bottom: 32px;
 }
 
+.portal-steps-card {
+  margin-bottom: 18px;
+}
+
+.portal-steps {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.portal-step {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.portal-step-number {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--accent), #ff9f5a);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  box-shadow: 0 14px 32px rgba(255, 127, 17, 0.22);
+}
+
+.portal-step strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.02rem;
+}
+
+.portal-step p {
+  margin-bottom: 14px;
+  color: var(--muted);
+}
+
 .portal-grid {
   align-items: start;
 }
@@ -1001,6 +1046,12 @@ h3 {
 
 @media (max-width: 1120px) {
   .dual-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .portal-step {
     grid-template-columns: 1fr;
   }
 }
