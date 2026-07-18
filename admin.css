@@ -499,6 +499,23 @@ textarea {
   transform: translateY(-1px);
 }
 
+.button.compact {
+  min-height: 34px;
+  padding: 7px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.button.danger {
+  border-color: rgba(180, 35, 24, 0.16);
+  color: var(--danger);
+}
+
+.button.danger:hover {
+  border-color: rgba(180, 35, 24, 0.28);
+  background: #fff5f4;
+}
+
 .table-wrap {
   overflow: auto;
   border: 1px solid rgba(92, 45, 145, 0.06);
@@ -611,6 +628,13 @@ tbody tr.selected {
   margin-top: 18px;
   padding-top: 16px;
   border-top: 1px solid rgba(92, 45, 145, 0.08);
+}
+
+.inline-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .metric-meta,

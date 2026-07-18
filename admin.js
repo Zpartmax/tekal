@@ -52,16 +52,11 @@ function setAuthenticated(isAuthenticated) {
   document.body.classList.toggle("auth-locked", !isAuthenticated);
   adminShell?.setAttribute("aria-hidden", String(!isAuthenticated));
   loginGate?.setAttribute("aria-hidden", String(isAuthenticated));
-  if (adminShell) {
-    adminShell.hidden = !isAuthenticated;
-  }
-  if (loginGate) {
-    loginGate.hidden = isAuthenticated;
-  }
+  if (adminShell) adminShell.hidden = !isAuthenticated;
+  if (loginGate) loginGate.hidden = isAuthenticated;
 }
 
 function syncActiveNav() {
-  if (!navLinks.length) return;
   const hash = window.location.hash || "#dashboard";
   navLinks.forEach(link => {
     link.classList.toggle("active", link.getAttribute("href") === hash);
@@ -117,12 +112,11 @@ function formatDateTime(value) {
 }
 
 function formatMoney(value, currency = "USD") {
-  const amount = Number(value || 0);
   return new Intl.NumberFormat("es-MX", {
     style: "currency",
     currency: currency || "USD",
     maximumFractionDigits: 2
-  }).format(amount);
+  }).format(Number(value || 0));
 }
 
 function escapeHtml(value) {
@@ -143,6 +137,10 @@ function statusClass(value) {
   if (normalized.includes("pending")) return "pending";
   if (normalized.includes("failed")) return "failed";
   return "pending";
+}
+
+function sourceClass(source) {
+  return String(source || "online").toLowerCase() === "legacy" ? "legacy" : "online";
 }
 
 async function apiFetch(path, options = {}) {
@@ -173,6 +171,7 @@ async function apiFetch(path, options = {}) {
 
 function renderSummary(summary) {
   if (!summaryCards) return;
+
   const cards = [
     ["Licencias totales", summary.totalLicenses, `${summary.activeLicenses} activas`],
     ["Instalaciones totales", summary.totalInstallations, `${summary.newInstallations7d} nuevas en 7 dias`],
@@ -205,9 +204,12 @@ function renderAlerts(alerts) {
 
   alertsList.innerHTML = alerts.map(item => `
     <article class="alert-item ${escapeHtml(item.priority)}">
-      <strong>${escapeHtml(item.title)}</strong>
-      <span>${escapeHtml(item.customerName)} · ${escapeHtml(item.licenseKey)}</span>
-      <div class="metric-meta">${escapeHtml(item.description)}${item.daysRemaining !== null && item.daysRemaining !== undefined ? ` · ${item.daysRemaining} dias` : ""}</div>
+      <div class="inline-actions">
+        <strong>${escapeHtml(item.title)}</strong>
+        <button class="button ghost compact" type="button" data-action="dismiss-alert" data-alert-key="${escapeHtml(item.alertKey)}">Borrar alerta</button>
+      </div>
+      <span>${escapeHtml(item.customerName)} | ${escapeHtml(item.licenseKey)}</span>
+      <div class="metric-meta">${escapeHtml(item.description)}${item.daysRemaining !== null && item.daysRemaining !== undefined ? ` | ${item.daysRemaining} dias` : ""}</div>
     </article>
   `).join("");
 }
@@ -278,7 +280,7 @@ function renderLicenses(rows) {
 function renderDevices(rows) {
   state.devices = rows;
   if (!rows.length) {
-    devicesTable.innerHTML = `<tr><td colspan="6" class="empty-cell">Sin datos.</td></tr>`;
+    devicesTable.innerHTML = `<tr><td colspan="7" class="empty-cell">Sin datos.</td></tr>`;
     return;
   }
 
@@ -293,6 +295,18 @@ function renderDevices(rows) {
       <td>${escapeHtml(row.lastIp || "N/D")}</td>
       <td>${formatDateTime(row.lastSeenAt)}</td>
       <td>${row.daysSinceLastSeen}</td>
+      <td>
+        <button
+          class="button ghost compact danger"
+          type="button"
+          data-action="remove-device"
+          data-license-id="${row.licenseId}"
+          data-device-id="${row.id}"
+          data-machine-id="${escapeHtml(row.machineId)}"
+        >
+          Liberar equipo
+        </button>
+      </td>
     </tr>
   `).join("");
 }
@@ -340,10 +354,7 @@ function resetLicenseDetail() {
   licenseDetailBadge.className = "pill neutral";
   licenseDetailForm.reset();
   document.querySelector("#detailId").value = "";
-  const detailPortalUrl = document.querySelector("#detailPortalUrl");
-  if (detailPortalUrl) {
-    detailPortalUrl.value = "";
-  }
+  document.querySelector("#detailPortalUrl").value = "";
   detailDevices.innerHTML = `<div class="empty-state">Sin datos.</div>`;
   detailPayments.innerHTML = `<div class="empty-state">Sin datos.</div>`;
 }
@@ -378,6 +389,42 @@ function resetCreateLicenseForm() {
   setCreateLicenseStatus("");
 }
 
+function renderDetailDevices(detail) {
+  detailDevices.innerHTML = detail.devices?.length
+    ? detail.devices.map(device => `
+      <article class="mini-item">
+        <div class="inline-actions">
+          <strong>${escapeHtml(device.machineId)}</strong>
+          <button
+            class="button ghost compact danger"
+            type="button"
+            data-action="remove-device"
+            data-license-id="${detail.id}"
+            data-device-id="${device.id}"
+            data-machine-id="${escapeHtml(device.machineId)}"
+          >
+            Liberar equipo
+          </button>
+        </div>
+        <span>${escapeHtml(device.lastVersion || "Sin version")} | ${escapeHtml(device.lastIp || "Sin IP")}</span>
+        <div class="meta-line">Ultima conexion: ${formatDateTime(device.lastSeenAt)}</div>
+      </article>
+    `).join("")
+    : `<div class="empty-state">Sin dispositivos registrados.</div>`;
+}
+
+function renderDetailPayments(detail) {
+  detailPayments.innerHTML = detail.payments?.length
+    ? detail.payments.map(payment => `
+      <article class="mini-item">
+        <strong>${formatMoney(payment.amount, payment.currency)}</strong>
+        <span>${escapeHtml(payment.provider)} | ${escapeHtml(payment.status)}</span>
+        <div class="meta-line">${formatDateTime(payment.paidAt || payment.createdAt)} | ${payment.updateDaysGranted} dias</div>
+      </article>
+    `).join("")
+    : `<div class="empty-state">Sin pagos registrados.</div>`;
+}
+
 function fillLicenseDetail(detail) {
   document.querySelector("#detailId").value = detail.id;
   document.querySelector("#detailCustomerName").value = detail.customerName || "";
@@ -390,32 +437,11 @@ function fillLicenseDetail(detail) {
   document.querySelector("#detailPortalUrl").value = detail.portalUrl || "";
   document.querySelector("#detailSuspensionReason").value = detail.suspensionReason || "";
   document.querySelector("#detailNotes").value = detail.notes || "";
-  licenseDetailBadge.textContent = `${detail.licenseKey} · ${detail.source || "Online"}`;
+  licenseDetailBadge.textContent = `${detail.licenseKey} | ${detail.source || "Online"}`;
   licenseDetailBadge.className = `pill ${statusClass(detail.status)}`;
 
-  detailDevices.innerHTML = detail.devices?.length
-    ? detail.devices.map(device => `
-      <article class="mini-item">
-        <strong>${escapeHtml(device.machineId)}</strong>
-        <span>${escapeHtml(device.lastVersion || "Sin version")} · ${escapeHtml(device.lastIp || "Sin IP")}</span>
-        <div class="meta-line">Ultima conexion: ${formatDateTime(device.lastSeenAt)}</div>
-      </article>
-    `).join("")
-    : `<div class="empty-state">Sin dispositivos registrados.</div>`;
-
-  detailPayments.innerHTML = detail.payments?.length
-    ? detail.payments.map(payment => `
-      <article class="mini-item">
-        <strong>${formatMoney(payment.amount, payment.currency)}</strong>
-        <span>${escapeHtml(payment.provider)} · ${escapeHtml(payment.status)}</span>
-        <div class="meta-line">${formatDateTime(payment.paidAt || payment.createdAt)} · ${payment.updateDaysGranted} dias</div>
-      </article>
-    `).join("")
-    : `<div class="empty-state">Sin pagos registrados.</div>`;
-}
-
-function sourceClass(source) {
-  return String(source || "online").toLowerCase() === "legacy" ? "legacy" : "online";
+  renderDetailDevices(detail);
+  renderDetailPayments(detail);
 }
 
 async function loadDashboard() {
@@ -449,6 +475,32 @@ async function loadPayments() {
   renderPayments(rows || []);
 }
 
+async function dismissAlert(alertKey) {
+  if (!window.confirm("Esta alerta se ocultara del panel admin. Deseas borrarla?")) {
+    return;
+  }
+
+  updateAuthStatus("Borrando alerta...");
+  await apiFetch(`/api/admin/alerts/${encodeURIComponent(alertKey)}`, { method: "DELETE" });
+  await loadDashboard();
+  updateAuthStatus("Alerta borrada.");
+}
+
+async function removeDeviceFromLicense(licenseId, deviceId, machineId) {
+  const label = machineId || "este equipo";
+  if (!window.confirm(`Se liberara ${label} de la licencia para permitir el cambio de computadora. Deseas continuar?`)) {
+    return;
+  }
+
+  updateAuthStatus("Liberando equipo...");
+  await apiFetch(`/api/admin/licenses/${licenseId}/devices/${deviceId}`, { method: "DELETE" });
+  await Promise.all([loadDashboard(), loadLicenses(), loadDevices()]);
+  if (state.selectedLicenseId === licenseId) {
+    await selectLicense(licenseId);
+  }
+  updateAuthStatus(`Equipo liberado: ${label}.`);
+}
+
 async function selectLicense(id) {
   state.selectedLicenseId = id;
   renderLicenses(state.licenses);
@@ -459,9 +511,7 @@ async function selectLicense(id) {
 async function saveLicenseDetail(event) {
   event.preventDefault();
   const id = Number(document.querySelector("#detailId").value);
-  if (!Number.isFinite(id) || id <= 0) {
-    return;
-  }
+  if (!Number.isFinite(id) || id <= 0) return;
 
   const payload = {
     customerName: document.querySelector("#detailCustomerName").value.trim(),
@@ -595,6 +645,31 @@ function handleLogout() {
   setAuthenticated(false);
 }
 
+document.addEventListener("click", async event => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const action = button.dataset.action;
+
+  try {
+    if (action === "dismiss-alert") {
+      const alertKey = button.dataset.alertKey || "";
+      if (!alertKey) return;
+      await dismissAlert(alertKey);
+    }
+
+    if (action === "remove-device") {
+      const licenseId = Number(button.dataset.licenseId);
+      const deviceId = Number(button.dataset.deviceId);
+      const machineId = button.dataset.machineId || "";
+      if (!Number.isFinite(licenseId) || !Number.isFinite(deviceId)) return;
+      await removeDeviceFromLicense(licenseId, deviceId, machineId);
+    }
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo ejecutar la accion.");
+  }
+});
+
 loginForm?.addEventListener("submit", handleLogin);
 navLinks.forEach(link => {
   link.addEventListener("click", () => {
@@ -611,9 +686,7 @@ refreshAllButton?.addEventListener("click", async () => {
 logoutButton?.addEventListener("click", handleLogout);
 toggleCreateLicenseButton?.addEventListener("click", () => {
   const willShow = createLicensePanel?.hidden ?? true;
-  if (willShow) {
-    resetCreateLicenseForm();
-  }
+  if (willShow) resetCreateLicenseForm();
   setCreateLicensePanelVisible(willShow);
 });
 cancelCreateLicenseButton?.addEventListener("click", () => {
