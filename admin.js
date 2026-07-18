@@ -501,6 +501,48 @@ async function removeDeviceFromLicense(licenseId, deviceId, machineId) {
   updateAuthStatus(`Equipo liberado: ${label}.`);
 }
 
+async function setLicenseAsTrial(licenseId) {
+  if (!window.confirm("La licencia seleccionada cambiara a estado Trial. Deseas continuar?")) {
+    return;
+  }
+
+  const payload = {
+    customerName: document.querySelector("#detailCustomerName").value.trim(),
+    customerEmail: document.querySelector("#detailCustomerEmail").value.trim(),
+    status: "Trial",
+    paymentStatus: document.querySelector("#detailPaymentStatus").value,
+    maxTerminals: Number(document.querySelector("#detailMaxTerminals").value || 1),
+    expiresAt: document.querySelector("#detailExpiresAt").value || null,
+    updatesUntil: document.querySelector("#detailUpdatesUntil").value || null,
+    suspensionReason: document.querySelector("#detailSuspensionReason").value.trim(),
+    notes: document.querySelector("#detailNotes").value.trim()
+  };
+
+  updateAuthStatus("Marcando licencia como Trial...");
+  await apiFetch(`/api/admin/licenses/${licenseId}`, {
+    method: "PUT",
+    body: JSON.stringify(payload)
+  });
+  await Promise.all([loadDashboard(), loadLicenses()]);
+  await selectLicense(licenseId);
+  updateAuthStatus("Licencia marcada como Trial.");
+}
+
+async function deleteLicense(licenseId) {
+  const licenseKey = licenseDetailBadge?.textContent || "la licencia seleccionada";
+  if (!window.confirm(`Se eliminara ${licenseKey} y sus dispositivos asociados. Deseas continuar?`)) {
+    return;
+  }
+
+  updateAuthStatus("Eliminando licencia...");
+  await apiFetch(`/api/admin/licenses/${licenseId}`, {
+    method: "DELETE"
+  });
+  await Promise.all([loadDashboard(), loadLicenses(), loadDevices(), loadPayments()]);
+  resetLicenseDetail();
+  updateAuthStatus("Licencia eliminada.");
+}
+
 async function selectLicense(id) {
   state.selectedLicenseId = id;
   renderLicenses(state.licenses);
@@ -664,6 +706,18 @@ document.addEventListener("click", async event => {
       const machineId = button.dataset.machineId || "";
       if (!Number.isFinite(licenseId) || !Number.isFinite(deviceId)) return;
       await removeDeviceFromLicense(licenseId, deviceId, machineId);
+    }
+
+    if (action === "set-license-trial") {
+      const licenseId = Number(document.querySelector("#detailId").value);
+      if (!Number.isFinite(licenseId) || licenseId <= 0) return;
+      await setLicenseAsTrial(licenseId);
+    }
+
+    if (action === "delete-license") {
+      const licenseId = Number(document.querySelector("#detailId").value);
+      if (!Number.isFinite(licenseId) || licenseId <= 0) return;
+      await deleteLicense(licenseId);
     }
   } catch (error) {
     updateAuthStatus(error.message || "No se pudo ejecutar la accion.");
