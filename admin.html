@@ -81,7 +81,10 @@
             <section class="panel">
               <div class="panel-title-row">
                 <h3>Alertas</h3>
-                <span id="alertsCount" class="pill">0</span>
+                <div class="inline-actions">
+                  <span id="alertsCount" class="pill">0</span>
+                  <button id="dismissAllAlertsButton" class="button ghost compact" type="button">Borrar todas</button>
+                </div>
               </div>
               <div id="alertsList" class="list-stack empty-state">Sin datos.</div>
             </section>
@@ -131,6 +134,12 @@
                 <option value="Trial">Trial</option>
                 <option value="Blocked">Blocked</option>
                 <option value="Expired">Expired</option>
+              </select>
+              <select id="licenseSort" aria-label="Ordenar licencias">
+                <option value="last-seen-desc">Uso más reciente</option>
+                <option value="last-seen-asc">Uso más antiguo</option>
+                <option value="license-type-trial">Tipo: Trial primero</option>
+                <option value="license-type-permanent">Tipo: Permanente primero</option>
               </select>
               <button id="reloadLicensesButton" class="button ghost" type="button">Recargar</button>
             </div>

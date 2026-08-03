@@ -11,6 +11,7 @@ const logoutButton = document.querySelector("#logoutButton");
 const summaryCards = document.querySelector("#summaryCards");
 const alertsList = document.querySelector("#alertsList");
 const alertsCount = document.querySelector("#alertsCount");
+const dismissAllAlertsButton = document.querySelector("#dismissAllAlertsButton");
 const versionsList = document.querySelector("#versionsList");
 const renewalsTable = document.querySelector("#renewalsTable");
 const licensesTable = document.querySelector("#licensesTable");
@@ -19,6 +20,7 @@ const releasesTable = document.querySelector("#releasesTable");
 const paymentsTable = document.querySelector("#paymentsTable");
 const licenseSearch = document.querySelector("#licenseSearch");
 const licenseStatusFilter = document.querySelector("#licenseStatusFilter");
+const licenseSort = document.querySelector("#licenseSort");
 const reloadLicensesButton = document.querySelector("#reloadLicensesButton");
 const toggleCreateLicenseButton = document.querySelector("#toggleCreateLicenseButton");
 const cancelCreateLicenseButton = document.querySelector("#cancelCreateLicenseButton");
@@ -455,7 +457,8 @@ async function loadDashboard() {
 async function loadLicenses() {
   const q = encodeURIComponent(licenseSearch.value.trim());
   const status = encodeURIComponent(licenseStatusFilter.value);
-  const rows = await apiFetch(`/api/admin/licenses?q=${q}&status=${status}`);
+  const sort = encodeURIComponent(licenseSort.value);
+  const rows = await apiFetch(`/api/admin/licenses?q=${q}&status=${status}&sort=${sort}`);
   renderLicenses(rows || []);
 }
 
@@ -484,6 +487,17 @@ async function dismissAlert(alertKey) {
   await apiFetch(`/api/admin/alerts/${encodeURIComponent(alertKey)}`, { method: "DELETE" });
   await loadDashboard();
   updateAuthStatus("Alerta borrada.");
+}
+
+async function dismissAllAlerts() {
+  if (!window.confirm("Se ocultaran todas las alertas actuales del panel. Deseas continuar?")) {
+    return;
+  }
+
+  updateAuthStatus("Borrando todas las alertas...");
+  await apiFetch("/api/admin/alerts", { method: "DELETE" });
+  await loadDashboard();
+  updateAuthStatus("Todas las alertas fueron borradas.");
 }
 
 async function removeDeviceFromLicense(licenseId, deviceId, machineId) {
@@ -737,6 +751,13 @@ refreshAllButton?.addEventListener("click", async () => {
     updateAuthStatus(error.message || "No se pudo actualizar el panel.");
   }
 });
+dismissAllAlertsButton?.addEventListener("click", async () => {
+  try {
+    await dismissAllAlerts();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudieron borrar las alertas.");
+  }
+});
 logoutButton?.addEventListener("click", handleLogout);
 toggleCreateLicenseButton?.addEventListener("click", () => {
   const willShow = createLicensePanel?.hidden ?? true;
@@ -798,6 +819,14 @@ licenseStatusFilter?.addEventListener("change", async () => {
     await loadLicenses();
   } catch (error) {
     updateAuthStatus(error.message || "No se pudo cargar licencias.");
+  }
+});
+licenseSort?.addEventListener("change", async () => {
+  if (!state.adminKey) return;
+  try {
+    await loadLicenses();
+  } catch (error) {
+    updateAuthStatus(error.message || "No se pudo ordenar las licencias.");
   }
 });
 deviceSearch?.addEventListener("input", async () => {
