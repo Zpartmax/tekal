@@ -3,374 +3,197 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta
-      name="description"
-      content="TEKAL es un ecosistema integral para restaurantes con POS, comandera movil, cocina, inventario y licencia permanente sin mensualidades."
-    >
-    <meta
-      name="keywords"
-      content="ecosistema restaurante, POS restaurante, comandera movil, software restaurante sin mensualidades, inventario restaurante, TEKAL"
-    >
+    <meta name="description" content="Punto de venta para restaurantes sin mensualidades. TEKAL conecta caja, comandera y cocina con una licencia permanente.">
+    <meta name="keywords" content="POS restaurante sin mensualidades, punto de venta restaurante, comandera, cocina, licencia permanente, TEKAL">
     <meta name="color-scheme" content="light">
     <meta name="tekal-license-api" content="https://licencias.tekalpos.com">
-    <title>TEKAL | Ecosistema integral para restaurantes</title>
+    <title>TEKAL | Punto de venta para restaurantes sin mensualidades</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
-    <header class="site-header">
+  <body class="landing-page">
+    <header class="site-header landing-header">
       <a class="brand" href="#inicio" aria-label="TEKAL inicio">
         <img class="brand-logo" src="LOGO.png" alt="" width="40" height="40">
         <span>TEKAL</span>
       </a>
-
       <nav class="nav" aria-label="Principal">
-        <a href="#inicio">Inicio</a>
-        <a href="#ecosistema">Ecosistema</a>
+        <a href="#funciona">Cómo funciona</a>
         <a href="#planes">Planes</a>
-        <a href="#casos">Casos de uso</a>
         <a href="#preguntas">Preguntas</a>
-        <a href="descargas.html">Soporte y descargas</a>
+        <a href="descargas.html">Soporte</a>
       </nav>
-
-      <a class="header-cta" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20TEKAL">
-        Solicitar demo
-      </a>
+      <a class="header-cta" href="descargas.html#probar">Probar gratis</a>
     </header>
 
     <main id="inicio">
-      <section class="hero hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">Ecosistema integral para restaurantes</p>
-          <h1>Conecta mesas, caja, cocina y comandera en una sola operacion fluida</h1>
-          <p class="lead">
-            TEKAL une tu punto de venta, comandera movil, monitoreo de cocina y control de inventario
-            para que tomes pedidos mas rapido, cobres sin friccion y operes con licencia permanente,
-            un solo pago y sin mensualidades.
-          </p>
-
-          <div class="hero-actions">
-            <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20agendar%20una%20demo%20de%20TEKAL">
-              Agendar demostracion
-            </a>
-            <a class="button secondary" href="#ecosistema">
-              Ver ecosistema
-            </a>
-            <a class="button ghost" href="descargas.html">
-              Soy cliente existente
-            </a>
+      <section class="landing-hero">
+        <div class="landing-hero-copy">
+          <p class="eyebrow">Para restaurantes que quieren operar más simple</p>
+          <h1>Punto de venta para restaurantes.<br><span>Sin mensualidades.</span></h1>
+          <p class="landing-lead">Caja, comandera y cocina conectadas con una licencia permanente.</p>
+          <p class="landing-price">Desde <strong>$799 MXN</strong></p>
+          <div class="landing-actions">
+            <a class="button primary" href="descargas.html#probar">Probar gratis</a>
+            <a class="button secondary" href="https://wa.me/524641163543?text=Hola,%20quiero%20saber%20si%20TEKAL%20funciona%20para%20mi%20restaurante" target="_blank" rel="noopener">Hablar por WhatsApp</a>
           </div>
-
-          <div class="hero-metrics" aria-label="Beneficios principales">
-            <article>
-              <strong>Sin rentas</strong>
-              <span>Licencia permanente con un solo pago</span>
-            </article>
-            <article>
-              <strong>Operacion conectada</strong>
-              <span>Mesero, cocina, barra y caja sincronizados</span>
-            </article>
-            <article>
-              <strong>Implementacion guiada</strong>
-              <span>Instalacion remota, configuracion y soporte inicial</span>
-            </article>
-          </div>
+          <p class="landing-reassurance">Sin renta mensual · instalación en tu PC · soporte para arrancar</p>
         </div>
-
-        <div class="hero-visual" aria-label="Vista previa del ecosistema TEKAL">
-          <div class="device-stage">
-            <figure class="product-shot product-shot-desktop">
-              <img
-                src="pc.png"
-                alt="Pantalla real de TEKAL mostrando el mapa de mesas y el estado operativo"
-                width="1912"
-                height="974"
-                decoding="async"
-                fetchpriority="high"
-              >
-              <figcaption>POS de escritorio con mapa de mesas, estados y control operativo</figcaption>
-            </figure>
-
-            <figure class="product-shot product-shot-mobile">
-              <img
-                src="comandera.jpg"
-                alt="Comandera movil real de TEKAL con categorias, orden actual y flujo de cobro"
-                width="960"
-                height="1920"
-                decoding="async"
-                fetchpriority="high"
-              >
-            </figure>
-            <p class="product-shot-label product-shot-label-mobile">Comandera movil para tomar pedidos, aplicar promos y cobrar desde piso</p>
-          </div>
+        <div class="landing-hero-visual" aria-label="TEKAL en punto de venta y comandera móvil">
+          <figure class="landing-desktop-shot">
+            <img src="pc.png" alt="Punto de venta TEKAL con mapa de mesas y operación de restaurante" width="1912" height="974" fetchpriority="high">
+          </figure>
+          <figure class="landing-mobile-shot">
+            <img src="comandera.jpg" alt="Comandera móvil TEKAL para tomar pedidos" width="960" height="1920" fetchpriority="high">
+          </figure>
         </div>
       </section>
 
-      <section class="section trust-strip">
-        <div class="trust-card">Ideal para restaurantes con servicio a la mesa, barra y pedidos para llevar</div>
-        <div class="trust-card">Controla operacion, cobro e inventario desde un solo flujo</div>
-        <div class="trust-card">Disenado para negocios que quieren dejar papel, Excel y procesos duplicados</div>
-      </section>
-
-      <section id="ecosistema" class="section">
-        <div class="section-heading centered">
-          <p class="eyebrow">Ecosistema TEKAL</p>
-          <h2>Todo el sistema en un solo recorrido, sin bloques repetidos ni modulos aislados</h2>
-          <p>
-            Cada modulo esta pensado para acelerar la operacion real del restaurante y reducir errores
-            entre piso, cocina, barra y caja.
-          </p>
+      <section id="funciona" class="landing-section landing-flow">
+        <div class="landing-heading">
+          <p class="eyebrow">Así de simple</p>
+          <h2>Del pedido a cocina, sin capturarlo dos veces.</h2>
+          <p>Un solo flujo para atender, preparar y cobrar.</p>
         </div>
-
-        <div class="zigzag-stack">
-          <article class="zigzag-row">
-            <div class="zigzag-copy">
-              <p class="eyebrow">Comandera movil</p>
-              <h3>El mesero toma el pedido desde el celular y cocina lo recibe sin intermediarios</h3>
-              <p>
-                Reduce vueltas innecesarias, manda notas claras por producto y agiliza la atencion
-                aun cuando el salon esta lleno.
-              </p>
-              <div class="mini-benefits">
-                <span>Pedidos directos a cocina o barra</span>
-                <span>Notas y extras por platillo</span>
-                <span>Menos errores por re-captura</span>
-              </div>
-            </div>
-            <div class="zigzag-visual visual-mobile">
-              <figure class="feature-shot feature-shot-mobile">
-                <img
-                  src="comandera.jpg"
-                  alt="Vista real de la comandera movil de TEKAL en Android"
-                  width="960"
-                  height="1920"
-                  loading="lazy"
-                  decoding="async"
-                >
-                <figcaption>Categorias, orden actual, promo aplicada y acciones de impresion o cobro.</figcaption>
-              </figure>
-            </div>
+        <div class="flow-grid">
+          <article class="flow-card">
+            <span class="flow-number">01</span>
+            <img src="comandera.jpg" alt="Pedido tomado desde la comandera" loading="lazy">
+            <h3>Comandera</h3>
+            <p>Toma pedidos desde el celular o tablet.</p>
           </article>
-
-          <article class="zigzag-row reverse">
-            <div class="zigzag-copy">
-              <p class="eyebrow">Gestion de mesas y caja</p>
-              <h3>Abre cuentas, divide consumos y cobra rapido sin perder el control del piso</h3>
-              <p>
-                Ten visibilidad de mesas activas, pagos parciales, cortes y pedidos para llevar
-                en una sola interfaz de caja.
-              </p>
-              <div class="mini-benefits">
-                <span>Cuentas abiertas por mesa</span>
-                <span>Division de cuentas y multiples pagos</span>
-                <span>Cortes rapidos con menos friccion</span>
-              </div>
-            </div>
-            <div class="zigzag-visual visual-pos">
-              <figure class="feature-shot feature-shot-desktop">
-                <img
-                  src="gestion.png"
-                  alt="Vista real de TEKAL mostrando gestión de mesas, productos y cuenta activa en caja"
-                  width="1907"
-                  height="978"
-                  loading="lazy"
-                  decoding="async"
-                >
-                <figcaption>Selección de productos, gestión de cuenta activa y acciones rápidas de cobro o envío.</figcaption>
-              </figure>
-            </div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <article class="flow-card">
+            <span class="flow-number">02</span>
+            <img src="comandas.png" alt="Comandas recibidas en cocina" loading="lazy">
+            <h3>Cocina</h3>
+            <p>Las comandas llegan al instante por área.</p>
           </article>
-
-          <article class="zigzag-row">
-            <div class="zigzag-copy">
-              <p class="eyebrow">Monitoreo de cocina y barra</p>
-              <h3>Las comandas llegan claras para preparar mas ordenado y entregar sin confusiones</h3>
-              <p>
-                Prioriza produccion, evita tickets ilegibles y mantén el flujo de salida estable
-                aunque entren pedidos simultaneos desde mesa, barra o pick-up.
-              </p>
-              <div class="mini-benefits">
-                <span>Flujo claro por area de preparacion</span>
-                <span>Menos errores en salida</span>
-                <span>Mayor velocidad en horas pico</span>
-              </div>
-            </div>
-            <div class="zigzag-visual visual-kitchen">
-              <div class="kitchen-proof">
-                <figure class="feature-shot feature-shot-desktop compact">
-                  <img
-                    src="comandas.png"
-                    alt="Pantalla real de áreas de preparación con comandas activas en cocina y barra"
-                    width="1916"
-                    height="978"
-                    loading="lazy"
-                    decoding="async"
-                  >
-                </figure>
-                <div class="kitchen-note">
-                  <strong>El mismo ecosistema que ve caja se conecta con cocina y barra.</strong>
-                  <p>Las áreas de preparación reciben comandas activas, tiempos y prioridad sin depender de tickets confusos.</p>
-                </div>
-              </div>
-            </div>
+          <div class="flow-arrow" aria-hidden="true">→</div>
+          <article class="flow-card">
+            <span class="flow-number">03</span>
+            <img src="gestion.png" alt="Caja TEKAL lista para cobrar" loading="lazy">
+            <h3>Caja</h3>
+            <p>Cobra y controla tus ventas desde un solo lugar.</p>
           </article>
         </div>
       </section>
 
-      <section id="planes" class="section section-soft">
-        <div class="section-heading centered">
+      <section class="landing-section landing-benefits-wrap">
+        <div class="landing-heading landing-heading-left">
+          <p class="eyebrow">Lo que cambia en tu operación</p>
+          <h2>Menos vueltas. Más control.</h2>
+        </div>
+        <div class="benefits-grid">
+          <article class="benefit-card">
+            <span class="benefit-icon">$</span>
+            <h3>Sin mensualidades</h3>
+            <p>Compra tu licencia una vez y trabaja con ella.</p>
+          </article>
+          <article class="benefit-card">
+            <span class="benefit-icon">✓</span>
+            <h3>Menos errores</h3>
+            <p>Los pedidos se envían directamente a cocina.</p>
+          </article>
+          <article class="benefit-card">
+            <span class="benefit-icon">↔</span>
+            <h3>Todo conectado</h3>
+            <p>Mesas, caja, comandera e inventario en el mismo sistema.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="planes" class="landing-section landing-pricing">
+        <div class="landing-heading">
           <p class="eyebrow">Planes</p>
-          <h2>Elige el alcance que mejor encaja con tu operacion</h2>
-          <p>Todos los planes incluyen licencia permanente.</p>
+          <h2>Elige el punto de partida de tu restaurante.</h2>
+          <p>Una licencia permanente. Sin cargos mensuales.</p>
         </div>
-
-        <div class="pricing-grid">
-          <article class="price-card">
-            <h3>Basico</h3>
-            <p class="price">Desde $799 MXN</p>
+        <div class="landing-price-grid">
+          <article class="landing-price-card">
+            <h3>Básico</h3>
+            <p class="landing-card-price">$799 <small>MXN</small></p>
+            <p>Para negocios pequeños.</p>
             <ul>
-              <li>POS para caja y ventas diarias</li>
-              <li>Configuracion esencial para arrancar rapido</li>
-              <li>Soporte base para una operacion simple</li>
-              <li>Ideal para negocios pequenos o de mostrador</li>
+              <li>Punto de venta</li>
+              <li>Ventas de mostrador</li>
+              <li>Configuración esencial</li>
             </ul>
-            <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20el%20plan%20Basico%20de%20TEKAL">
-              Consultar plan
-            </a>
+            <a class="button secondary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20del%20plan%20Basico%20de%20TEKAL" target="_blank" rel="noopener">Quiero este plan</a>
           </article>
-
-          <article class="price-card featured">
-            <p class="plan-tag">Mas solicitado</p>
+          <article class="landing-price-card is-featured">
+            <p class="plan-tag">Más elegido</p>
             <h3>Profesional</h3>
-            <p class="price">Desde $1,499 MXN</p>
+            <p class="landing-card-price">$1,499 <small>MXN</small></p>
+            <p>Para restaurantes con operación diaria.</p>
             <ul>
-              <li>Instalacion remota y puesta en marcha guiada</li>
-              <li>Carga inicial de productos y ajustes operativos</li>
-              <li>Flujo mas completo para restaurante con mesas</li>
-              <li>Acompanamiento durante el arranque real</li>
+              <li>Mesas y comandera móvil</li>
+              <li>Cocina y barra conectadas</li>
+              <li>Instalación guiada</li>
+              <li>Carga inicial de productos</li>
             </ul>
-            <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20el%20plan%20Profesional%20de%20TEKAL">
-              Consultar plan
-            </a>
+            <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20del%20plan%20Profesional%20de%20TEKAL" target="_blank" rel="noopener">Quiero este plan</a>
           </article>
-
-          <article class="price-card">
+          <article class="landing-price-card">
             <h3>Premium</h3>
-            <p class="price">Desde $2,299 MXN</p>
+            <p class="landing-card-price">$2,299 <small>MXN</small></p>
+            <p>Para una operación más completa.</p>
             <ul>
-              <li>Capacitacion completa para el equipo</li>
-              <li>Soporte extendido para una operacion mas exigente</li>
-              <li>Alcance ideal para flujos mas amplios o multi-area</li>
-              <li>Actualizaciones de por vida incluidas</li>
+              <li>Inventario y reportes</li>
+              <li>Capacitación para tu equipo</li>
+              <li>Soporte de arranque ampliado</li>
             </ul>
-            <a class="button primary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20sobre%20el%20plan%20Premium%20de%20TEKAL">
-              Consultar plan
-            </a>
+            <a class="button secondary" href="https://wa.me/524641163543?text=Hola,%20quiero%20informacion%20del%20plan%20Premium%20de%20TEKAL" target="_blank" rel="noopener">Quiero este plan</a>
           </article>
         </div>
-
-        <p class="price-note">
-          Los precios pueden variar segun equipos, impresoras, nivel de configuracion y necesidades especiales.
-        </p>
+        <p class="landing-small-note">Los precios pueden variar según equipos, impresoras y necesidades de configuración.</p>
       </section>
 
-      <section id="casos" class="section">
-        <div class="section-heading centered">
-          <p class="eyebrow">Casos de uso</p>
-          <h2>Escenarios donde TEKAL reduce friccion desde el primer dia</h2>
+      <section class="landing-proof" aria-label="Prueba social">
+        <div>
+          <p class="eyebrow">Hecho para la operación real</p>
+          <h2>TEKAL ya trabaja en restaurantes reales.</h2>
         </div>
-
-        <div class="use-grid">
-          <article class="use-card">
-            <h3>Servicio a la mesa</h3>
-            <p>Pedidos mas rapidos, cuentas abiertas y seguimiento claro por mesa.</p>
-          </article>
-          <article class="use-card">
-            <h3>Fast Food & Pick-up</h3>
-            <p>Cobro agil, salida ordenada y menos confusiones en pedidos para llevar.</p>
-          </article>
-          <article class="use-card">
-            <h3>Barra y cafeteria</h3>
-            <p>Flujos simples para bebidas, tickets rapidos y despacho mas constante.</p>
-          </article>
-          <article class="use-card">
-            <h3>Migracion desde papel o Excel</h3>
-            <p>Centraliza captura, ventas e historial sin depender de procesos manuales.</p>
-          </article>
+        <div class="proof-points">
+          <span>Restaurantes</span><span>Cafeterías</span><span>Bares</span><span>Pedidos para llevar</span>
         </div>
       </section>
 
-      <section id="preguntas" class="section section-soft">
-        <div class="section-heading centered">
-          <p class="eyebrow">FAQ</p>
-          <h2>Preguntas frecuentes antes de implementar</h2>
+      <section class="landing-final-cta">
+        <p class="eyebrow">Empieza hoy</p>
+        <h2>¿Quieres ver si TEKAL funciona para tu restaurante?</h2>
+        <p>Pruébalo gratis antes de comprar.</p>
+        <div class="landing-actions">
+          <a class="button primary" href="descargas.html#probar">Probar TEKAL</a>
+          <a class="button secondary" href="https://wa.me/524641163543?text=Hola,%20quiero%20probar%20TEKAL%20en%20mi%20restaurante" target="_blank" rel="noopener">Hablar por WhatsApp</a>
         </div>
+      </section>
 
+      <section id="preguntas" class="landing-section landing-faq">
+        <div class="landing-heading">
+          <p class="eyebrow">Preguntas frecuentes</p>
+          <h2>Lo esencial antes de probarlo.</h2>
+        </div>
         <div class="faq-list">
-          <details>
-            <summary>TEKAL cobra mensualidad?<span>+</span></summary>
-            <p>No. El enfoque comercial principal es licencia permanente con un solo pago.</p>
-          </details>
-          <details>
-            <summary>Funciona con comandera movil?<span>+</span></summary>
-            <p>Si. El ecosistema contempla comandera Android para enviar pedidos directo a cocina o barra.</p>
-          </details>
-          <details>
-            <summary>Sirve para mesas, mostrador y pedidos para llevar?<span>+</span></summary>
-            <p>Si. El flujo esta pensado para operar salon, caja, barra y pick-up desde una misma base.</p>
-          </details>
-          <details>
-            <summary>Incluye instalacion o ayuda inicial?<span>+</span></summary>
-            <p>Segun el plan, incluye instalacion guiada, configuracion remota y acompanamiento de arranque.</p>
-          </details>
-          <details>
-            <summary>Necesito internet para operar diario?<span>+</span></summary>
-            <p>No de forma constante. La operacion local puede mantenerse y el acceso remoto se usa cuando aplica.</p>
-          </details>
-        </div>
-      </section>
-
-      <section id="contacto" class="contact">
-        <div class="contact-copy">
-          <p class="eyebrow">Contacto</p>
-          <h2>Agenda una demo y revisamos si TEKAL encaja con tu operacion actual</h2>
-          <p>
-            Te ayudamos a definir el flujo ideal segun tu tipo de servicio, numero de estaciones
-            y nivel de control que necesitas en piso, cocina y caja.
-          </p>
-          <div class="contact-points">
-            <span>Diagnostico inicial</span>
-            <span>Demo guiada</span>
-            <span>Implementacion remota</span>
-            <span>Soporte de arranque</span>
-          </div>
-          <p class="contact-info">contacto@tekal.com | +52 464 116 3543</p>
-        </div>
-
-        <div class="contact-actions">
-          <a class="button primary large" href="https://wa.me/524641163543?text=Hola,%20quiero%20agendar%20una%20demo%20de%20TEKAL">
-            Agendar demo por WhatsApp
-          </a>
-          <a class="button secondary large" href="descargas.html">
-            Ir a soporte y descargas
-          </a>
+          <details><summary>¿TEKAL cobra mensualidad?<span>+</span></summary><p>No. TEKAL se vende con licencia permanente y un solo pago.</p></details>
+          <details><summary>¿Puedo probarlo antes de comprar?<span>+</span></summary><p>Sí. Descarga el instalador, pruébalo y escríbenos si quieres apoyo para configurarlo.</p></details>
+          <details><summary>¿Funciona con comandera móvil?<span>+</span></summary><p>Sí. La comandera Android permite tomar pedidos y enviarlos directo a cocina o barra.</p></details>
+          <details><summary>¿Sirve para mesas, mostrador y pedidos para llevar?<span>+</span></summary><p>Sí. Puedes adaptar el flujo a servicio en mesa, barra, mostrador y pedidos para llevar.</p></details>
         </div>
       </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer landing-footer">
       <span>&copy; <span id="year">2026</span> TEKAL. Todos los derechos reservados.</span>
       <nav aria-label="Footer">
-        <a href="#inicio">Inicio</a>
-        <a href="#ecosistema">Ecosistema</a>
+        <a href="#funciona">Cómo funciona</a>
         <a href="#planes">Planes</a>
         <a href="#preguntas">FAQ</a>
         <a href="descargas.html">Soporte y descargas</a>
       </nav>
     </footer>
-
     <script src="script.js"></script>
   </body>
 </html>
