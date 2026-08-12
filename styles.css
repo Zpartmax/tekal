@@ -1126,7 +1126,7 @@ h3 {
   place-items: center;
   overflow: hidden;
   border-radius: 28px;
-  transform: rotate(-1.5deg);
+  transform: none;
 }
 
 .landing-desktop-shot img {
@@ -1138,18 +1138,23 @@ h3 {
 
 .landing-mobile-shot {
   position: absolute;
-  right: 10px;
-  bottom: 28px;
-  width: min(26%, 148px);
+  right: 28px;
+  bottom: 26px;
+  width: 145px;
+  height: 310px;
   padding: 7px;
   overflow: hidden;
   border-radius: 24px;
-  transform: rotate(4deg);
+  transform: none;
   box-shadow: 0 28px 50px rgba(40, 22, 68, 0.24);
 }
 
 .landing-mobile-shot img {
+  width: 100%;
+  height: 100%;
   border-radius: 17px;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .landing-section {
@@ -1536,8 +1541,9 @@ h3 {
   }
 
   .landing-mobile-shot {
-    width: 34%;
-    right: -4px;
+    right: 10px;
+    width: 122px;
+    height: 262px;
   }
 
   .landing-actions .button {
