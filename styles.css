@@ -1061,14 +1061,14 @@ h3 {
   grid-template-columns: minmax(0, 0.92fr) minmax(460px, 1.08fr);
   align-items: center;
   gap: clamp(38px, 7vw, 96px);
-  min-height: min(760px, calc(100vh - 76px));
-  padding: clamp(58px, 8vw, 104px) 0;
+  min-height: min(680px, calc(100vh - 76px));
+  padding: clamp(48px, 6vw, 82px) 0;
 }
 
 .landing-hero-copy h1 {
   max-width: 700px;
-  font-size: clamp(2.65rem, 5.2vw, 5.1rem);
-  line-height: 1;
+  font-size: clamp(2.45rem, 4.3vw, 4.25rem);
+  line-height: 1.04;
 }
 
 .landing-hero-copy h1 span {
@@ -1108,7 +1108,7 @@ h3 {
 
 .landing-hero-visual {
   position: relative;
-  min-height: 455px;
+  min-height: 410px;
 }
 
 .landing-desktop-shot,
@@ -1138,9 +1138,9 @@ h3 {
 
 .landing-mobile-shot {
   position: absolute;
-  right: -12px;
-  bottom: 0;
-  width: min(32%, 190px);
+  right: 10px;
+  bottom: 28px;
+  width: min(26%, 148px);
   padding: 7px;
   overflow: hidden;
   border-radius: 24px;
