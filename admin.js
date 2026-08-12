@@ -591,6 +591,26 @@ async function saveLicenseDetail(event) {
   await selectLicense(id);
 }
 
+async function grantUpdateDays(licenseId) {
+  const days = Number(document.querySelector("#detailGrantUpdateDays").value || 0);
+  if (!Number.isInteger(days) || days < 1 || days > 3650) {
+    throw new Error("Indica entre 1 y 3650 días de actualizaciones.");
+  }
+
+  if (!window.confirm(`Se agregarán ${days} días de actualizaciones a esta licencia. ¿Deseas continuar?`)) {
+    return;
+  }
+
+  updateAuthStatus("Agregando días de actualizaciones...");
+  const result = await apiFetch(`/api/admin/licenses/${licenseId}/updates/grant`, {
+    method: "POST",
+    body: JSON.stringify({ days })
+  });
+  await Promise.all([loadDashboard(), loadLicenses()]);
+  await selectLicense(licenseId);
+  updateAuthStatus(result.message || "Días de actualizaciones agregados.");
+}
+
 async function createLicense(event) {
   event.preventDefault();
 
@@ -726,6 +746,12 @@ document.addEventListener("click", async event => {
       const licenseId = Number(document.querySelector("#detailId").value);
       if (!Number.isFinite(licenseId) || licenseId <= 0) return;
       await setLicenseAsTrial(licenseId);
+    }
+
+    if (action === "grant-update-days") {
+      const licenseId = Number(document.querySelector("#detailId").value);
+      if (!Number.isFinite(licenseId) || licenseId <= 0) return;
+      await grantUpdateDays(licenseId);
     }
 
     if (action === "delete-license") {

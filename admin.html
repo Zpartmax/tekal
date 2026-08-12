@@ -241,6 +241,10 @@
                 <label>Max terminals<input id="detailMaxTerminals" type="number" min="1" step="1"></label>
                 <label>Expira<input id="detailExpiresAt" type="date"></label>
                 <label>Updates hasta<input id="detailUpdatesUntil" type="date"></label>
+                <div class="update-days-control">
+                  <label>Sumar días de updates<input id="detailGrantUpdateDays" type="number" min="1" max="3650" step="1" value="30"></label>
+                  <button id="grantUpdateDaysButton" class="button ghost" type="button" data-action="grant-update-days">Agregar días</button>
+                </div>
                 <label>Portal cliente<input id="detailPortalUrl" type="text" readonly></label>
                 <label>Motivo de suspension<textarea id="detailSuspensionReason" rows="2"></textarea></label>
                 <label>Notas<textarea id="detailNotes" rows="5"></textarea></label>
