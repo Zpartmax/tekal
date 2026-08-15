@@ -9,6 +9,7 @@ const authStatus = document.querySelector("#authStatus");
 const refreshAllButton = document.querySelector("#refreshAllButton");
 const logoutButton = document.querySelector("#logoutButton");
 const summaryCards = document.querySelector("#summaryCards");
+const metricsVisual = document.querySelector("#metricsVisual");
 const alertsList = document.querySelector("#alertsList");
 const alertsCount = document.querySelector("#alertsCount");
 const dismissAllAlertsButton = document.querySelector("#dismissAllAlertsButton");
@@ -224,6 +225,37 @@ function renderSummary(summary) {
     <div class="summary-primary-grid">${cards.slice(0, 4).map(renderCard).join("")}</div>
     <div class="summary-secondary-grid">${cards.slice(4).map((card, index) => renderCard(card, index + 4)).join("")}</div>
   `;
+
+  renderMetricsVisual(summary);
+}
+
+function renderMetricsVisual(summary) {
+  if (!metricsVisual) return;
+
+  const totalLicenses = Math.max(Number(summary.totalLicenses) || 0, 1);
+  const totalInstallations = Math.max(Number(summary.totalInstallations) || 0, 1);
+  const activeLicenses = Number(summary.activeLicenses) || 0;
+  const activeInstallations = Number(summary.activeInstallations30d) || 0;
+  const connectedDevices = Number(summary.connectedDevices24h) || 0;
+  const newInstallations = Number(summary.newInstallations7d) || 0;
+  const metrics = [
+    ["Licencias activas", activeLicenses, totalLicenses, "violet"],
+    ["Instalaciones activas", activeInstallations, totalInstallations, "blue"],
+    ["Dispositivos conectados", connectedDevices, totalInstallations, "green"],
+    ["Nuevas instalaciones", newInstallations, totalInstallations, "orange"]
+  ];
+
+  metricsVisual.innerHTML = metrics.map(([label, value, total, tone]) => {
+    const percent = Math.min(100, Math.round((value / total) * 100));
+    return `
+      <article class="metric-bar-card ${tone}">
+        <div class="metric-bar-label"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>
+        <div class="metric-track" role="progressbar" aria-label="${escapeHtml(label)}" aria-valuemin="0" aria-valuemax="${escapeHtml(total)}" aria-valuenow="${escapeHtml(value)}">
+          <span style="width: ${percent}%"></span>
+        </div>
+        <small>${percent}% del total registrado</small>
+      </article>`;
+  }).join("");
 }
 
 function renderAlerts(alerts) {
