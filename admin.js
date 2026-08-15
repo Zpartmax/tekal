@@ -214,9 +214,19 @@ function renderSummary(summary) {
     ["Ingresos 30 dias", formatMoney(summary.revenueLast30d, "USD"), `${summary.paymentsLast30d} pagos`]
   ];
 
+  const iconMarkup = (index) => {
+    const icons = [
+      '<path d="M5 3.5h9a1.5 1.5 0 0 1 1.5 1.5v10A1.5 1.5 0 0 1 14 16.5H5A1.5 1.5 0 0 1 3.5 15V5A1.5 1.5 0 0 1 5 3.5Z"/><path d="M6.5 7h6M6.5 10h6M6.5 13h4"/>',
+      '<rect x="3.5" y="4" width="13" height="10" rx="1.5"/><path d="M7 17h6M10 14v3"/>',
+      '<path d="M4 10h3l1.5-4 3 8 1.5-4H16"/>',
+      '<circle cx="10" cy="10" r="6"/><path d="M10 6.5V10l2.5 1.5"/>'
+    ];
+    return `<span class="summary-icon icon-${index % 4}" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${icons[index % 4]}</svg></span>`;
+  };
+
   const renderCard = ([label, value, hint], index) => `
     <article class="summary-card ${index < 4 ? "summary-card-primary" : "summary-card-secondary"}">
-      <span>${escapeHtml(label)}</span>
+      <div class="summary-card-label">${iconMarkup(index)}<span>${escapeHtml(label)}</span></div>
       <strong>${escapeHtml(value)}</strong>
       <small>${escapeHtml(hint)}</small>
     </article>`;
@@ -261,7 +271,7 @@ function renderMetricsVisual(summary) {
 function renderAlerts(alerts) {
   alertsCount.textContent = String(alerts.length);
   if (!alerts.length) {
-    alertsList.innerHTML = `<div class="empty-state">Sin alertas criticas.</div>`;
+    alertsList.innerHTML = `<div class="empty-state alert-clear-state"><span>✓</span><div><strong>Todo en orden</strong><small>Sin alertas críticas por atender.</small></div></div>`;
     return;
   }
 
@@ -283,13 +293,14 @@ function renderVersions(versions) {
     return;
   }
 
-  versionsList.innerHTML = versions.map(item => `
+  const recentVersions = versions.slice(0, 5);
+  versionsList.innerHTML = recentVersions.map(item => `
     <article class="version-item">
       <strong>${escapeHtml(item.version)}</strong>
       <span>${item.installations} instalaciones</span>
       <div class="metric-meta">Ultima actividad: ${formatDateTime(item.lastSeenAt)}</div>
     </article>
-  `).join("");
+  `).join("") + (versions.length > recentVersions.length ? `<div class="versions-more">Mostrando las 5 versiones con actividad más reciente.</div>` : "");
 }
 
 function renderRenewals(rows) {

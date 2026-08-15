@@ -875,6 +875,37 @@ code {
   content: none !important;
 }
 
+.summary-card-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.summary-card-label > span:last-child {
+  min-width: 0;
+}
+
+.summary-icon {
+  display: grid !important;
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  place-items: center;
+  border-radius: 6px;
+  background: #f0e8ff;
+  color: #7435c3 !important;
+}
+
+.summary-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.summary-icon.icon-1 { background: #e6f4ff; color: #2486dc !important; }
+.summary-icon.icon-2 { background: #e5f9ed; color: #1aae63 !important; }
+.summary-icon.icon-3 { background: #fff0dc; color: #e77910 !important; }
+
 .summary-card-primary span,
 .summary-card-secondary span {
   font-size: 0.56rem;
@@ -900,6 +931,15 @@ code {
   content: none !important;
 }
 
+.summary-card-secondary .summary-card-label { gap: 5px; }
+.summary-card-secondary .summary-icon {
+  width: 15px;
+  height: 15px;
+  flex-basis: 15px;
+  border-radius: 5px;
+}
+.summary-card-secondary .summary-icon svg { width: 9px; height: 9px; }
+
 .summary-card-secondary strong {
   margin-top: 3px;
   font-size: 0.94rem;
@@ -918,6 +958,7 @@ code {
 .dashboard-secondary {
   grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
   gap: 8px;
+  align-items: start;
 }
 
 .dashboard-secondary .panel {
@@ -972,6 +1013,39 @@ code {
   padding: 8px;
   border-radius: 6px;
   font-size: 0.68rem;
+}
+
+.alert-clear-state {
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+  padding: 12px !important;
+  border-style: solid !important;
+  border-color: #d9eee1 !important;
+  background: linear-gradient(90deg, #f5fffa, #fff) !important;
+}
+
+.alert-clear-state > span {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: #dff7e9;
+  color: #159759;
+  font-weight: 700;
+}
+
+.alert-clear-state div { display: grid; gap: 1px; }
+.alert-clear-state strong { color: #187346; font-size: 0.68rem; }
+.alert-clear-state small { color: #6b9b80; font-size: 0.58rem; }
+
+.versions-more {
+  padding: 3px 4px 0;
+  color: var(--accent);
+  font-size: 0.58rem;
+  font-weight: 600;
 }
 
 .metrics-panel {
