@@ -213,13 +213,17 @@ function renderSummary(summary) {
     ["Ingresos 30 dias", formatMoney(summary.revenueLast30d, "USD"), `${summary.paymentsLast30d} pagos`]
   ];
 
-  summaryCards.innerHTML = cards.map(([label, value, hint]) => `
-    <article class="summary-card">
+  const renderCard = ([label, value, hint], index) => `
+    <article class="summary-card ${index < 4 ? "summary-card-primary" : "summary-card-secondary"}">
       <span>${escapeHtml(label)}</span>
       <strong>${escapeHtml(value)}</strong>
       <small>${escapeHtml(hint)}</small>
-    </article>
-  `).join("");
+    </article>`;
+
+  summaryCards.innerHTML = `
+    <div class="summary-primary-grid">${cards.slice(0, 4).map(renderCard).join("")}</div>
+    <div class="summary-secondary-grid">${cards.slice(4).map((card, index) => renderCard(card, index + 4)).join("")}</div>
+  `;
 }
 
 function renderAlerts(alerts) {
