@@ -815,6 +815,7 @@ code {
 .summary-primary-grid,
 .summary-secondary-grid {
   display: grid;
+  grid-column: 1 / -1;
   gap: 12px;
 }
 
