@@ -63,8 +63,11 @@
           <div>
             <p class="eyebrow">Panel operativo</p>
             <h1>Control de licencias, instalaciones y renovaciones</h1>
+            <p class="page-subtitle">Supervisa estado, vigencia y cambios de cada cliente desde un solo panel.</p>
           </div>
-          <div class="header-actions"></div>
+          <div class="header-actions">
+            <div class="date-pill" id="currentDatePill">Hoy</div>
+          </div>
         </header>
 
         <section id="dashboard" class="panel-stack">
@@ -240,6 +243,10 @@
                 </label>
                 <label>Max terminals<input id="detailMaxTerminals" type="number" min="1" step="1"></label>
                 <label>Expira<input id="detailExpiresAt" type="date"></label>
+                <div class="update-days-control">
+                  <label>Días de prueba<input id="detailGrantTrialDays" type="number" min="1" max="3650" step="1" value="7"></label>
+                  <button id="grantTrialDaysButton" class="button ghost" type="button" data-action="grant-trial-days">Agregar días de prueba</button>
+                </div>
                 <label>Updates hasta<input id="detailUpdatesUntil" type="date"></label>
                 <div class="update-days-control">
                   <label>Sumar días de updates<input id="detailGrantUpdateDays" type="number" min="1" max="3650" step="1" value="30"></label>
@@ -251,6 +258,8 @@
                 <div class="auth-actions">
                   <button id="saveLicenseButton" class="button primary" type="submit">Guardar cambios</button>
                   <button id="setLicenseTrialButton" class="button ghost" type="button" data-action="set-license-trial">Marcar como Trial</button>
+                  <button id="setLicensePermanentButton" class="button ghost" type="button" data-action="set-license-permanent">Marcar como permanente</button>
+                  <button id="cloneTrialLicenseButton" class="button ghost" type="button" data-action="clone-trial-license">Crear otra temporal</button>
                   <button id="deleteLicenseButton" class="button ghost danger" type="button" data-action="delete-license">Eliminar licencia</button>
                 </div>
               </form>

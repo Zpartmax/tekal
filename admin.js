@@ -18,6 +18,7 @@ const licensesTable = document.querySelector("#licensesTable");
 const devicesTable = document.querySelector("#devicesTable");
 const releasesTable = document.querySelector("#releasesTable");
 const paymentsTable = document.querySelector("#paymentsTable");
+const currentDatePill = document.querySelector("#currentDatePill");
 const licenseSearch = document.querySelector("#licenseSearch");
 const licenseStatusFilter = document.querySelector("#licenseStatusFilter");
 const licenseSort = document.querySelector("#licenseSort");
@@ -37,6 +38,7 @@ const licenseDetailForm = document.querySelector("#licenseDetailForm");
 const licenseDetailBadge = document.querySelector("#licenseDetailBadge");
 const detailDevices = document.querySelector("#detailDevices");
 const detailPayments = document.querySelector("#detailPayments");
+const detailGrantTrialDays = document.querySelector("#detailGrantTrialDays");
 const navLinks = Array.from(document.querySelectorAll(".sidebar-nav a"));
 
 const sessionKeyName = "tekal_admin_key";
@@ -44,6 +46,7 @@ const sessionKeyName = "tekal_admin_key";
 const state = {
   adminKey: sessionStorage.getItem(sessionKeyName) || "",
   selectedLicenseId: null,
+  selectedLicenseDetail: null,
   licenses: [],
   devices: [],
   releases: [],
@@ -93,6 +96,19 @@ function normalizeDateInput(value) {
   return date.toISOString().slice(0, 10);
 }
 
+function addDaysToDateInput(value, days) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const base = value ? new Date(`${value}T00:00:00`) : new Date(today);
+  if (Number.isNaN(base.getTime())) return "";
+  if (value && base < today) {
+    base.setTime(today.getTime());
+  }
+  base.setDate(base.getDate() + days);
+  return base.toISOString().slice(0, 10);
+}
+
 function formatDate(value) {
   if (!value) return "N/D";
   const date = new Date(value);
@@ -119,6 +135,15 @@ function formatMoney(value, currency = "USD") {
     currency: currency || "USD",
     maximumFractionDigits: 2
   }).format(Number(value || 0));
+}
+
+function formatHeaderDate(value) {
+  return value.toLocaleDateString("es-MX", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
 }
 
 function escapeHtml(value) {
@@ -352,11 +377,13 @@ function renderPayments(rows) {
 
 function resetLicenseDetail() {
   state.selectedLicenseId = null;
+  state.selectedLicenseDetail = null;
   licenseDetailBadge.textContent = "Selecciona una";
   licenseDetailBadge.className = "pill neutral";
   licenseDetailForm.reset();
   document.querySelector("#detailId").value = "";
   document.querySelector("#detailPortalUrl").value = "";
+  if (detailGrantTrialDays) detailGrantTrialDays.value = "7";
   detailDevices.innerHTML = `<div class="empty-state">Sin datos.</div>`;
   detailPayments.innerHTML = `<div class="empty-state">Sin datos.</div>`;
 }
@@ -427,7 +454,34 @@ function renderDetailPayments(detail) {
     : `<div class="empty-state">Sin pagos registrados.</div>`;
 }
 
+function buildLicenseDetailPayload(overrides = {}) {
+  return {
+    customerName: document.querySelector("#detailCustomerName").value.trim(),
+    customerEmail: document.querySelector("#detailCustomerEmail").value.trim(),
+    status: document.querySelector("#detailStatus").value,
+    paymentStatus: document.querySelector("#detailPaymentStatus").value,
+    maxTerminals: Number(document.querySelector("#detailMaxTerminals").value || 1),
+    expiresAt: document.querySelector("#detailExpiresAt").value || null,
+    updatesUntil: document.querySelector("#detailUpdatesUntil").value || null,
+    suspensionReason: document.querySelector("#detailSuspensionReason").value.trim(),
+    notes: document.querySelector("#detailNotes").value.trim(),
+    ...overrides
+  };
+}
+
+async function saveLicenseDetailById(licenseId, payload, successMessage = "Cambios guardados.") {
+  await apiFetch(`/api/admin/licenses/${licenseId}`, {
+    method: "PUT",
+    body: JSON.stringify(payload)
+  });
+
+  await Promise.all([loadDashboard(), loadLicenses()]);
+  await selectLicense(licenseId);
+  updateAuthStatus(successMessage);
+}
+
 function fillLicenseDetail(detail) {
+  state.selectedLicenseDetail = detail;
   document.querySelector("#detailId").value = detail.id;
   document.querySelector("#detailCustomerName").value = detail.customerName || "";
   document.querySelector("#detailCustomerEmail").value = detail.customerEmail || "";
@@ -436,6 +490,9 @@ function fillLicenseDetail(detail) {
   document.querySelector("#detailMaxTerminals").value = detail.maxTerminals || 1;
   document.querySelector("#detailExpiresAt").value = normalizeDateInput(detail.expiresAt);
   document.querySelector("#detailUpdatesUntil").value = normalizeDateInput(detail.updatesUntil);
+  if (detailGrantTrialDays) {
+    detailGrantTrialDays.value = Math.max(1, Math.min(3650, detail.daysToExpire || 7));
+  }
   document.querySelector("#detailPortalUrl").value = detail.portalUrl || "";
   document.querySelector("#detailSuspensionReason").value = detail.suspensionReason || "";
   document.querySelector("#detailNotes").value = detail.notes || "";
@@ -520,26 +577,80 @@ async function setLicenseAsTrial(licenseId) {
     return;
   }
 
-  const payload = {
-    customerName: document.querySelector("#detailCustomerName").value.trim(),
-    customerEmail: document.querySelector("#detailCustomerEmail").value.trim(),
+  const trialDays = Number(detailGrantTrialDays?.value || 7);
+  const currentExpiresAt = document.querySelector("#detailExpiresAt").value || "";
+  const payload = buildLicenseDetailPayload({
     status: "Trial",
-    paymentStatus: document.querySelector("#detailPaymentStatus").value,
-    maxTerminals: Number(document.querySelector("#detailMaxTerminals").value || 1),
-    expiresAt: document.querySelector("#detailExpiresAt").value || null,
-    updatesUntil: document.querySelector("#detailUpdatesUntil").value || null,
-    suspensionReason: document.querySelector("#detailSuspensionReason").value.trim(),
-    notes: document.querySelector("#detailNotes").value.trim()
-  };
+    expiresAt: addDaysToDateInput(currentExpiresAt, Math.max(1, trialDays))
+  });
 
   updateAuthStatus("Marcando licencia como Trial...");
-  await apiFetch(`/api/admin/licenses/${licenseId}`, {
-    method: "PUT",
-    body: JSON.stringify(payload)
+  await saveLicenseDetailById(licenseId, payload, "Licencia marcada como Trial.");
+}
+
+async function setLicenseAsPermanent(licenseId) {
+  if (!window.confirm("La licencia seleccionada cambiara a estado permanente. Deseas continuar?")) {
+    return;
+  }
+
+  const payload = buildLicenseDetailPayload({
+    status: "Active",
+    expiresAt: null
   });
-  await Promise.all([loadDashboard(), loadLicenses()]);
-  await selectLicense(licenseId);
-  updateAuthStatus("Licencia marcada como Trial.");
+
+  updateAuthStatus("Marcando licencia como permanente...");
+  await saveLicenseDetailById(licenseId, payload, "Licencia marcada como permanente.");
+}
+
+async function cloneTrialLicense(licenseId) {
+  const days = Number(detailGrantTrialDays?.value || 0);
+  if (!Number.isInteger(days) || days < 1 || days > 3650) {
+    throw new Error("Indica entre 1 y 3650 días de prueba.");
+  }
+
+  const source = state.selectedLicenseDetail;
+  if (!source || source.id !== licenseId) {
+    throw new Error("Selecciona nuevamente la licencia antes de duplicarla.");
+  }
+
+  if (!window.confirm(`Se creara otra licencia temporal para ${source.customerName}. Deseas continuar?`)) {
+    return;
+  }
+
+  updateAuthStatus("Creando nueva licencia temporal...");
+  const result = await apiFetch(`/api/admin/licenses/${licenseId}/trial-copy`, {
+    method: "POST",
+    body: JSON.stringify({
+      trialDays: days,
+      updatesDays: days
+    })
+  });
+
+  await Promise.all([loadDashboard(), loadLicenses(), loadDevices(), loadPayments()]);
+  if (result?.id) {
+    await selectLicense(result.id);
+  }
+  updateAuthStatus(`Nueva licencia temporal creada: ${result.licenseKey}.`);
+}
+
+async function grantTrialDays(licenseId) {
+  const days = Number(detailGrantTrialDays?.value || 0);
+  if (!Number.isInteger(days) || days < 1 || days > 3650) {
+    throw new Error("Indica entre 1 y 3650 días de prueba.");
+  }
+
+  if (!window.confirm(`Se agregarán ${days} días de prueba a esta licencia. ¿Deseas continuar?`)) {
+    return;
+  }
+
+  const currentExpiresAt = document.querySelector("#detailExpiresAt").value || "";
+  const payload = buildLicenseDetailPayload({
+    status: "Trial",
+    expiresAt: addDaysToDateInput(currentExpiresAt, Math.max(1, days))
+  });
+
+  updateAuthStatus("Agregando días de prueba...");
+  await saveLicenseDetailById(licenseId, payload, `Se agregaron ${days} días de prueba.`);
 }
 
 async function deleteLicense(licenseId) {
@@ -569,26 +680,8 @@ async function saveLicenseDetail(event) {
   const id = Number(document.querySelector("#detailId").value);
   if (!Number.isFinite(id) || id <= 0) return;
 
-  const payload = {
-    customerName: document.querySelector("#detailCustomerName").value.trim(),
-    customerEmail: document.querySelector("#detailCustomerEmail").value.trim(),
-    status: document.querySelector("#detailStatus").value,
-    paymentStatus: document.querySelector("#detailPaymentStatus").value,
-    maxTerminals: Number(document.querySelector("#detailMaxTerminals").value || 1),
-    expiresAt: document.querySelector("#detailExpiresAt").value || null,
-    updatesUntil: document.querySelector("#detailUpdatesUntil").value || null,
-    suspensionReason: document.querySelector("#detailSuspensionReason").value.trim(),
-    notes: document.querySelector("#detailNotes").value.trim()
-  };
-
-  await apiFetch(`/api/admin/licenses/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(payload)
-  });
-
-  updateAuthStatus("Cambios guardados.");
-  await Promise.all([loadDashboard(), loadLicenses()]);
-  await selectLicense(id);
+  const payload = buildLicenseDetailPayload();
+  await saveLicenseDetailById(id, payload);
 }
 
 async function grantUpdateDays(licenseId) {
@@ -748,10 +841,28 @@ document.addEventListener("click", async event => {
       await setLicenseAsTrial(licenseId);
     }
 
+    if (action === "set-license-permanent") {
+      const licenseId = Number(document.querySelector("#detailId").value);
+      if (!Number.isFinite(licenseId) || licenseId <= 0) return;
+      await setLicenseAsPermanent(licenseId);
+    }
+
+    if (action === "clone-trial-license") {
+      const licenseId = Number(document.querySelector("#detailId").value);
+      if (!Number.isFinite(licenseId) || licenseId <= 0) return;
+      await cloneTrialLicense(licenseId);
+    }
+
     if (action === "grant-update-days") {
       const licenseId = Number(document.querySelector("#detailId").value);
       if (!Number.isFinite(licenseId) || licenseId <= 0) return;
       await grantUpdateDays(licenseId);
+    }
+
+    if (action === "grant-trial-days") {
+      const licenseId = Number(document.querySelector("#detailId").value);
+      if (!Number.isFinite(licenseId) || licenseId <= 0) return;
+      await grantTrialDays(licenseId);
     }
 
     if (action === "delete-license") {
@@ -871,6 +982,9 @@ resetCreateLicenseForm();
 setCreateLicensePanelVisible(false);
 updateAuthStatus();
 syncActiveNav();
+if (currentDatePill) {
+  currentDatePill.textContent = `Hoy, ${formatHeaderDate(new Date())}`;
+}
 
 if (state.adminKey) {
   loginAdminKeyInput.value = state.adminKey;
