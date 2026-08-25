@@ -41,6 +41,8 @@ const detailDevices = document.querySelector("#detailDevices");
 const detailPayments = document.querySelector("#detailPayments");
 const detailGrantTrialDays = document.querySelector("#detailGrantTrialDays");
 const navLinks = Array.from(document.querySelectorAll(".sidebar-nav a"));
+const viewSections = Array.from(document.querySelectorAll("main > .panel-stack"));
+const validViews = new Set(viewSections.map(section => section.id));
 
 const sessionKeyName = "tekal_admin_key";
 
@@ -63,9 +65,13 @@ function setAuthenticated(isAuthenticated) {
 }
 
 function syncActiveNav() {
-  const hash = window.location.hash || "#dashboard";
+  const requestedView = (window.location.hash || "#dashboard").replace("#", "");
+  const activeView = validViews.has(requestedView) ? requestedView : "dashboard";
   navLinks.forEach(link => {
-    link.classList.toggle("active", link.getAttribute("href") === hash);
+    link.classList.toggle("active", link.getAttribute("href") === `#${activeView}`);
+  });
+  viewSections.forEach(section => {
+    section.hidden = section.id !== activeView;
   });
 }
 
@@ -200,18 +206,19 @@ async function apiFetch(path, options = {}) {
 function renderSummary(summary) {
   if (!summaryCards) return;
 
+  const attentionNeeded = (Number(summary.expiringLicenses7d) || 0)
+    + (Number(summary.updatesExpiring7d) || 0)
+    + (Number(summary.expiredLicenses) || 0);
   const cards = [
-    ["Licencias totales", summary.totalLicenses, `${summary.activeLicenses} activas`],
-    ["Instalaciones totales", summary.totalInstallations, `${summary.newInstallations7d} nuevas en 7 dias`],
-    ["Instalaciones activas", summary.activeInstallations30d, "actividad en 30 dias"],
-    ["Sin activar activas", summary.activeUnlicensedInstallations30d, "actividad sin licencia en 30 dias"],
-    ["Por vencer", summary.expiringLicenses7d, "siguientes 7 dias"],
-    ["Updates por vencer", summary.updatesExpiring7d, "siguientes 7 dias"],
-    ["Dispositivos activos", summary.connectedDevices24h, "ultimas 24 horas"],
-    ["Bloqueadas", summary.blockedLicenses, `${summary.expiredLicenses} vencidas`],
-    ["Dispositivos inactivos", summary.staleDevices30d, "sin actividad > 30 dias"],
-    ["Release publicada", summary.latestReleaseVersion || "N/D", `${summary.publishedReleases} publicadas`],
-    ["Ingresos 30 dias", formatMoney(summary.revenueLast30d, "USD"), `${summary.paymentsLast30d} pagos`]
+    ["Licencias activas", `${summary.activeLicenses}/${summary.totalLicenses}`, "clientes con servicio vigente"],
+    ["Atención requerida", attentionNeeded, "vencimientos y actualizaciones por revisar"],
+    ["Equipos conectados", summary.connectedDevices24h, "con actividad en las últimas 24 h"],
+    ["Instalaciones activas", summary.activeInstallations30d, "con actividad en los últimos 30 días"],
+    ["Sin licencia activa", summary.activeUnlicensedInstallations30d, "instalaciones activas sin licencia"],
+    ["Updates por vencer", summary.updatesExpiring7d, "en los próximos 7 días"],
+    ["Dispositivos inactivos", summary.staleDevices30d, "sin actividad durante más de 30 días"],
+    ["Versión publicada", summary.latestReleaseVersion || "N/D", `${summary.publishedReleases} versiones disponibles`],
+    ["Ingresos 30 días", formatMoney(summary.revenueLast30d, "USD"), `${summary.paymentsLast30d} cobros registrados`]
   ];
 
   const iconMarkup = (index) => {
@@ -924,8 +931,15 @@ document.addEventListener("click", async event => {
 
 loginForm?.addEventListener("submit", handleLogin);
 navLinks.forEach(link => {
-  link.addEventListener("click", () => {
-    window.setTimeout(syncActiveNav, 0);
+  link.addEventListener("click", event => {
+    event.preventDefault();
+    const target = link.getAttribute("href") || "#dashboard";
+    if (window.location.hash === target) {
+      syncActiveNav();
+    } else {
+      window.location.hash = target;
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
 refreshAllButton?.addEventListener("click", async () => {
