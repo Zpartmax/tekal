@@ -1661,3 +1661,38 @@ h3 {
     background-position: 58% center;
   }
 }
+
+/* Fondo abstracto: profundidad de marca sin texto ni controles detrás del contenido. */
+.landing-page,
+.downloads-page {
+  background-color: #fcfbfe;
+  background-image:
+    radial-gradient(circle at 82% 10%, rgba(126, 75, 184, 0.15), transparent 24%),
+    radial-gradient(circle at 8% 38%, rgba(195, 166, 227, 0.2), transparent 22%),
+    radial-gradient(circle at 82% 78%, rgba(108, 54, 167, 0.1), transparent 25%),
+    linear-gradient(135deg, transparent 0 48%, rgba(124, 75, 180, 0.035) 48% 49%, transparent 49% 100%),
+    linear-gradient(180deg, #fcfbfe 0%, #f7f2fb 52%, #fcfbfe 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-attachment: fixed;
+}
+
+.downloads-page .support-hero {
+  background:
+    radial-gradient(circle at 78% 40%, rgba(115, 64, 178, 0.2), transparent 29%),
+    radial-gradient(circle at 21% 86%, rgba(210, 188, 235, 0.52), transparent 30%),
+    linear-gradient(120deg, #faf7fd 0%, #f2eafa 56%, #f8f3fc 100%);
+}
+
+.downloads-page .support-hero::after {
+  background:
+    linear-gradient(135deg, transparent 0 56%, rgba(119, 69, 177, 0.055) 56% 57%, transparent 57% 100%);
+}
+
+@media (max-width: 760px) {
+  .landing-page,
+  .downloads-page {
+    background-attachment: scroll;
+  }
+}
