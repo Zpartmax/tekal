@@ -150,13 +150,32 @@ function renderPortal(data) {
   updateUrlToken(data.portalToken);
 
   const isTrial = String(data.status || "").toLowerCase() === "trial";
+  const rawStatus = String(data.status || "Activa");
+  const normalizedStatus = rawStatus.toLowerCase();
+  const statusLabel = normalizedStatus === "trial" ? "Periodo de prueba" : rawStatus;
+  const isHealthy = !["suspendida", "suspended", "expirada", "expired", "cancelada", "cancelled"].includes(normalizedStatus);
   const releaseLink = data.latestRelease?.downloadUrl ? `${apiBase}${data.latestRelease.downloadUrl}` : "#";
   const androidLink = data.androidDownloadUrl ? `${apiBase}${data.androidDownloadUrl}` : "#";
+  const updatesText = data.daysToUpdatesExpire == null
+    ? "Consulta la vigencia"
+    : data.daysToUpdatesExpire > 0
+      ? `${data.daysToUpdatesExpire} días disponibles`
+      : "Actualizaciones vencidas";
 
   setText("#portalCustomerName", data.customerName || "Cliente TEKAL");
+  setText("#portalCustomerInitial", (data.customerName || "T").trim().charAt(0).toUpperCase());
+  setText("#portalAccountStatus", data.licenseKey || "Cuenta TEKAL");
+  setText("#portalHeroUpdates", updatesText);
+  setText("#portalStatusBadge", statusLabel);
+  setText("#portalLicenseState", statusLabel);
+  const statusNodes = [document.querySelector("#portalStatusBadge"), document.querySelector("#portalLicenseState")];
+  statusNodes.forEach((node) => {
+    if (!node) return;
+    node.classList.toggle("is-active", isHealthy);
+  });
   setText(
     "#portalIntro",
-    `Licencia permanente ${data.licenseKey}. Los dias restantes corresponden unicamente al periodo de actualizaciones.`
+    `Licencia ${isTrial ? "de prueba" : "permanente"} ${data.licenseKey}. Gestiona tus descargas, equipos y actualizaciones desde este espacio.`
   );
 
   setLink("#portalDownloadButton", releaseLink);
