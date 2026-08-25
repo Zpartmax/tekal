@@ -1613,3 +1613,51 @@ h3 {
 .setup-checklist span { color: var(--muted); font-size: 0.76rem; line-height: 1.35; }
 
 @media (max-width: 760px) { .setup-checklist { grid-template-columns: 1fr; } }
+
+/* Textura de producto: las pantallas reales añaden profundidad sin competir con el contenido. */
+.landing-page,
+.downloads-page {
+  background-color: #fcfbfe;
+  background-image:
+    linear-gradient(180deg, rgba(252, 251, 254, 0.9), rgba(248, 244, 252, 0.94)),
+    url("imagens/3.png"),
+    url("imagens/2.png");
+  background-position: center, right -25vw top 25rem, left -25vw top 105rem;
+  background-repeat: no-repeat;
+  background-size: auto, min(76vw, 980px) auto, min(72vw, 900px) auto;
+  background-attachment: fixed, fixed, fixed;
+}
+
+.downloads-page .support-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    linear-gradient(110deg, rgba(247, 242, 252, 0.96) 0%, rgba(247, 242, 252, 0.86) 52%, rgba(93, 45, 145, 0.2) 100%),
+    url("imagens/2.png") center 43% / cover no-repeat;
+}
+
+.downloads-page .support-hero::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: radial-gradient(circle at 82% 30%, rgba(113, 64, 173, 0.26), transparent 31%);
+}
+
+.downloads-page .support-hero .hero-copy {
+  position: relative;
+}
+
+@media (max-width: 760px) {
+  .landing-page,
+  .downloads-page {
+    background-position: center, right -60vw top 22rem, left -70vw top 100rem;
+    background-size: auto, 720px auto, 680px auto;
+    background-attachment: scroll;
+  }
+
+  .downloads-page .support-hero {
+    background-position: 58% center;
+  }
+}
