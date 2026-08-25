@@ -1582,3 +1582,34 @@ h3 {
 #descargas .portal-resource small{display:-webkit-box;overflow:hidden;font-size:10px;line-height:1.35;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 #descargas .portal-resource a{grid-column:2;justify-self:start;margin-top:3px;padding:5px 8px;font-size:10px}
 @media (max-width:620px){#descargas.portal-panel{padding:16px}#descargas .portal-feature-download{grid-template-columns:42px minmax(0,1fr);gap:11px;padding:15px}#descargas .portal-feature-icon{width:42px;height:42px}#descargas .portal-feature-download .portal-button{grid-column:1 / -1;margin:0;width:100%}#descargas .portal-install-route{align-items:flex-start;flex-wrap:wrap;gap:5px 8px}#descargas .portal-install-route span{width:100%}#descargas .portal-install-route i{display:none}#descargas .portal-resource-list{grid-template-columns:1fr;gap:7px}#descargas .portal-resource{min-height:0;grid-template-columns:29px minmax(0,1fr) auto;align-items:center}#descargas .portal-resource-icon{grid-row:auto}#descargas .portal-resource a{grid-column:3;grid-row:1;align-self:center;margin:0}}
+
+/* Landing y descargas: ritmo más denso y más señales de decisión. */
+.landing-hero { min-height: min(600px, calc(100vh - 76px)); padding: clamp(40px, 5vw, 64px) 0; }
+.landing-section { padding: clamp(54px, 7vw, 82px) 0; }
+.landing-heading { margin-bottom: 30px; }
+.flow-card { min-height: 344px; }
+.flow-card img { height: 190px; margin-bottom: 16px; }
+.landing-benefits-wrap { gap: 30px; }
+.benefit-card { min-height: 205px; padding: 22px 18px; }
+.benefit-icon { margin-bottom: 16px; }
+.landing-price-card { min-height: 390px; padding: 26px; }
+.landing-proof { padding: clamp(54px, 7vw, 76px) 0; }
+.landing-final-cta { padding: clamp(48px, 6vw, 70px); }
+.landing-footer { margin-top: 52px; }
+
+.downloads-page .support-hero { padding-top: clamp(48px, 6vw, 76px); padding-bottom: clamp(38px, 5vw, 58px); }
+.downloads-page .support-hero .hero-copy { max-width: 900px; margin-inline: auto; text-align: center; }
+.downloads-page .support-hero h1 { font-size: clamp(2.5rem, 4.6vw, 4.35rem); }
+.downloads-page .support-hero .lead { margin-inline: auto; }
+.downloads-page .support-hero .hero-actions { justify-content: center; }
+.downloads-page .section { padding-top: clamp(46px, 6vw, 72px); padding-bottom: clamp(46px, 6vw, 72px); }
+.downloads-page .section-heading { margin-bottom: 26px; }
+.downloads-page .support-card { min-height: 235px; padding: 24px; }
+.downloads-page .route-card { min-height: 150px; padding: 22px; }
+
+.setup-checklist { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 850px; margin: 30px auto 0; padding: 0; list-style: none; text-align: left; }
+.setup-checklist li { display: grid; gap: 3px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, 0.72); box-shadow: 0 8px 22px rgba(40, 22, 68, 0.06); }
+.setup-checklist strong { color: var(--accent-strong); font-size: 0.9rem; }
+.setup-checklist span { color: var(--muted); font-size: 0.76rem; line-height: 1.35; }
+
+@media (max-width: 760px) { .setup-checklist { grid-template-columns: 1fr; } }
