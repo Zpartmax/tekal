@@ -21,6 +21,9 @@
             <label>Correo<input id="portalCustomerEmail" type="email" placeholder="correo@cliente.com" autocomplete="email"></label>
             <button class="button primary" type="submit">Entrar al portal</button>
           </form>
+          <div class="portal-login-divider"><span>o entra con tu cuenta</span></div>
+          <div id="googleSignInButton" class="google-sign-in" aria-label="Iniciar sesión con Google"></div>
+          <p id="googleSignInStatus" class="portal-status" hidden></p>
           <p id="portalLoginStatus" class="portal-status" hidden></p>
           <div id="portalMatches" class="portal-list" hidden></div>
         </div>
@@ -28,5 +31,6 @@
     </main>
 
     <script src="portal.js"></script>
+    <script src="portal-auth.js"></script>
   </body>
 </html>

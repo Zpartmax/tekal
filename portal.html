@@ -34,7 +34,7 @@
         <div class="portal-page-content">
           <header class="portal-header">
             <div><p class="portal-header-label">Portal de cliente</p><h1>Hola, <span id="portalCustomerName">Cliente TEKAL</span></h1></div>
-            <div class="portal-account-chip"><span class="portal-avatar" id="portalCustomerInitial">T</span><span><strong id="portalAccountStatus">Cuenta TEKAL</strong><small>Acceso privado</small></span></div>
+            <div class="portal-account-actions"><div class="portal-account-chip"><span class="portal-avatar" id="portalCustomerInitial">T</span><span><strong id="portalAccountStatus">Cuenta TEKAL</strong><small>Acceso privado</small></span></div><button id="portalLogoutButton" class="portal-quiet-action" type="button">Salir</button></div>
           </header>
 
           <section id="resumen" class="portal-hero-card">
@@ -45,6 +45,7 @@
               <div class="portal-hero-actions">
                 <a id="portalDownloadButton" class="portal-button portal-button-white" href="#">Descargar TEKAL <span>→</span></a>
                 <a id="portalAndroidButton" class="portal-quiet-action" href="#">KDS Android <span>↗</span></a>
+                <a id="portalLicenseAction" class="portal-quiet-action" href="#" hidden>Gestionar licencia <span>↗</span></a>
               </div>
             </div>
             <div class="portal-hero-meta">
@@ -84,8 +85,9 @@
 
             <aside class="portal-secondary-stack">
               <section id="dispositivos" class="portal-panel portal-devices-panel">
-                <div class="portal-panel-head"><div><p>DISPOSITIVOS</p><h2>Equipos registrados</h2></div><span class="portal-panel-icon">⌁</span></div>
+                <div class="portal-panel-head"><div><p>DISPOSITIVOS</p><h2>Equipos registrados</h2></div><button id="portalLinkDeviceButton" class="portal-button portal-button-primary" type="button">Vincular equipo</button></div>
                 <div id="portalDevices" class="portal-list"></div>
+                <p id="portalDeviceLinkStatus" class="portal-status" hidden></p>
               </section>
 
               <section id="soporte" class="portal-support-panel">

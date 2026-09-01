@@ -7,8 +7,12 @@ const loginStatus = document.querySelector("#portalLoginStatus");
 const portalMatches = document.querySelector("#portalMatches");
 const standaloneState = document.querySelector("#portalStandaloneState");
 const standaloneMessage = document.querySelector("#portalStandaloneMessage");
+const logoutButton = document.querySelector("#portalLogoutButton");
+const linkDeviceButton = document.querySelector("#portalLinkDeviceButton");
+const deviceLinkStatus = document.querySelector("#portalDeviceLinkStatus");
 const state = {
-  token: new URLSearchParams(window.location.search).get("token") || ""
+  token: new URLSearchParams(window.location.search).get("token") || "",
+  authToken: sessionStorage.getItem("tekal.authToken") || ""
 };
 
 function setLoginStatus(message, isError = false) {
@@ -108,6 +112,33 @@ async function apiFetch(path, options = {}) {
   return response.json();
 }
 
+async function authenticatedFetch(path) {
+  if (!state.authToken) throw new Error("Tu sesión expiró. Inicia sesión nuevamente.");
+  return apiFetch(path, { headers: { Authorization: `Bearer ${state.authToken}` } });
+}
+
+async function logoutSession() {
+  if (!state.authToken) return;
+  await apiFetch("/api/auth/logout", { method: "POST", headers: { Authorization: `Bearer ${state.authToken}` } }).catch(() => {});
+  sessionStorage.removeItem("tekal.authToken");
+  window.location.replace("portal-acceso.html");
+}
+
+async function createDeviceLinkCode() {
+  if (!state.authToken || !linkDeviceButton) return;
+  linkDeviceButton.disabled = true;
+  if (deviceLinkStatus) { deviceLinkStatus.hidden = false; deviceLinkStatus.textContent = "Generando código..."; }
+  try {
+    const data = await authenticatedFetch("/api/devices/link-code", { method: "POST", body: JSON.stringify({ deviceName: "Portal web" }) });
+    if (deviceLinkStatus) deviceLinkStatus.textContent = `Código ${data.code} · válido hasta ${formatDateTime(data.expiresAtUtc)}. Captúralo en el equipo nuevo.`;
+  } catch (error) {
+    if (deviceLinkStatus) { deviceLinkStatus.textContent = error.message || "No se pudo generar el código."; deviceLinkStatus.style.color = "#b42318"; }
+  } finally { linkDeviceButton.disabled = false; }
+}
+
+logoutButton?.addEventListener("click", logoutSession);
+linkDeviceButton?.addEventListener("click", createDeviceLinkCode);
+
 function renderMatches(matches) {
   if (!portalMatches) return;
 
@@ -181,6 +212,16 @@ function renderPortal(data) {
   setLink("#portalDownloadButton", releaseLink);
   setLink("#portalAndroidButton", androidLink);
   setLink("#portalSupportButton", data.supportWhatsAppUrl || "#");
+  const licenseAction = document.querySelector("#portalLicenseAction");
+  if (licenseAction) {
+    const needsAction = !isHealthy || isTrial || Number(data.daysToUpdatesExpire ?? 9999) <= 7;
+    licenseAction.hidden = !needsAction;
+    licenseAction.textContent = !isHealthy || normalizedStatus.includes("expired") ? "Renovar licencia ↗" : "Activar licencia ↗";
+    const message = !isHealthy || normalizedStatus.includes("expired")
+      ? `Hola, necesito renovar mi licencia TEKAL ${data.licenseKey || ""}`
+      : `Hola, quiero activar mi licencia TEKAL ${data.licenseKey || ""}`;
+    licenseAction.href = data.supportWhatsAppUrl || `https://wa.me/?text=${encodeURIComponent(message)}`;
+  }
   setLink("#portalReleaseLink", releaseLink);
   setLink("#portalInstallStepsDownload", releaseLink);
   setLink("#portalAndroidLink", androidLink);
@@ -274,6 +315,13 @@ async function loadPortalByToken(token) {
   if (standaloneState) standaloneState.hidden = true;
 }
 
+async function loadPortalBySession() {
+  const data = await authenticatedFetch("/api/portal/account");
+  renderPortal(data);
+  if (portalShell) portalShell.hidden = false;
+  if (standaloneState) standaloneState.hidden = true;
+}
+
 async function handleLogin(event) {
   event.preventDefault();
 
@@ -317,12 +365,17 @@ loginForm?.addEventListener("submit", async event => {
 });
 
 if (isPortalPage()) {
-  if (!state.token) {
-    window.location.replace("portal-acceso.html");
-  } else {
+  if (state.token) {
     loadPortalByToken(state.token).catch(error => {
       showStandaloneState(error.message || "No se pudo abrir el portal con ese enlace.");
     });
+  } else if (state.authToken) {
+    loadPortalBySession().catch(error => {
+      sessionStorage.removeItem("tekal.authToken");
+      showStandaloneState(error.message || "No se pudo abrir el portal con tu sesión.");
+    });
+  } else {
+    window.location.replace("portal-acceso.html");
   }
 }
 
