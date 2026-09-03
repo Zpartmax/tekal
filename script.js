@@ -6,6 +6,9 @@ const androidLink = document.querySelector("[data-android-link]");
 const releaseDownloadLink = document.querySelector("[data-release-download-link]");
 const releaseStatus = document.querySelector("#release-status");
 const latestUrl = `${apiBase}/api/updates/latest`;
+// Mantener una descarga funcional aunque la consulta de la release falle por
+// red, caché o CORS. Este valor debe coincidir con la release pública vigente.
+const fallbackInstallerUrl = `${apiBase}/downloads/TEKALRestaurant_Setup_2.5.23.exe`;
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -30,11 +33,11 @@ function setFallbackReleaseState() {
   }
 
   if (downloadLink) {
-    downloadLink.href = `${apiBase}/downloads/TEKALRestaurant_Setup_2.5.exe`;
+    downloadLink.href = fallbackInstallerUrl;
   }
   
   if (releaseDownloadLink) {
-    releaseDownloadLink.href = `${apiBase}/downloads/TEKALRestaurant_Setup_2.5.exe`;
+    releaseDownloadLink.href = fallbackInstallerUrl;
   }
 }
 
