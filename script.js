@@ -8,7 +8,7 @@ const releaseStatus = document.querySelector("#release-status");
 const latestUrl = `${apiBase}/api/updates/latest`;
 // Mantener una descarga funcional aunque la consulta de la release falle por
 // red, caché o CORS. Este valor debe coincidir con la release pública vigente.
-const fallbackInstallerUrl = `${apiBase}/downloads/TEKALRestaurant_Setup_2.5.23.exe`;
+const fallbackInstallerUrl = `${apiBase}/downloads/TEKALRestaurant_Setup_2.5.24.exe`;
 
 if (year) {
   year.textContent = new Date().getFullYear();
