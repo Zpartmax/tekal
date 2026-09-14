@@ -108,6 +108,11 @@ dd { margin-top:5px; font-size:13px; color:var(--muted); }
 .order-slip { position:absolute; right:-18px; bottom:-12px; width:185px; padding:22px; background:#fffefa; color:var(--ink); box-shadow:0 12px 28px #705b4226; transform:rotate(4deg); border-bottom:3px dashed #dfd3c2; }
 .order-slip strong { font-size:21px; }.order-slip p { margin:12px 0; padding-block:12px; border-block:1px dashed #d8cedd; font-size:12px; }
 .slip-status { color:var(--green); font-size:10px; font-weight:800; }
+.map-shot { margin:18px 0 0; overflow:hidden; border:5px solid #302637; border-radius:8px; background:#fff; box-shadow:0 12px 22px #705b4226; }
+.map-shot img { display:block; width:100%; height:auto; }
+.order-slip { width:178px; padding:11px 11px 13px; border:0; border-bottom:3px dashed #dfd3c2; }
+.order-slip .mini-label { display:block; margin:0 3px 8px; font-size:8px; }
+.order-slip img { display:block; width:100%; height:auto; }
 .pricing-section { background:#f2edf5; }
 .price-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; padding-top:12px; }
 .price-card { position:relative; display:flex; flex-direction:column; padding:30px 26px 26px; border:1px solid #d9cedf; border-radius:12px; background:#fffefa; }
