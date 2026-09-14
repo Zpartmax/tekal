@@ -1597,6 +1597,69 @@ h3 {
 .landing-final-cta { padding: clamp(48px, 6vw, 70px); }
 .landing-footer { margin-top: 52px; }
 
+/* Planes: la diferencia entre niveles es acompañamiento y alcance, no mensualidad. */
+.landing-pricing .landing-heading { margin-bottom: 38px; text-align: center; }
+.landing-pricing .landing-heading h2 { font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: .98; }
+.landing-price-card { min-height: 560px; padding: 34px 34px 28px; }
+.landing-price-card h3 { margin: 0; color: var(--ink); font-size: 2rem; letter-spacing: -.05em; }
+.landing-card-price { margin-top: 14px; font-size: clamp(2.5rem, 4vw, 3.25rem); }
+.plan-feature-list { flex: 1; gap: 12px!important; margin: 24px 0 28px!important; font-size: 1rem!important; }
+.plan-feature-list li { display: flex; align-items: center; gap: 12px; }
+.plan-feature-list li::before { flex: 0 0 30px; width: 30px; height: 30px; display: grid; place-items: center; margin: 0!important; border-radius: 50%; background: #eee7fb; content: "✓"; }
+.plan-feature-list li.is-muted { color: #9b95bf; margin-top: 10px; }
+.plan-feature-list li.is-muted::before { display: none; content: none; }
+.plan-feature-icon { flex: 0 0 30px; display: grid; place-items: center; color: #9b95bf; font-size: 1.45rem; }
+.plan-value-strip { display: flex; justify-content: center; gap: 0; max-width: 700px; margin: 42px auto 0; }
+.plan-value-strip > div { display: flex; align-items: center; gap: 14px; min-width: 210px; padding: 0 28px; color: var(--accent); }
+.plan-value-strip > div + div { border-left: 1px solid #d9c9f1; }
+.plan-value-strip span { font-size: 2.6rem; line-height: 1; }
+.plan-value-strip p { margin: 0; font-size: .95rem; line-height: 1.2; }
+@media (max-width: 900px) {
+  .landing-price-card { padding-inline: 24px; }
+  .plan-value-strip > div { min-width: 0; padding-inline: 18px; }
+}
+@media (max-width: 760px) {
+  .landing-pricing .landing-heading h2 { font-size: clamp(2.35rem, 11vw, 3.5rem); }
+  .landing-price-card { min-height: 0; }
+  .plan-value-strip { display: grid; gap: 16px; justify-content: stretch; }
+  .plan-value-strip > div { justify-content: center; }
+  .plan-value-strip > div + div { border-top: 1px solid #d9c9f1; border-left: 0; padding-top: 16px; }
+}
+
+/* Bloques de confianza y decisión de la landing. */
+.landing-trust { display:grid; grid-template-columns:repeat(4,1fr); max-width:1180px; margin:0 auto; padding:18px 22px; border:1px solid var(--line); border-radius:18px; background:#fff; box-shadow:var(--shadow-soft); }
+.landing-trust div { display:grid; gap:4px; padding:4px 20px; border-left:1px solid var(--line); }
+.landing-trust div:first-child { border-left:0; }
+.landing-trust strong { color:var(--ink); font-size:.88rem; }
+.landing-trust span { color:var(--muted); font-size:.74rem; }
+.landing-problems { display:grid; grid-template-columns:.9fr 1.1fr; align-items:center; gap:70px; background:#fff; }
+.problem-list { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.problem-list div { display:flex; gap:13px; align-items:flex-start; padding:20px; border:1px solid var(--line); border-radius:16px; background:#faf8fd; }
+.problem-list span { color:var(--accent); font-weight:900; font-size:.78rem; }
+.problem-list p { margin:0; color:var(--ink); font-size:.9rem; line-height:1.4; }
+.landing-audience { background:#f7f3fb; }
+.landing-audience .landing-heading { text-align:center; }
+.audience-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:960px; margin:0 auto; }
+.audience-grid span { padding:22px 18px; border:1px solid #e5d9f4; border-radius:16px; background:#fff; color:var(--ink); text-align:center; font-weight:700; }
+.plan-terms { max-width:820px; margin:30px auto 0; color:var(--muted); text-align:center; font-size:.82rem; line-height:1.5; }
+.landing-setup { display:grid; grid-template-columns:.9fr 1.1fr; align-items:center; gap:70px; }
+.setup-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:0; padding:0; list-style:none; counter-reset:setup; }
+.setup-steps li { display:grid; gap:8px; padding:22px 18px; border-radius:16px; background:#f7f3fb; counter-increment:setup; }
+.setup-steps li::before { content:"0" counter(setup); color:var(--accent); font-weight:900; }
+.setup-steps strong { color:var(--ink); }
+.setup-steps span { color:var(--muted); font-size:.82rem; line-height:1.4; }
+@media (max-width: 900px) {
+  .landing-trust { grid-template-columns:repeat(2,1fr); gap:12px; }
+  .landing-trust div:nth-child(3) { border-left:0; }
+  .landing-problems, .landing-setup { grid-template-columns:1fr; gap:30px; }
+}
+@media (max-width: 760px) {
+  .landing-trust { grid-template-columns:1fr; }
+  .landing-trust div, .landing-trust div:nth-child(3) { padding:10px 12px; border-left:0; border-top:1px solid var(--line); }
+  .landing-trust div:first-child { border-top:0; }
+  .problem-list, .audience-grid, .setup-steps { grid-template-columns:1fr; }
+}
+
 .downloads-page .support-hero { padding-top: clamp(48px, 6vw, 76px); padding-bottom: clamp(38px, 5vw, 58px); }
 .downloads-page .support-hero .hero-copy { max-width: 900px; margin-inline: auto; text-align: center; }
 .downloads-page .support-hero h1 { font-size: clamp(2.5rem, 4.6vw, 4.35rem); }
