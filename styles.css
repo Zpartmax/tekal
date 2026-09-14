@@ -1813,3 +1813,32 @@ h3 {
 @media (max-width:900px) { .landing-live-story { grid-template-columns:1fr; } }
 @media (max-width:760px) { .hero-live-card { right:3%; bottom:3%; width:190px; padding:13px; } .story-stages { grid-template-columns:1fr; gap:8px; } .story-connector { display:none; } .story-stage { min-height:0; } .result-grid { grid-template-columns:1fr; } }
 @media (prefers-reduced-motion:reduce) { .hero-live-card, .story-connector i { animation:none; } .story-stage { transition:none; } }
+
+/* Ajuste de dirección: la interacción debe integrarse con la identidad clara de TEKAL. */
+.hero-live-card { border-color:rgba(126,82,184,.2); background:rgba(255,255,255,.97); color:var(--text); box-shadow:0 16px 30px rgba(66,35,104,.14); }
+.live-label { color:#8063a1; }
+.hero-live-card strong { color:var(--text); }
+.live-order-status { color:#398968; }
+.live-route { color:#998ba9; }
+.live-route span.is-active { color:var(--accent); }
+.live-route b { color:#a782d1; }
+.landing-live-story { position:relative; }
+.landing-live-story::before { position:absolute; inset:8% -8% 8%; z-index:-1; border-radius:40px; background:linear-gradient(110deg,rgba(239,230,249,.45),rgba(255,255,255,.15)); content:""; }
+.story-board { border-color:#ded0ef; background:linear-gradient(145deg,#fff 0%,#fbf8fe 58%,#f1e8fb 100%); color:var(--text); box-shadow:0 20px 40px rgba(66,35,104,.12); }
+.story-board::after { border-color:rgba(112,59,177,.08); }
+.story-board-top, .story-board-foot { color:#88779b; }
+.story-board-top i { background:#52b98a; }
+.story-board-top small { color:#9b8baa; }
+.story-order-card { border-color:#e8dff2; background:#fff; box-shadow:0 8px 18px rgba(66,35,104,.06); }
+.story-order-kicker { color:#8964ae; }
+.story-order-card strong { color:var(--text); }
+.story-order-total { color:#7342b2; }
+.story-connector { background:#dccbe9; }
+.story-connector i { background:#8d60c3; }
+.story-stage { border-color:#e7def0; background:rgba(255,255,255,.72); color:#8a7b98; }
+.story-stage span { color:#a080c3; }
+.story-stage small { color:#9b8eaa; }
+.story-stage.is-active { border-color:#bfa1df; background:linear-gradient(145deg,#eee3fa,#e4d4f5); color:#4d2d70; box-shadow:0 10px 20px rgba(96,54,139,.12); }
+.story-stage.is-active span, .story-stage.is-active small { color:#7650a0; }
+.story-board-foot { color:#8a7b98; }
+.story-pulse { background:#b184db; box-shadow:0 0 0 4px rgba(177,132,219,.14); }
