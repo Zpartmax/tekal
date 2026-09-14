@@ -80,3 +80,15 @@ async function loadLatestRelease() {
 }
 
 loadLatestRelease();
+
+const storyBoard = document.querySelector("[data-story-board]");
+const storyStages = storyBoard ? [...storyBoard.querySelectorAll("[data-stage]")] : [];
+const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+if (storyStages.length > 1 && !reduceMotion) {
+  let activeStage = 0;
+  window.setInterval(() => {
+    activeStage = (activeStage + 1) % storyStages.length;
+    storyStages.forEach((stage, index) => stage.classList.toggle("is-active", index === activeStage));
+  }, 2400);
+}

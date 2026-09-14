@@ -6,6 +6,7 @@
   --surface-strong: #ffffff;
   --surface-dark: #241436;
   --text: #1c1630;
+  --ink: #1c1630;
   --muted: #6a6478;
   --line: rgba(92, 45, 145, 0.12);
   --accent: #5c2d91;
@@ -1765,3 +1766,50 @@ h3 {
   html { scroll-behavior:auto; }
   .flow-card, .benefit-card, .audience-grid span, .setup-steps li, .problem-list div { transition:none; }
 }
+
+/* Dirección visual TEKAL: producto vivo, no solo tarjetas estáticas. */
+.landing-hero-visual { position:relative; }
+.hero-live-card { position:absolute; right:2%; bottom:8%; z-index:4; display:grid; gap:7px; width:220px; padding:17px; border:1px solid rgba(255,255,255,.7); border-radius:17px; background:#211238; color:#fff; box-shadow:0 18px 34px rgba(34,15,59,.28); animation:tekal-float 6s ease-in-out infinite; }
+.live-label { color:#d9c6f5; font-size:.64rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.live-label i { display:inline-block; width:7px; height:7px; margin-right:4px; border-radius:50%; background:#71e0b3; box-shadow:0 0 0 4px rgba(113,224,179,.14); }
+.hero-live-card strong { font-size:1.05rem; }
+.live-order-status { color:#9ff0c8; font-size:.75rem; font-weight:700; }
+.live-route { display:flex; align-items:center; gap:5px; margin-top:4px; color:#9d8bae; font-size:.62rem; }
+.live-route span.is-active { color:#fff; }
+.live-route b { color:#9b6bd1; }
+.landing-live-story { display:grid; grid-template-columns:.85fr 1.15fr; align-items:center; gap:clamp(32px,7vw,90px); width:min(1180px,calc(100% - 40px)); margin:0 auto; padding:clamp(70px,9vw,110px) 0; }
+.live-story-copy h2 { max-width:520px; margin:0; font-size:clamp(2rem,4vw,3.4rem); }
+.live-story-copy > p:not(.eyebrow) { max-width:470px; margin:18px 0 26px; color:var(--muted); font-size:1rem; }
+.story-board { position:relative; overflow:hidden; padding:20px; border:1px solid #67409a; border-radius:24px; background:linear-gradient(145deg,#241239 0%,#3a1c60 58%,#5b3290 100%); color:#fff; box-shadow:0 26px 50px rgba(52,25,91,.25); }
+.story-board::after { position:absolute; right:-100px; bottom:-130px; width:280px; height:280px; border:45px solid rgba(255,255,255,.06); border-radius:50%; content:""; }
+.story-board-top, .story-board-foot { display:flex; align-items:center; justify-content:space-between; color:#cbb9e4; font-size:.68rem; }
+.story-board-top i { display:inline-block; width:7px; height:7px; margin-right:5px; border-radius:50%; background:#70dfb1; }
+.story-board-top small { color:#aa8dcb; }
+.story-order-card { position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; margin:28px 0 22px; padding:17px; border:1px solid rgba(255,255,255,.12); border-radius:14px; background:rgba(255,255,255,.1); }
+.story-order-card div { display:grid; gap:5px; }
+.story-order-kicker { color:#cbb5ed; font-size:.62rem; font-weight:800; letter-spacing:.1em; }
+.story-order-card strong { font-size:.92rem; }
+.story-order-total { color:#f8d77e; font-size:1.15rem; font-weight:900; }
+.story-stages { position:relative; z-index:1; display:grid; grid-template-columns:1fr 34px 1fr 34px 1fr; align-items:center; gap:6px; }
+.story-stage { display:grid; gap:5px; min-height:106px; padding:14px 12px; border:1px solid rgba(255,255,255,.13); border-radius:13px; background:rgba(255,255,255,.07); color:#b9a9ce; transition:background .3s ease, border-color .3s ease, transform .3s ease, color .3s ease; }
+.story-stage span { color:#9871c6; font-size:.64rem; font-weight:900; }
+.story-stage strong { color:inherit; font-size:.85rem; }
+.story-stage small { color:#9583ab; font-size:.67rem; }
+.story-stage.is-active { transform:translateY(-5px); border-color:#b792eb; background:linear-gradient(145deg,#7546b7,#5b3190); color:#fff; box-shadow:0 12px 22px rgba(18,6,39,.22); }
+.story-stage.is-active span, .story-stage.is-active small { color:#e0cefa; }
+.story-connector { height:2px; background:#76519e; }
+.story-connector i { display:block; width:45%; height:100%; background:#e5c76c; animation:tekal-progress 2.4s ease-in-out infinite; }
+.story-board-foot { position:relative; z-index:1; justify-content:flex-start; gap:7px; margin-top:20px; }
+.story-pulse { width:7px; height:7px; border-radius:50%; background:#f2cf68; box-shadow:0 0 0 4px rgba(242,207,104,.13); }
+.landing-results { background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(239,229,249,.8)); }
+.landing-results .landing-heading { text-align:center; }
+.result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.result-grid article { position:relative; min-height:170px; padding:24px; border:1px solid rgba(215,201,234,.9); border-radius:18px; background:#fff; box-shadow:0 16px 32px rgba(52,28,84,.08); }
+.result-grid span { display:block; margin-bottom:20px; color:var(--accent); font-size:.72rem; font-weight:900; }
+.result-grid strong { display:block; color:var(--ink); font-size:1rem; }
+.result-grid p { margin:9px 0 0; color:var(--muted); font-size:.84rem; line-height:1.45; }
+@keyframes tekal-float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-7px); } }
+@keyframes tekal-progress { 0%,100% { width:20%; } 50% { width:82%; } }
+@media (max-width:900px) { .landing-live-story { grid-template-columns:1fr; } }
+@media (max-width:760px) { .hero-live-card { right:3%; bottom:3%; width:190px; padding:13px; } .story-stages { grid-template-columns:1fr; gap:8px; } .story-connector { display:none; } .story-stage { min-height:0; } .result-grid { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion:reduce) { .hero-live-card, .story-connector i { animation:none; } .story-stage { transition:none; } }
