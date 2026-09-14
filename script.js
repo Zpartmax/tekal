@@ -81,14 +81,25 @@ async function loadLatestRelease() {
 
 loadLatestRelease();
 
-const storyBoard = document.querySelector("[data-story-board]");
-const storyStages = storyBoard ? [...storyBoard.querySelectorAll("[data-stage]")] : [];
-const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
-if (storyStages.length > 1 && !reduceMotion) {
-  let activeStage = 0;
-  window.setInterval(() => {
-    activeStage = (activeStage + 1) % storyStages.length;
-    storyStages.forEach((stage, index) => stage.classList.toggle("is-active", index === activeStage));
-  }, 2400);
+const productTabs = [...document.querySelectorAll('[role="tab"]')];
+function selectProductTab(tab) {
+  productTabs.forEach(item => {
+    const selected = item === tab;
+    item.setAttribute("aria-selected", String(selected));
+    item.tabIndex = selected ? 0 : -1;
+    const panel = document.getElementById(item.getAttribute("aria-controls"));
+    if (panel) panel.hidden = !selected;
+  });
 }
+productTabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => selectProductTab(tab));
+  tab.addEventListener("keydown", event => {
+    const keys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"];
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === "Home" ? 0 : event.key === "End" ? productTabs.length - 1
+      : (index + (["ArrowRight", "ArrowDown"].includes(event.key) ? 1 : -1) + productTabs.length) % productTabs.length;
+    selectProductTab(productTabs[next]);
+    productTabs[next].focus();
+  });
+});
