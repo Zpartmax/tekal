@@ -1842,3 +1842,124 @@ h3 {
 .story-stage.is-active span, .story-stage.is-active small { color:#7650a0; }
 .story-board-foot { color:#8a7b98; }
 .story-pulse { background:#b184db; box-shadow:0 0 0 4px rgba(177,132,219,.14); }
+
+/* Descargas: misma identidad editorial y visual que la landing principal. */
+.downloads-page {
+  --paper: #faf8f4;
+  --ink: #261b35;
+  --muted: #706877;
+  --purple: #673b97;
+  --line: #dfd9e4;
+  --lilac: #eee7f5;
+  background:
+    radial-gradient(circle at 88% 4%, #eee4f5 0, transparent 29%),
+    radial-gradient(circle at 7% 48%, #f3e9df 0, transparent 25%),
+    var(--paper);
+  color: var(--ink);
+  font-family: Manrope, "Segoe UI", sans-serif;
+}
+
+.downloads-page .site-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 22px;
+  align-items: center;
+  min-height: 78px;
+  padding: 0 max(32px, calc((100% - 1360px) / 2));
+  border-bottom: 1px solid #e9e3ec;
+  background: rgba(250, 248, 244, .96);
+  box-shadow: none;
+}
+
+.downloads-page .brand {
+  gap: 11px;
+  color: var(--purple);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.05em;
+}
+
+.downloads-page .brand-logo { width: 40px; height: 35px; }
+.downloads-page .nav { gap: 28px; color: var(--ink); font-size: 13px; font-weight: 700; }
+.downloads-page .nav a { opacity: .82; }
+.downloads-page .nav a:hover { color: var(--purple); opacity: 1; }
+
+.downloads-page .header-cta,
+.downloads-page .button {
+  min-height: 49px;
+  border-radius: 8px;
+  padding: 12px 21px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+.downloads-page .header-cta,
+.downloads-page .button.primary {
+  background: var(--purple);
+  color: #fff;
+}
+
+.downloads-page .button.secondary {
+  border-color: #cfc3dc;
+  background: transparent;
+  color: var(--purple);
+}
+
+.downloads-page .hero,
+.downloads-page .section { width: min(1200px, calc(100% - 80px)); margin-inline: auto; }
+.downloads-page .support-hero { min-height: 520px; padding: clamp(64px, 8vw, 104px) 0; background: transparent; }
+.downloads-page .support-hero::after { background: radial-gradient(circle at 86% 25%, rgba(103,59,151,.13), transparent 31%); }
+.downloads-page .support-hero .hero-copy { max-width: 760px; text-align: left; margin: 0; }
+.downloads-page .support-hero h1 { max-width: 730px; font-size: clamp(38px, 4.1vw, 60px); line-height: 1.07; letter-spacing: -.055em; }
+.downloads-page .support-hero .lead { max-width: 620px; margin: 22px 0 0; font-size: 17px; line-height: 1.7; }
+.downloads-page .support-hero .hero-actions { justify-content: flex-start; margin-top: 27px; }
+.downloads-page .eyebrow { margin-bottom: 20px; color: var(--purple); font-size: 11px; letter-spacing: .13em; }
+.downloads-page .section { padding-block: 76px; }
+.downloads-page .section-heading { max-width: 760px; margin: 0 auto 34px; }
+.downloads-page .section-heading h2 { font-size: clamp(28px, 3vw, 43px); line-height: 1.14; letter-spacing: -.045em; }
+.downloads-page .section-heading p:not(.eyebrow) { color: var(--muted); }
+
+.downloads-page .setup-checklist { max-width: 760px; margin: 36px 0 0; gap: 12px; }
+.downloads-page .setup-checklist li { padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.72); box-shadow: 0 10px 24px rgba(52,28,84,.06); }
+.downloads-page .setup-checklist strong { color: var(--ink); }
+
+.downloads-page .download-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.downloads-page .support-card { min-height: 258px; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.8); box-shadow: 0 14px 30px rgba(52,28,84,.07); }
+.downloads-page .support-card:hover,
+.downloads-page .route-card:hover { transform: translateY(-3px); box-shadow: 0 20px 38px rgba(52,28,84,.12); }
+.downloads-page .support-kicker { color: var(--purple); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.downloads-page .support-card h3 { color: var(--ink); font-size: 24px; letter-spacing: -.035em; }
+.downloads-page .support-card p { line-height: 1.6; }
+.downloads-page .support-card .button { margin-top: auto; }
+
+.downloads-page .section-soft { width: 100%; max-width: none; padding-inline: max(40px, calc((100% - 1200px) / 2)); background: linear-gradient(135deg, rgba(242,234,251,.94), rgba(255,255,255,.72)); border-block: 1px solid rgba(207,186,237,.5); }
+.downloads-page .route-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; max-width: 1200px; margin-inline: auto; }
+.downloads-page .route-card { min-height: 170px; padding: 24px; border: 1px solid rgba(215,201,234,.9); border-radius: 18px; background: #fff; box-shadow: 0 14px 30px rgba(52,28,84,.07); transition: transform .18s ease, box-shadow .18s ease; }
+.downloads-page .route-card strong { color: var(--ink); }
+.downloads-page .route-card p { margin-top: 10px; line-height: 1.5; }
+.downloads-page .contact-inline { max-width: 1200px; margin: 26px auto 0; }
+
+.downloads-page .faq-list { max-width: 860px; margin-inline: auto; }
+.downloads-page .faq-list details { border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.76); box-shadow: none; }
+.downloads-page .faq-list details + details { margin-top: 10px; }
+.downloads-page .faq-list summary { padding: 19px 22px; color: var(--ink); font-weight: 800; }
+.downloads-page .faq-list details p { padding: 0 22px 20px; color: var(--muted); }
+.downloads-page .footer { border-top-color: var(--line); background: transparent; }
+
+@media (max-width: 820px) {
+  .downloads-page .site-header { grid-template-columns: auto auto; padding: 14px 20px; }
+  .downloads-page .nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; gap: 16px; overflow-x: auto; padding-bottom: 3px; }
+  .downloads-page .header-cta { justify-self: end; }
+  .downloads-page .hero, .downloads-page .section { width: min(100% - 40px, 680px); }
+  .downloads-page .support-hero { min-height: 0; }
+  .downloads-page .download-grid, .downloads-page .route-grid { grid-template-columns: 1fr; }
+  .downloads-page .section-soft { padding-inline: 20px; }
+}
+
+@media (max-width: 560px) {
+  .downloads-page .header-cta { padding-inline: 14px; font-size: 12px; }
+  .downloads-page .support-hero h1 { font-size: clamp(34px, 10vw, 46px); }
+  .downloads-page .setup-checklist { grid-template-columns: 1fr; }
+  .downloads-page .support-card { min-height: 0; padding: 22px; }
+}
