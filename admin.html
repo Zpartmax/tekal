@@ -43,6 +43,7 @@
           <a href="#dashboard"><span aria-hidden="true">⌂</span> Inicio</a>
           <a href="#licenses"><span aria-hidden="true">▣</span> Clientes y licencias</a>
           <a href="#devices"><span aria-hidden="true">▤</span> Equipos</a>
+          <a href="#pos-web"><span aria-hidden="true">◈</span> POS Web</a>
           <p class="nav-label">Sistema</p>
           <a href="#releases"><span aria-hidden="true">↑</span> Versiones</a>
           <a href="#payments"><span aria-hidden="true">$</span> Cobros</a>
@@ -131,6 +132,35 @@
                   <tr><td colspan="4" class="empty-cell">Sin datos.</td></tr>
                 </tbody>
               </table>
+            </div>
+          </section>
+        </section>
+
+        <section id="pos-web" class="panel-stack">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">POS Web</p>
+              <h2>Control Plane independiente</h2>
+              <p class="page-subtitle">Licencias firmadas, activaciones, heartbeats y releases del POS Web.</p>
+            </div>
+          </div>
+
+          <section class="panel admin-panel-bridge">
+            <div class="admin-panel-bridge-copy">
+              <span class="bridge-badge">Módulo separado</span>
+              <h3>Administración del POS Web</h3>
+              <p>Este panel conserva su propia autenticación y sus propios contratos. Desde aquí puedes abrir el Control Plane del POS Web sin mezclarlo con las licencias heredadas del POS WPF.</p>
+              <div class="bridge-flow" aria-label="Separación de paneles">
+                <span>Licencias WPF</span><i aria-hidden="true">+</i><strong>Control Plane POS Web</strong>
+              </div>
+              <a class="button primary" href="https://licencias.tekalpos.com/control-plane">Abrir Control Plane POS Web <span aria-hidden="true">↗</span></a>
+              <p class="muted bridge-note">Si el enlace solicita sesión, inicia primero con una cuenta SaaS propietaria o administradora del POS Web.</p>
+            </div>
+            <div class="bridge-boundary">
+              <span class="bridge-boundary-label">Separación de responsabilidades</span>
+              <div><strong>Panel clásico</strong><small>Licencias y operación WPF</small></div>
+              <div><strong>Panel POS Web</strong><small>Dispositivos, activaciones y actualizaciones</small></div>
+              <div><strong>Datos operativos</strong><small>No se administran desde este panel central</small></div>
             </div>
           </section>
         </section>

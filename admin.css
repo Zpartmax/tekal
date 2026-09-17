@@ -1728,3 +1728,29 @@ tbody tr.selected {
     margin-top: 8px;
   }
 }
+.admin-panel-bridge {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr);
+  gap: 24px;
+  align-items: stretch;
+  padding: 28px;
+  background: linear-gradient(135deg, #fff 0%, #f7f1fc 100%);
+}
+
+.admin-panel-bridge-copy { display: grid; gap: 12px; align-content: start; }
+.admin-panel-bridge h3 { margin: 0; font-size: 1.6rem; }
+.admin-panel-bridge p { max-width: 680px; margin: 0; line-height: 1.6; }
+.bridge-badge { width: fit-content; padding: 6px 10px; border-radius: 999px; background: #eee5f8; color: #5c2d91; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.bridge-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin: 6px 0 8px; color: #6b6178; font-size: .84rem; }
+.bridge-flow i { font-style: normal; color: #a485c9; font-weight: 800; }
+.bridge-flow strong { color: #5c2d91; }
+.bridge-note { font-size: .78rem; }
+.bridge-boundary { display: grid; gap: 12px; align-content: center; padding: 20px; border: 1px solid #dfd2ec; border-radius: 18px; background: rgba(255,255,255,.8); }
+.bridge-boundary-label { color: #806796; font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.bridge-boundary div { display: grid; gap: 3px; padding: 12px 14px; border-left: 3px solid #7650a7; border-radius: 8px; background: #faf7fd; }
+.bridge-boundary strong { color: #2b1b3d; font-size: .88rem; }
+.bridge-boundary small { color: #756b80; font-size: .75rem; }
+
+@media (max-width: 800px) {
+  .admin-panel-bridge { grid-template-columns: 1fr; padding: 22px; }
+}
