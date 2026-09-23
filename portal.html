@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="tekal-license-api" content="https://licencias.tekalpos.com">
+    <script>
+      if (window.location.hostname.toLowerCase() === "licencias.tekalpos.com") {
+        window.location.replace(`https://tekalpos.com/portal.html${window.location.search}${window.location.hash}`);
+      }
+    </script>
     <title>TEKAL | Mi cuenta</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
